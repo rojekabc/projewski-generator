@@ -1,12 +1,12 @@
 package tests;
 
-import pk.ie.proj.interfaces.NumberInterface;
-import pk.ie.proj.labordata.ChiSquare;
-import pk.ie.proj.tools.NumberStoreOne;
-
 /*
  * Testy na obliczanie ChiSquare
  */
+
+import pl.projewski.generator.interfaces.NumberInterface;
+import pl.projewski.generator.labordata.ChiSquare;
+import pl.projewski.generator.tools.NumberStoreOne;
 
 public class Test2
 {

@@ -1,24 +1,6 @@
 package pl.projewski.generator.tools;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.helpers.DefaultHandler;
-
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.NumberStoreException;
-import pk.ie.proj.interfaces.NumberInterface;
-import pk.ie.proj.interfaces.ParameterInterface;
-import pk.ie.proj.tools.parser.GeneratedDataParser;
-import pk.ie.proj.tools.stream.NumberReader;
-import pk.ie.proj.tools.stream.NumberWriter;
-import pk.ie.proj.tools.stream.SeparatorStreamReader;
-import pk.ie.proj.tools.stream.SeparatorStreamWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
 import pl.projewski.generator.exceptions.NumberStoreException;
 import pl.projewski.generator.interfaces.NumberInterface;
@@ -28,6 +10,10 @@ import pl.projewski.generator.tools.stream.NumberReader;
 import pl.projewski.generator.tools.stream.NumberWriter;
 import pl.projewski.generator.tools.stream.SeparatorStreamReader;
 import pl.projewski.generator.tools.stream.SeparatorStreamWriter;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.*;
 
 public class GeneratedData implements NumberInterface
 //extends DefaultHandler

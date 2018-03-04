@@ -1,7 +1,5 @@
 package pl.projewski.generator.tools.stream;
 
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.NumberStoreException;
 import pl.projewski.generator.enumeration.ClassEnumerator;
 import pl.projewski.generator.exceptions.NumberStoreException;
 

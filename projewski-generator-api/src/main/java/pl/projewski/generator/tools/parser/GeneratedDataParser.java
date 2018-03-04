@@ -6,15 +6,12 @@ package pl.projewski.generator.tools.parser;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.interfaces.ParameterInterface;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.GeneratedData;
-import pk.ie.proj.tools.Mysys;
-import pk.ie.proj.tools.ParameterStoreFile;
 import pl.projewski.generator.enumeration.ClassEnumerator;
 import pl.projewski.generator.interfaces.ParameterInterface;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.GeneratedData;
+import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.ParameterStoreFile;
 
 /**
  * @author projewski

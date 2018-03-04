@@ -3,18 +3,18 @@
  */
 package tests;
 
-import java.io.IOException;
+import pl.projewski.generator.exceptions.GeneratorException;
+import pl.projewski.generator.exceptions.LaborDataException;
+import pl.projewski.generator.exceptions.NumberStoreException;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.interfaces.GeneratorInterface;
+import pl.projewski.generator.interfaces.LaborDataInterface;
+import pl.projewski.generator.labordata.TestChiSquare;
+import pl.projewski.generator.tools.GeneratedData;
+import pl.projewski.generator.tools.GeneratorStoreFile;
+import pl.projewski.generator.tools.stream.NumberReader;
 
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.exceptions.LaborDataException;
-import pk.ie.proj.exceptions.NumberStoreException;
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.interfaces.LaborDataInterface;
-import pk.ie.proj.labordata.TestChiSquare;
-import pk.ie.proj.tools.GeneratedData;
-import pk.ie.proj.tools.GeneratorStoreFile;
-import pk.ie.proj.tools.stream.NumberReader;
+import java.io.IOException;
 
 /**
  * @author projewski

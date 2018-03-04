@@ -1,10 +1,9 @@
 package pl.projewski.generator.generproj;
 
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.generproj.layout.AlaNullSizedLayout;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.tools.Convert;
+import pl.projewski.generator.exceptions.GeneratorException;
 import pl.projewski.generator.generproj.layout.AlaNullSizedLayout;
+import pl.projewski.generator.interfaces.GeneratorInterface;
+import pl.projewski.generator.tools.Convert;
 
 import javax.swing.*;
 import java.awt.event.*;

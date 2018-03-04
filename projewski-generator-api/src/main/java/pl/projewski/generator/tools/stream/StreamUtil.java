@@ -1,11 +1,9 @@
 package pl.projewski.generator.tools.stream;
 
+import pl.projewski.generator.tools.stream.scaner.ContainScaner;
+
 import java.io.IOException;
 import java.io.InputStream;
-
-import pk.ie.proj.tools.stream.interfaces.IScaner;
-import pk.ie.proj.tools.stream.scaner.ContainScaner;
-import pl.projewski.generator.tools.stream.scaner.ContainScaner;
 
 public class StreamUtil
 {

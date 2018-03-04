@@ -1,14 +1,12 @@
 package pl.projewski.generator.abstracts;
 
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.interfaces.ParameterInterface;
+import pl.projewski.generator.tools.Mysys;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.interfaces.ParameterInterface;
-import pk.ie.proj.tools.Mysys;
-import pl.projewski.generator.exceptions.ParameterException;
-import pl.projewski.generator.interfaces.ParameterInterface;
 
 /*
  * Interfejs obsługi parametrów i opisów.

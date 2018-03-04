@@ -2,17 +2,17 @@
  */
 package pl.projewski.generator.labordata;
 
+import pl.projewski.generator.enumeration.ClassEnumerator;
+import pl.projewski.generator.exceptions.LaborDataException;
+import pl.projewski.generator.exceptions.NumberStoreException;
+import pl.projewski.generator.interfaces.LaborDataInterface;
+import pl.projewski.generator.interfaces.NumberInterface;
+import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.stream.NumberReader;
+import pl.projewski.generator.tools.stream.NumberWriter;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.LaborDataException;
-import pk.ie.proj.exceptions.NumberStoreException;
-import pk.ie.proj.interfaces.LaborDataInterface;
-import pk.ie.proj.interfaces.NumberInterface;
-import pk.ie.proj.tools.Mysys;
-import pk.ie.proj.tools.stream.NumberReader;
-import pk.ie.proj.tools.stream.NumberWriter;
 
 public class FindMin extends LaborDataInterface
 {

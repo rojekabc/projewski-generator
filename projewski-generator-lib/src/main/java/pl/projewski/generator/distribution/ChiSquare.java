@@ -1,8 +1,9 @@
 package pl.projewski.generator.distribution;
-import pk.ie.proj.abstracts.AbstractDistribution;
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.Fraction;
+
+import pl.projewski.generator.abstracts.AbstractDistribution;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.Fraction;
 
 public class ChiSquare
 	extends AbstractDistribution

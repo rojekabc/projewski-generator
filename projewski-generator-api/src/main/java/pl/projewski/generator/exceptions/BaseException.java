@@ -1,8 +1,7 @@
 package pl.projewski.generator.exceptions;
 
-import pk.ie.proj.interfaces.BaseExceptionInterface;
-import pk.ie.proj.tools.Mysys;
 import pl.projewski.generator.interfaces.BaseExceptionInterface;
+import pl.projewski.generator.tools.Mysys;
 
 /**
  *	Klasa reprezentująca podstawową obsługę błędów dla systemu.

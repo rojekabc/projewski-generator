@@ -3,7 +3,7 @@
  */
 package pl.projewski.generator.tools.stream.interfaces;
 
-import pk.ie.proj.tools.stream.ScanedInputStream;
+import pl.projewski.generator.tools.stream.ScanedInputStream;
 
 /**
  * @author piotrek

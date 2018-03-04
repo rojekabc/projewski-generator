@@ -3,14 +3,12 @@
  */
 package pl.projewski.generator.tools.stream;
 
+import pl.projewski.generator.enumeration.ClassEnumerator;
+import pl.projewski.generator.exceptions.NumberStoreException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.NumberStoreException;
-import pl.projewski.generator.enumeration.ClassEnumerator;
-import pl.projewski.generator.exceptions.NumberStoreException;
 
 /**
  * @author projewski

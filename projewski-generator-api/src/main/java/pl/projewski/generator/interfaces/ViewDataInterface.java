@@ -1,12 +1,12 @@
 package pl.projewski.generator.interfaces;
 
-import java.awt.Frame;
+import pl.projewski.generator.abstracts.AbstractParameter;
+import pl.projewski.generator.exceptions.ViewDataException;
+import pl.projewski.generator.tools.Mysys;
+
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
-
-import pk.ie.proj.abstracts.AbstractParameter;
-import pk.ie.proj.exceptions.ViewDataException;
-import pk.ie.proj.tools.Mysys;
 
 /*
  * Interfejs zamiany podawanych elementów na jakiś bardziej sensowny

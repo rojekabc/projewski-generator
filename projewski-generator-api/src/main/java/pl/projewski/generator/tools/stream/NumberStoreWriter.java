@@ -3,11 +3,10 @@
  */
 package pl.projewski.generator.tools.stream;
 
-import java.io.IOException;
-
-import pk.ie.proj.exceptions.NumberStoreException;
-import pk.ie.proj.tools.NumberStoreOne;
 import pl.projewski.generator.exceptions.NumberStoreException;
+import pl.projewski.generator.tools.NumberStoreOne;
+
+import java.io.IOException;
 
 /**
  * @author projewski

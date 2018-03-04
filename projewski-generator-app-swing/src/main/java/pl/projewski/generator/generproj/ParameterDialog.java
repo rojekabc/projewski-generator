@@ -13,14 +13,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.exceptions.ViewDataException;
-import pk.ie.proj.generproj.layout.AlaNullLayout;
-import pk.ie.proj.interfaces.ParameterInterface;
-import pk.ie.proj.interfaces.ViewDataInterface;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.Mysys;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.exceptions.ViewDataException;
 import pl.projewski.generator.generproj.layout.AlaNullLayout;
+import pl.projewski.generator.interfaces.ParameterInterface;
+import pl.projewski.generator.interfaces.ViewDataInterface;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.Mysys;
 
 /**
  * @author projewski

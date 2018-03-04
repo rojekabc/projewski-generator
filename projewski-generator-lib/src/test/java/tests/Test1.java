@@ -1,8 +1,8 @@
 package tests;
 
-import java.io.File;
+import pl.projewski.generator.generator.GeneratorLCG;
 
-import pk.ie.proj.generator.GeneratorLCG;
+import java.io.File;
 
 /*
  * Program przyjmuje parametr m oraz parametr x.

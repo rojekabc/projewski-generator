@@ -1,5 +1,11 @@
 package pl.projewski.generator.generproj;
 
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.interfaces.GeneratorInterface;
+import pl.projewski.generator.interfaces.ParameterInterface;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.Mysys;
+
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -10,12 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.interfaces.ParameterInterface;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.Mysys;
 
 public class ParameterParamPack extends JPanel
 	implements java.awt.event.ActionListener, CreationInterface

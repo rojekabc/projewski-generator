@@ -1,22 +1,19 @@
 package pl.projewski.generator.viewdata.swing;
 
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.exceptions.ViewDataException;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.interfaces.LaborDataInterface;
-import pk.ie.proj.interfaces.NumberInterface;
-import pk.ie.proj.interfaces.ParameterInterface;
-import pk.ie.proj.interfaces.ViewDataInterface;
-import pk.ie.proj.labordata.FindMax;
-import pk.ie.proj.labordata.FindMin;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.Mysys;
-import pk.ie.proj.tools.stream.NumberReader;
-import pk.ie.proj.viewdata.tool.GraphicPanel;
-import pk.ie.proj.viewdata.tool.GraphicPanelParameters;
+import pl.projewski.generator.enumeration.ClassEnumerator;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.exceptions.ViewDataException;
+import pl.projewski.generator.interfaces.GeneratorInterface;
+import pl.projewski.generator.interfaces.NumberInterface;
+import pl.projewski.generator.interfaces.ParameterInterface;
+import pl.projewski.generator.interfaces.ViewDataInterface;
 import pl.projewski.generator.labordata.FindMax;
 import pl.projewski.generator.labordata.FindMin;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.stream.NumberReader;
+import pl.projewski.generator.viewdata.tool.GraphicPanel;
+import pl.projewski.generator.viewdata.tool.GraphicPanelParameters;
 
 public class ViewSpaceStructure
 	extends ViewDataInterface

@@ -1,7 +1,6 @@
 package pl.projewski.generator.generproj;
 import javax.swing.*;
 
-import pk.ie.proj.generproj.layout.AlaNullSizedLayout;
 import pl.projewski.generator.generproj.layout.AlaNullSizedLayout;
 
 import java.awt.event.*;

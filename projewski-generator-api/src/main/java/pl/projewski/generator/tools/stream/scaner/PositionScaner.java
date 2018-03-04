@@ -3,8 +3,7 @@
  */
 package pl.projewski.generator.tools.stream.scaner;
 
-import pk.ie.proj.tools.stream.ScanedInputStream;
-import pk.ie.proj.tools.stream.interfaces.AbstractScaner;
+import pl.projewski.generator.tools.stream.ScanedInputStream;
 import pl.projewski.generator.tools.stream.interfaces.AbstractScaner;
 
 /**

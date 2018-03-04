@@ -3,6 +3,11 @@
  */
 package pl.projewski.generator.generproj;
 
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.interfaces.GeneratorInterface;
+import pl.projewski.generator.interfaces.ParameterInterface;
+import pl.projewski.generator.tools.Mysys;
+
 import java.awt.Component;
 import java.awt.event.ActionListener;
 
@@ -10,11 +15,6 @@ import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
-
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.interfaces.ParameterInterface;
-import pk.ie.proj.tools.Mysys;
 
 /**
  * @author projewski
@@ -138,7 +138,8 @@ public class ParameterLine
 	{
 	}
 	
-	public static ParameterLine generateParameterLine(ParameterInterface pi, int paramCnt, ActionListener listener) throws ParameterException
+	public static ParameterLine generateParameterLine(ParameterInterface pi, int paramCnt, ActionListener listener) throws
+			ParameterException
 	{
 		String [] params = pi.listParameters();
 		String paramName = Mysys.encString(params[paramCnt]);

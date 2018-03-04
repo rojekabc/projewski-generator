@@ -1,9 +1,9 @@
 package tests;
 
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.generator.GeneratorLCG;
-import pk.ie.proj.tools.Convert;
+import pl.projewski.generator.exceptions.GeneratorException;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.generator.GeneratorLCG;
+import pl.projewski.generator.tools.Convert;
 import tests.test8.OneGenerator;
 import tests.test8.TestInterface;
 

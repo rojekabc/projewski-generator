@@ -3,13 +3,9 @@
  */
 package tests;
 
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.generator.GeneratorGausHastings;
-import pk.ie.proj.generator.GeneratorJavaRandom;
-import pk.ie.proj.generator.GeneratorLCG;
-import pk.ie.proj.generator.GeneratorSimConst;
-import pk.ie.proj.generator.GeneratorSystemTime;
-import pk.ie.proj.interfaces.GeneratorInterface;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.generator.*;
+import pl.projewski.generator.interfaces.GeneratorInterface;
 
 /**
  * @author maq

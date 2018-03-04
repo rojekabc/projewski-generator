@@ -3,9 +3,9 @@
  */
 package pl.projewski.generator.viewdata.tool;
 
-import pk.ie.proj.abstracts.AbstractParameter;
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.tools.VectorDouble;
+import pl.projewski.generator.abstracts.AbstractParameter;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.tools.VectorDouble;
 
 /**
  * @author projewski

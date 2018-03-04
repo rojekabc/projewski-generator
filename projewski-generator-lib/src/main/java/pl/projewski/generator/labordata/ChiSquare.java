@@ -3,19 +3,18 @@ package pl.projewski.generator.labordata;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import pk.ie.proj.abstracts.AbstractDistribution;
-import pk.ie.proj.distribution.Uniform;
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.LaborDataException;
-import pk.ie.proj.exceptions.NumberStoreException;
-import pk.ie.proj.interfaces.LaborDataInterface;
-import pk.ie.proj.interfaces.NumberInterface;
-import pk.ie.proj.tools.Fraction;
-import pk.ie.proj.tools.Mysys;
-import pk.ie.proj.tools.NumberStoreOne;
-import pk.ie.proj.tools.stream.NumberReader;
-import pk.ie.proj.tools.stream.NumberWriter;
+import pl.projewski.generator.abstracts.AbstractDistribution;
 import pl.projewski.generator.distribution.Uniform;
+import pl.projewski.generator.enumeration.ClassEnumerator;
+import pl.projewski.generator.exceptions.LaborDataException;
+import pl.projewski.generator.exceptions.NumberStoreException;
+import pl.projewski.generator.interfaces.LaborDataInterface;
+import pl.projewski.generator.interfaces.NumberInterface;
+import pl.projewski.generator.tools.Fraction;
+import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.NumberStoreOne;
+import pl.projewski.generator.tools.stream.NumberReader;
+import pl.projewski.generator.tools.stream.NumberWriter;
 
 // Obliczanie wartości ChiSquare. TO jeszcze nie test !
 
@@ -163,7 +162,7 @@ public class ChiSquare
 					Mysys.debugln("Now chisquare is "+chisquare.getDouble());
 				}
 			}
-			else if ( distribution instanceof NumberStoreOne )
+			else if ( distribution instanceof NumberStoreOne)
 			{
 				NumberStoreOne dist = (NumberStoreOne)distribution;
 				if ( dist.getStoreClass() != ClassEnumerator.INTEGER )

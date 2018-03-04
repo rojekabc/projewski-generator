@@ -1,19 +1,16 @@
 package pl.projewski.generator.tools;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.interfaces.GeneratorInterface;
 import pl.projewski.generator.exceptions.GeneratorException;
 import pl.projewski.generator.interfaces.GeneratorInterface;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 public class GeneratorStoreFile
 extends DefaultHandler

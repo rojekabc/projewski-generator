@@ -3,9 +3,9 @@ package pl.projewski.generator.generproj;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.interfaces.ParameterInterface;
-import pk.ie.proj.tools.Mysys;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.interfaces.ParameterInterface;
+import pl.projewski.generator.tools.Mysys;
 
 public class HelpFrame extends javax.swing.JFrame
 {
@@ -33,7 +33,7 @@ public class HelpFrame extends javax.swing.JFrame
 		return;
 	}
 
-	public HelpFrame( ParameterInterface pi, int x, int y, int w, int h )
+	public HelpFrame(ParameterInterface pi, int x, int y, int w, int h )
 	{
 		javax.swing.JScrollPane scrpane = new javax.swing.JScrollPane();
 		pane = new javax.swing.JTextPane();

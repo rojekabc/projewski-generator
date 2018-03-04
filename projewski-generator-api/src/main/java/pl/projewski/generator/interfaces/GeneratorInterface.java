@@ -1,11 +1,10 @@
 package pl.projewski.generator.interfaces;
 
-import pk.ie.proj.abstracts.AbstractParameter;
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.tools.stream.NumberWriter;
+import pl.projewski.generator.abstracts.AbstractParameter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
+import pl.projewski.generator.exceptions.GeneratorException;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.tools.stream.NumberWriter;
 
 /** 
 	* Interfejs Generatora, pozwalający na implementowanie dowolnego generatora

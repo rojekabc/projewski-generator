@@ -1,10 +1,9 @@
 package pl.projewski.generator.interfaces;
 
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.NumberStoreException;
-import pk.ie.proj.tools.stream.NumberReader;
-import pk.ie.proj.tools.stream.NumberWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
+import pl.projewski.generator.exceptions.NumberStoreException;
+import pl.projewski.generator.tools.stream.NumberReader;
+import pl.projewski.generator.tools.stream.NumberWriter;
 
 public interface NumberInterface {
 	// ustawienie typu danych, jakie będą przechowywane

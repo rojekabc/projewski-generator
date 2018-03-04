@@ -1,5 +1,6 @@
 package pl.projewski.generator.generproj.tests;
-import pk.ie.proj.generproj.GraphScal;
+
+import pl.projewski.generator.generproj.GraphScal;
 
 public class Test4
 {

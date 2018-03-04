@@ -2,21 +2,20 @@ package pl.projewski.generator.labordata;
 
 import java.io.IOException;
 
-import pk.ie.proj.distribution.Uniform;
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.exceptions.LaborDataException;
-import pk.ie.proj.exceptions.NumberStoreException;
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.interfaces.LaborDataInterface;
-import pk.ie.proj.interfaces.NumberInterface;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.GeneratedData;
-import pk.ie.proj.tools.Mysys;
-import pk.ie.proj.tools.NumberStoreOne;
-import pk.ie.proj.tools.stream.NumberWriter;
 import pl.projewski.generator.distribution.Uniform;
+import pl.projewski.generator.enumeration.ClassEnumerator;
+import pl.projewski.generator.exceptions.GeneratorException;
+import pl.projewski.generator.exceptions.LaborDataException;
+import pl.projewski.generator.exceptions.NumberStoreException;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.interfaces.GeneratorInterface;
+import pl.projewski.generator.interfaces.LaborDataInterface;
+import pl.projewski.generator.interfaces.NumberInterface;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.GeneratedData;
+import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.NumberStoreOne;
+import pl.projewski.generator.tools.stream.NumberWriter;
 
 /*
  * Klasa wykonuje test chi-square na wybranym generatorze. Przed ka�dym

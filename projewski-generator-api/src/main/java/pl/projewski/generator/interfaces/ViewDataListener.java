@@ -3,7 +3,7 @@
  */
 package pl.projewski.generator.interfaces;
 
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 

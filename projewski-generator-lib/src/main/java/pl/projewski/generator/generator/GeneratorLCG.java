@@ -9,16 +9,16 @@
 // Mozna zastosowac parametry wewnatrz klasy dla przyspieszenia
 package pl.projewski.generator.generator;
 
+import pl.projewski.generator.enumeration.ClassEnumerator;
+import pl.projewski.generator.exceptions.GeneratorException;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.interfaces.GeneratorInterface;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.stream.NumberWriter;
+
 import java.io.IOException;
 
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.stream.NumberWriter;
-
-public class GeneratorLCG 
+public class GeneratorLCG
 	extends GeneratorInterface
 {
 	public final static String XN = "zm. losowa";

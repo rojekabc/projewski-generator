@@ -1,11 +1,9 @@
 package pl.projewski.generator.tools;
 
-import java.io.PrintStream;
-
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.interfaces.ParameterInterface;
 import pl.projewski.generator.interfaces.GeneratorInterface;
 import pl.projewski.generator.interfaces.ParameterInterface;
+
+import java.io.PrintStream;
 
 public class ParameterStoreFile
 //extends DefaultHandler

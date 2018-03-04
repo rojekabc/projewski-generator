@@ -12,15 +12,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.generproj.layout.AlaNullSizedLayout;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.GeneratedData;
-import pk.ie.proj.tools.Mysys;
-import pk.ie.proj.tools.stream.NumberWriter;
+import pl.projewski.generator.enumeration.ClassEnumerator;
+import pl.projewski.generator.exceptions.GeneratorException;
 import pl.projewski.generator.generproj.layout.AlaNullSizedLayout;
+import pl.projewski.generator.interfaces.GeneratorInterface;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.GeneratedData;
+import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.stream.NumberWriter;
 
 class StartGenerationFrame extends JFrame
 	implements ActionListener, KeyListener

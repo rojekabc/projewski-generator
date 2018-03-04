@@ -1,29 +1,26 @@
 package pl.projewski.generator.generproj;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+import pl.projewski.generator.exceptions.GeneratorException;
+import pl.projewski.generator.interfaces.GeneratorInterface;
+import pl.projewski.generator.interfaces.PackageInterface;
+import pl.projewski.generator.interfaces.ParameterInterface;
+import pl.projewski.generator.interfaces.ViewDataInterface;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.GeneratedData;
+import pl.projewski.generator.tools.GeneratorStoreFile;
+import pl.projewski.generator.tools.Mysys;
+
+import javax.swing.*;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Vector;
-
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.interfaces.PackageInterface;
-import pk.ie.proj.interfaces.ParameterInterface;
-import pk.ie.proj.interfaces.ViewDataInterface;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.GeneratedData;
-import pk.ie.proj.tools.GeneratorStoreFile;
-import pk.ie.proj.tools.Mysys;
 
 public class GenerProj
 	extends DefaultHandler
@@ -180,7 +177,7 @@ public class GenerProj
 		return vecGeneratedData.toArray();
 	}
 
-	public static GeneratorInterface createGenerator( String filename )
+	public static GeneratorInterface createGenerator(String filename )
 		throws GeneratorException
 	{
 			if ( filename.endsWith(".gen") )

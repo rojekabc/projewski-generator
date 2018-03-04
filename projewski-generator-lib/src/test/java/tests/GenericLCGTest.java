@@ -3,12 +3,12 @@
  */
 package tests;
 
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.generator.GenericLCG;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.tools.ArrayUtil;
-import pk.ie.proj.tools.VectorLong;
+import pl.projewski.generator.exceptions.GeneratorException;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.generator.GenericLCG;
+import pl.projewski.generator.interfaces.GeneratorInterface;
+import pl.projewski.generator.tools.ArrayUtil;
+import pl.projewski.generator.tools.VectorLong;
 
 /**
  * @author projewski

@@ -3,22 +3,18 @@
  */
 package tests;
 
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.exceptions.LaborDataException;
-import pk.ie.proj.exceptions.NumberStoreException;
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.exceptions.ViewDataException;
-import pk.ie.proj.generator.GeneratorLCG;
-import pk.ie.proj.generator.GeneratorSystemTime;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.interfaces.LaborDataInterface;
-import pk.ie.proj.interfaces.NumberInterface;
-import pk.ie.proj.interfaces.ViewDataInterface;
-import pk.ie.proj.labordata.TestChiSquare;
-import pk.ie.proj.tools.Mysys;
-import pk.ie.proj.tools.NumberStoreOne;
-import pk.ie.proj.tools.VectorDouble;
-import pk.ie.proj.viewdata.text.PrintTestChiSquare;
+import pl.projewski.generator.exceptions.*;
+import pl.projewski.generator.generator.GeneratorLCG;
+import pl.projewski.generator.generator.GeneratorSystemTime;
+import pl.projewski.generator.interfaces.GeneratorInterface;
+import pl.projewski.generator.interfaces.LaborDataInterface;
+import pl.projewski.generator.interfaces.NumberInterface;
+import pl.projewski.generator.interfaces.ViewDataInterface;
+import pl.projewski.generator.labordata.TestChiSquare;
+import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.NumberStoreOne;
+import pl.projewski.generator.tools.VectorDouble;
+import pl.projewski.generator.viewdata.text.PrintTestChiSquare;
 
 /**
  * @author projewski

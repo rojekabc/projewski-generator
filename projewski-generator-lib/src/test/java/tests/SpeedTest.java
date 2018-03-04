@@ -3,9 +3,9 @@
  */
 package tests;
 
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.generator.GeneratorLCGAnd;
-import pk.ie.proj.interfaces.GeneratorInterface;
+import pl.projewski.generator.exceptions.GeneratorException;
+import pl.projewski.generator.generator.GeneratorLCGAnd;
+import pl.projewski.generator.interfaces.GeneratorInterface;
 
 /**
  * @author projewski

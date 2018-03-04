@@ -14,15 +14,15 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.exceptions.NumberStoreException;
-import pk.ie.proj.exceptions.ViewDataException;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.interfaces.NumberInterface;
-import pk.ie.proj.interfaces.ViewDataInterface;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.Mysys;
-import pk.ie.proj.tools.stream.NumberReader;
+import pl.projewski.generator.exceptions.GeneratorException;
+import pl.projewski.generator.exceptions.NumberStoreException;
+import pl.projewski.generator.exceptions.ViewDataException;
+import pl.projewski.generator.interfaces.GeneratorInterface;
+import pl.projewski.generator.interfaces.NumberInterface;
+import pl.projewski.generator.interfaces.ViewDataInterface;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.stream.NumberReader;
 
 public class ViewRowSwingTable
 	extends ViewDataInterface
@@ -163,9 +163,9 @@ public class ViewRowSwingTable
 			throw new ViewDataException("No inputData"); // TODO: Tekst
 		// Test na zgodnosc klas w wektorze
 		for ( int i = 0; i < vec.size(); i++ ) {
-			if ( vec.get( i ) instanceof NumberInterface )
+			if ( vec.get( i ) instanceof NumberInterface)
 				continue;
-			if ( vec.get( i ) instanceof GeneratorInterface )
+			if ( vec.get( i ) instanceof GeneratorInterface)
 				continue;
 			throw new ViewDataException("Incorrect Input Data"); // TODO: Tekst
 		}

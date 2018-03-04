@@ -1,7 +1,7 @@
 package pl.projewski.generator.interfaces;
 
-import pk.ie.proj.abstracts.AbstractParameter;
-import pk.ie.proj.exceptions.LaborDataException;
+import pl.projewski.generator.abstracts.AbstractParameter;
+import pl.projewski.generator.exceptions.LaborDataException;
 
 /*
  * Interfejs do wykonywania operacji liczbowych, realizacji algorytmów.

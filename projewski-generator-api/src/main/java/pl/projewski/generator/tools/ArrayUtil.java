@@ -3,11 +3,10 @@
  */
 package pl.projewski.generator.tools;
 
+import pl.projewski.generator.tools.stream.SeparatorStreamWriter;
+
 import java.io.IOException;
 import java.io.OutputStream;
-
-import pk.ie.proj.tools.stream.SeparatorStreamWriter;
-import pl.projewski.generator.tools.stream.SeparatorStreamWriter;
 
 /**
  * @author projewski

@@ -11,15 +11,13 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import pk.ie.proj.generproj.layout.AlaNullLayout;
-import pk.ie.proj.generproj.layout.AlaNullSizedLayout;
-import pk.ie.proj.interfaces.LaborDataInterface;
-import pk.ie.proj.interfaces.ParameterInterface;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.GeneratedData;
-import pk.ie.proj.tools.Mysys;
 import pl.projewski.generator.generproj.layout.AlaNullLayout;
 import pl.projewski.generator.generproj.layout.AlaNullSizedLayout;
+import pl.projewski.generator.interfaces.LaborDataInterface;
+import pl.projewski.generator.interfaces.ParameterInterface;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.GeneratedData;
+import pl.projewski.generator.tools.Mysys;
 
 class TestFrame extends JFrame
 	implements ActionListener, KeyListener

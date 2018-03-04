@@ -10,16 +10,6 @@
 // zapami�ta�
 package pl.projewski.generator.labordata;
 
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.LaborDataException;
-import pk.ie.proj.exceptions.NumberStoreException;
-import pk.ie.proj.interfaces.LaborDataInterface;
-import pk.ie.proj.interfaces.NumberInterface;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.Mysys;
-import pk.ie.proj.tools.stream.NumberReader;
-import pk.ie.proj.tools.stream.NumberWriter;
-
 // 1. Ustalenie minimum i maksimum danych oraz ich liczebno�ci
 // 1a. Przechowywanie podawanych danych w pliku tymczasowym
 // 1b. Je�eli minimum i maksimum zadane przez u�ytkownika to nie poszukuj
@@ -32,6 +22,16 @@ import pk.ie.proj.tools.stream.NumberWriter;
 // 4. zliczenie warto�ci w klasach
 // Rozst�p dla ca�kowitych b�dzie zawsze 1, fla float ..., double ....
 // Nie powinno byc wi�cej klas ni� 30
+
+import pl.projewski.generator.enumeration.ClassEnumerator;
+import pl.projewski.generator.exceptions.LaborDataException;
+import pl.projewski.generator.exceptions.NumberStoreException;
+import pl.projewski.generator.interfaces.LaborDataInterface;
+import pl.projewski.generator.interfaces.NumberInterface;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.stream.NumberReader;
+import pl.projewski.generator.tools.stream.NumberWriter;
 
 public class Frequency
 	extends LaborDataInterface

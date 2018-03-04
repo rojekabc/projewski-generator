@@ -1,6 +1,6 @@
 package pl.projewski.generator.abstracts;
 
-import pk.ie.proj.tools.Fraction;
+import pl.projewski.generator.tools.Fraction;
 
 public abstract class AbstractDistribution
 	extends AbstractParameter

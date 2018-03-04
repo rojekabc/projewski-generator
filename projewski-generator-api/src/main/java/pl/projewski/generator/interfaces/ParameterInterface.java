@@ -1,6 +1,6 @@
 package pl.projewski.generator.interfaces;
 
-import pk.ie.proj.exceptions.ParameterException;
+import pl.projewski.generator.exceptions.ParameterException;
 
 /*
  * Interfejs obsługi parametrów i opisów.

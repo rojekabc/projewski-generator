@@ -3,13 +3,12 @@
  */
 package pl.projewski.generator.tools.stream;
 
+import pl.projewski.generator.tools.stream.interfaces.IScaner;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import pk.ie.proj.tools.stream.interfaces.IScaner;
-import pl.projewski.generator.tools.stream.interfaces.IScaner;
 
 /**
  * @author piotrek

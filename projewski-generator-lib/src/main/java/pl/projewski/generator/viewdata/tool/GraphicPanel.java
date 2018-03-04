@@ -1,5 +1,11 @@
 package pl.projewski.generator.viewdata.tool;
 
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.interfaces.ParameterInterface;
+import pl.projewski.generator.interfaces.ViewDataInterface;
+import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.VectorDouble;
+
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -7,12 +13,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
-
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.interfaces.ParameterInterface;
-import pk.ie.proj.interfaces.ViewDataInterface;
-import pk.ie.proj.tools.Mysys;
-import pk.ie.proj.tools.VectorDouble;
 
 public abstract class GraphicPanel extends JPanel implements ParameterInterface, MouseListener
 {

@@ -1,18 +1,15 @@
 package pl.projewski.generator.viewdata.text;
 
-import pk.ie.proj.exceptions.LaborDataException;
-import pk.ie.proj.exceptions.ViewDataException;
-import pk.ie.proj.interfaces.LaborDataInterface;
-import pk.ie.proj.interfaces.NumberInterface;
-import pk.ie.proj.interfaces.ViewDataInterface;
-import pk.ie.proj.labordata.FindMax;
-import pk.ie.proj.labordata.FindMin;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.Mysys;
-import pk.ie.proj.tools.NumberStoreOne;
-import pk.ie.proj.tools.stream.NumberReader;
+import pl.projewski.generator.exceptions.LaborDataException;
+import pl.projewski.generator.exceptions.ViewDataException;
+import pl.projewski.generator.interfaces.NumberInterface;
+import pl.projewski.generator.interfaces.ViewDataInterface;
 import pl.projewski.generator.labordata.FindMax;
 import pl.projewski.generator.labordata.FindMin;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.NumberStoreOne;
+import pl.projewski.generator.tools.stream.NumberReader;
 
 public class ViewRowTextTable
 	extends ViewDataInterface

@@ -15,19 +15,17 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import pk.ie.proj.distribution.ChiSquare;
-import pk.ie.proj.exceptions.NumberStoreException;
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.exceptions.ViewDataException;
-import pk.ie.proj.interfaces.NumberInterface;
-import pk.ie.proj.interfaces.ParameterInterface;
-import pk.ie.proj.interfaces.ViewDataInterface;
-import pk.ie.proj.labordata.TestChiSquare;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.Mysys;
-import pk.ie.proj.tools.stream.NumberReader;
 import pl.projewski.generator.distribution.ChiSquare;
+import pl.projewski.generator.exceptions.NumberStoreException;
+import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.exceptions.ViewDataException;
+import pl.projewski.generator.interfaces.NumberInterface;
+import pl.projewski.generator.interfaces.ParameterInterface;
+import pl.projewski.generator.interfaces.ViewDataInterface;
 import pl.projewski.generator.labordata.TestChiSquare;
+import pl.projewski.generator.tools.Convert;
+import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.stream.NumberReader;
 
 
 // TODO: UWAGA - Wycofano rozmiar podawany na poczatku, a mowiacy o liczbie V
