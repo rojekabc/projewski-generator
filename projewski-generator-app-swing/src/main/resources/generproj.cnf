@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='Latin1'?>
+<GenerProjConfiguration>
+<GeneratorFile file="Fishman_Testowy" />
+<GeneratorFile file="IBM_Randu" />
+<GeneratorFile file="BSD_random" />
+<GeneratorFile file="Park_and_Miller_Matlab" />
+<GeneratorFile file="HASARD_ZX_SPECTRUM" />
+<GeneratorFile file="HASARD_WINDOWS" />
+<GeneratorFile file="GeneratorLiniowy_Fishman_1982" />
+<GeneratorFile file="GeneratorLiniowy_Borosh_1983" />
+<GeneratorFile file="GeneratorLiniowy_Fishman_1986" />
+<GeneratorFile file="GeneratorLiniowy_Fishman_1990" />
+<GeneratorFile file="GeneratorLiniowy_Marsaglia_1972" />
+<GeneratorFile file="GeneratorLiniowy_Moore_1982" />
+<GeneratorFile file="GeneratorLiniowy_ParkMiller_1980" />
+<GeneratorFile file="GenericLCG_Marsaglia_1995_1" />
+<GeneratorFile file="GenericLCG_Marsaglia_1995_2" />
+<GeneratorFile file="GenericLCG_Marsaglia_1995_4" />
+<GeneratorFile file="GenericLCG_Marsaglia_1995_3" />
+<GeneratedData name="Fishman_Testowy" tick="1225552192984" />
+<GeneratedData name="GenericLCG_Marsaglia_1995_1" tick="1239486607390" />
+<GeneratedData name="Fishman_Testowy_FindMin" tick="1308778634042" />
+<Package class="pk.ie.proj.BasePackage" />
+</GenerProjConfiguration>

@@ -1,0 +1,12 @@
+* Utworzenie NumberReaderów/Writerów i przejœcie na system obs³ugi strumieniowej, równie¿ podczas
+  obliczania, co ma na celu unikniêcie problemów z brakiem pamiêci operacyjnej
+* Utowrzenie interfejsu NumberInterface do ogólnego schematu reprezentowania magazynu liczbowego
+* Interfejsy GeneratorInterface, ParameterInterface, LaborDataInterface,
+	ViewDataInterface zosta³y zmienione na klasy abstrakcyjne. ParameterInterface
+	zyska³ definicje podstawowe wiêkszo¶ci ze swych metod i dwie metody
+	abstrakcyjne, które wzmagaj± przes³onienia.
+* Zastosowanie jdk 1.4, aby generowaæ "piêkniejsze" okienka w Swing'u, ale
+	jdk 1.3 mo¿e byæ równie dobrze stosowane.
+* Dodanie interfejsów LookAndFeel dla upiêkszenia Swing'a
+* Zrezygnowanie z dostarczania ³±cznie z aplikacj± SAXParser'a z powodu
+	przej¶cia na Javê w wersji 1.3

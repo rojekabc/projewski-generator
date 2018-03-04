@@ -1,0 +1,77 @@
+13 luty 2006
+	ExtendedGraphics zmieniam ze statycznego na dynamiczny.
+	Tworze klase GraphicPanel, ktora ma sluzyc jako panel do
+	rysowania graficznych obiektow w elementach typu View.
+	Daje to zmiany w ViewFreq i ViewSpaceStructure.
+	Celem jest stworzenie takiej klasy, ktora bedzie mogla byc
+	parametryzowana, dzieki czemu da mozliwosc wplywania na wyglad
+	wykresu i dostosowywania go do potrzeb odbiorcy.
+	Kreuje klasy ParameterAbstract oraz ParameterInterface,
+	jedna stanowi czesciowo implementacje drugiej, gdy druga jest
+	jako czysty interfejs.
+16 luty 2006
+	Rozwijam klase GraphicPanel, ktora ma na celu automatyczne
+	parametryzowanie wykresu przez uzytkownika. Juz wstepnie
+	mozna ustawic pare parametrow, ale brakuje jeszcze pelnego
+	interfejsu.
+28 luty 2006
+	Po paru dniach mordegi udalo mi sie zrobic, ze nie
+	jest potrzebne wybieranie przez uzytkownika klasy
+	podawanego typu. Oczywiscie najwiecej roboty bylo dla
+	GeneratorInterface. Dodalem tez klasy wektorujace
+	zmienne Integer, Long, Float i Double. Dzieki temu
+	zabiegowi beda one pozwalaly na podawanie w parametrach
+	paru wartosci. Dodatkowo udostepniam klase Boolean, ktora
+	powinna umozliwic wprowadzanie wartosci true/false.
+	Teraz tylko dalszy etap rozbudowywania GraphicPanel.
+03 marzec 2006
+	No i zrobilem podstawowy GraphicPanel. Dzieki niemu moge
+	sobie ustalic dowolnie punkty do rysowania podzialki,
+	napisy, polozenie osi i umieszczenie rysunku na plaszczyznie.
+	Czyli nie musze juz nanosic recznych korekt. Bylo trudno...
+	Nanosze tez pare drobnych korekt na klasy Vector*.
+12 marzec 2006
+	Korekty naniesione na klasy Vector*. Znalezione babole.
+10 kwietnia 2006
+	Autointerpretacja parametrów - zmiany rozpoczête. (TODO)
+15 kwietnia 2006
+	Autointerpretacha parametrów - zmiany zakoñczone. (TODO)
+22 maj 2006
+	B³±d b³êdnego budowania generatora ze z³ymi parametrami. (TODO)
+27 maj 2006
+	Korekta na funkcjonowaniu elementu buduj±cego z formatu XML. Na skutek
+	zmian w uzywaniu odgadywania typu jest mo¿liwe, aby zachowany parametr
+	by³ bezklasowy w przypadku podania pustego wyra¿enia (wtedy nie jest
+	w stanie powiedzieæ jaka to naprawdê klasa).
+	
+	Usprawniono algorytm generatora LCG, aby funkcjonowa³ nieco szybciej
+	poprzez wprowadzenie funkcji bezpo¶redniego wyliczania algorytmem,
+	a nastepnie zastosowano go przy operacji rawFill, co pozwala pomin±æ
+	akcje konwertowania parametrów na ich odpowiedniki w warto¶ciach oraz
+	wykonanie przypisania na samym koñcu.
+28 maj 2006
+	Znaleziono blad podczas wywowlania ExternalSortQuery przy sortowaniu
+	elementów typu int. (wykroczenie poza rozmiar tablicy).
+	
+	Dodanie operacjie closeOut po wygenerowaniu rz±danych pakietów danych
+	wynikowych. Kiedy¶ operacja ta nie by³a zawsze przewidywalna i zapis
+	ostateczny by³ wykonywany przy zakoñczeniu programu. W przypadkach
+	krytycznego zatrzymania JVM móg³ siê nie powie¶æ.
+	
+	Podczas odczytywania w ParameterParamPack parametru typu GeneratorInterface
+	mo¿e siê zdarzyæ, ¿e wstêpny generator nie zostanie zdefiniowany w parametrze.
+	Nale¿y wtedy ustaliæ jego nazwê na pust±. Zosta³o to zrobione.
+28 pa¼dziernik 2006
+	Dodajê interfejs BaseExceptionInterface, którego metod± wirtualn± jest
+	getBaseCode, pozwalaj±ca na pobieranie podstawowego kodu b³êdu
+	dla danej klasy dziedzicz±cej po tym interfejsie. Metodê t±
+	wykorzystuje BaseException, automatycznie dodaj±c do tworzonego
+	b³êdu kod bazowy dla danej klasy.
+	
+	Równocze¶nie uzupe³niam niektóre klasy o opisy typu javadoc dla istniej±cych
+	klas.
+wrzesien,pazdziernik 2007
+	Reorganizacja pakietow. Wydzielienie pakietu GeneratorAPI.
+	Zmiana sposobu wyszukiwania napisow.
+	Reorganizacja sposobu dolaczania zestawu interfejsow gneratorow,
+	podgladu danych oraz przeksztalcen.

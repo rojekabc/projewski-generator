@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='Latin1'?>
+<GeneratedData>
+<DateTime tick='1225552192984' date='2008-11-01 16:09:52' />
+<Source class='pk.ie.proj.generator.GeneratorLCG'>
+<parameter name='ziarno' class='java.lang.Long'>
+1130656722138
+</parameter>
+<parameter name='m' class='java.lang.Integer'>
+1073741823
+</parameter>
+<parameter name='a' class='java.lang.Integer'>
+742938285
+</parameter>
+<parameter name='c' class='java.lang.Integer'>
+0
+</parameter>
+<parameter name='zm. losowa' class='java.lang.Long'>
+6557967
+</parameter>
+</Source>
+<Pack count='2000' file='Fishman_Testowy.dat' classtype='Double'/>
+</GeneratedData>

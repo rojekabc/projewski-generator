@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='Latin1' ?>
+<generator class='pk.ie.proj.generator.GeneratorLCG'>
+<parameter name='zm. losowa' class='java.lang.Long'>
+0
+</parameter>
+<parameter name='a' class='java.lang.Integer'>
+23
+</parameter>
+<parameter name='c' class='java.lang.Integer'>
+0
+</parameter>
+<parameter name='m' class='java.lang.Integer'>
+100000001
+</parameter>
+<parameter name='ziarno' class='pk.ie.proj.generator.GeneratorSystemTime'>
+<parameter name='zm. losowa' class='java.lang.Integer'>
+0
+</parameter>
+</parameter>
+</generator>

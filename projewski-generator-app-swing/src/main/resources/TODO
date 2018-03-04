@@ -1,0 +1,173 @@
+Podczas zapisywania parametrów odgadywanych, które s± niezgodne z dostêpnymi
+nastêpuje wprowadzenie warto¶ci NULL, która jest niezgodna z oczekiwanymi
+danymi i powoduje odstêpstwa od funkcjonowania.
+Status: zmienione (22 maj 2006).
+Wp³yw zmiany:
+Obecnie funkcja buduj±ca (NewGeneratorFrame.buildGenerator) generator sprawdza,
+czy przy próbie konwersji danej nie otrzymano obiektu NULL. Po stwierdzeniu
+tego faktu pokazuje okno dialogowe o b³êdnym wpisaniu parametru, a nastêpnie
+zwraca warto¶æ null.
+
+Do generowanych danych nale¿y dodawaæ parametry jakie by³y obecne podczas
+generacji. Je¿eli dane pochodz± z testu to testowe, je¿eli z generator to
+generatora. Dodatkowo zastanowiæ siê, czy warto przechowywaæ historiê zmian,
+jakie odbywa³y siê na danym zbiorze danych.
+Status: zmienione (22 maj 2006).
+Wp³yw zmian:
+Dodano generowanie w XML'u ga³êzi <source>. Ga³±¼ jest obecnie
+nieinterpretowana przez programy odczytuj±ce dane. G³ówny cel zastosowania:
+podczas wykonywania testu ChiSquare nie trzeba przekazywaæ w pierwszym
+parametrze ile przedzia³ów zliczania by³o naniesionych na dane.
+
+Do zastanowienia sie.
+Generator liczb losowych na algorytmie LCG moze wygenerowac w prostym
+oprogramowaniu liczby z zakresu 1..10 bez powtorzenia, az nie obiegnie calego
+okresu (dla m=11). Jednak liczba mozliwych kombinacji, jakie przedstawia taki
+generator jest mniejsza od mozliwych. Faktycznie mozna takie liczby ulozyc na
+10! sposobow. W generatorze LCG przy modyfikowaniu trzech parametrow x0, a, m
+istnieje szansa wygenerowania takich kombinacji 10^3. (Przy przekraczaniu m
+kombinacje powtarzaja sie, wiec nie ma to sensu). Dodatkowo niektore kombinacje
+daja ciagi nieuzyteczne (jest ich tak okolo 30-50%). Wiec liczba kombinacji jest
+o wiele mniejsza niz ich istnieje. Teoretycznie 10 ! kombinacji daloby sie
+ponumerowac. Jednak samo ich ponumerowanie dla zbyt wielkiej liczby daje
+astronomiczna liczbe (np. 1000! i 2^32!). Pozostaje tez problem na podstawie
+uzyskanej liczby ustalenia ciagu, jaki ona numeruje. Jak wiec z jednakowym
+prawdopodobienstwem wylosowac dowolna permutacje 1-10 ?
+Status: mysle...
+
+Do zastanowienia sie.
+Jezeli zastosowac zmienne zmiennoprzecinkowe to w nastepujacej petli:
+ for (double i=0.1; i<1.0; i+=0.1)System.out.println(""+i);
+pojawiaja sie bledy ! Zastanowic sie, czy lepsze nie byloby napisanie klasy do
+liczb operujacych na ulamkach, ktora w ostatecznej postaci wyda wynik w formacie
+double. Klasa przechowywalaby i wykonywala operajce na zmiennych calkowitych,
+czyli liczba rzeczywista bylaby magazynowana w postaci ulamka wlasciwego oraz
+czesci calkowitej typu: int + int/int np. 2 i 3/4, 1 i 1.3
+Status: napisana klasa Fraction. Prawdopodobnie kolejnym jej rozwinieciem bedzie
+uzycie BigIntegerow
+
+Test chi-kwadrat, graficzna interpretacja wynikow.
+Status: zmienione.
+
+Zmiana sposobu wprowadzania parametrow tak, aby nastepowala automatyczna
+interpretacja i dostosowywanie wprowadzonych danych do odpowiedniego typu.
+Status: zmienione.
+
+Pasek progresu dla testu lub generacji. Dosc istotne przy dlugich operacjach
+testowania lub generacji, aby nie wygladalo, ze powiesil sie komputer.
+Status: nie zmienione.
+
+Warto¶ci pozwalaj±ce na wybranie parametru o danym identyfikatorze powinny
+zostaæ upublicznione. Obecnie znajduj± siê one w postaci pola private, co
+czyni je niedostêpnymi dla korzystania bezpo¶redniego bez u¿ycia interfejsu
+graficznego, który listuje odpowiednio nazwy.
+Status: zmienione.
+
+Usuwanie podczas sortowañ tych samych opcji ma byæ jako dostêpna opcja.
+Status: zaimplementowane.
+
+Implementacja zliczania czêsto¶ci wystêpowania danych w sposób matematyczny.
+Sposób polega na podzieleniu danych do odpowiednich klas.
+Status: implementowane. W tym celu dodano InternalSort, ExternalSort. Jeszcze
+do dodania sortowanie z usuwaniem tych samych danych, wyznaczanie NWD z
+podanych warto¶ci (gcd), wyznaczanie rozstêpów pomiêdzy podanymi warto¶ciami,
+wyznaczanie rozstêpu ca³kowitego.
+
+Zrezygnowaæ z mo¿liwo¶ci ustawiania przez u¿ytkownika liczby elementów
+w pakiecie i ustalenie sta³ej liczby ustawianej z parametrów programu.
+Zapewni to ³atwiejsz± obs³ugê, ale równocze¶nie nale¿y programy przebudowaæ
+tak, aby nie zak³ada³y, ¿e otrzymywane paczki danych bêd± o sta³ym rozmiarze,
+jak jest to zorganizowane np. w ExternalSort przy generowaniu danych
+wynikowych. Lepsza by³aby predykcja mo¿liwych danych, przyrównanie do
+dozwolonego rozmaru i ustawienie go.
+Status: zmienione. Pozosta³o do zmiany usuniêcie pola z okna Generacji, które
+pyta siê o liczbê paczek danych. Od teraz nale¿y nigdzie nie zak³adaæ sta³ego
+rozmiaru danych.
+
+Przebudowaæ klasê GeneratedData na GeneratedDataInput/OutputStream, które bêd±
+opdpowiednio udostêpnia³y strumieniowy zapis i odczyt z pliku z wygenerowanymi
+danymi. Wi±¿e siê to z wyszukaniem ³agodnego sposobu tymczasowego przerwania
+SAXParser'a i wznowienia jego pracy w dlaszym trybie.
+Status: zmienione. Utworzono Readery/Writery danych
+
+Przebudowanie interfejsów i programu w taki sposób, aby zrezygnowaæ z wywo³añ
+typu processInputData(NumberStoreOne) oraz showView(NumberStoreOne), gdy¿
+taki sposób sprawdza siê tylko przy danych o ma³ych rozmiarach.
+Zamiast tego przej¶æ na system, w którym s± przekazywane dane poprzez
+setInputData, a wyci±gane przy wykorzystaniu getOutputData.
+getOutputData ma zwracaæ warto¶æ NULL kiedy dojdzie do koñca i nie ma ju¿
+wiêcej informacji do zwrócenia. Podobnie setInputData powinno zawieraæ znacznik,
+w którym mo¿na przekazaæ informacjê, ¿e przekazane dane s± ostatni± grup±
+danych.
+Status: zmienione.
+
+Dopisanie mo¿liwo¶ci tworzenia d³ugich opisów dla generatorów.
+Status: obecnie mo¿liwe w zapisie jednoliniowym. (Organizwoanie mozliwosci
+		opisywania z wykorzystaniem plikow HTML)
+
+Mo¿e wycofaæ z ViewDataInterface metody setData i pozostawiæ tak± drogê
+poprzez ustawianie parametrów z ParameterInterface;
+Status: do przemy¶lenia. ( obecnie zrezygnowalem z pomyslu z koniecznosci
+	dosc obszernego uwiklania kodu zwiazanego z podgladaniem danych, gdyz
+	wymagalo to kolejnego otworzenia okienka ustawiania parametrow przegladu.
+	Koncepcja obecna - tworzenie jak najprostszych podgladow).
+
+Przej¶cie na zapisywanie informacji zewnêtrznej przy pomocy XML'a.
+Status: zrobione.
+
+W edytorze GenerProj podczas przegladania generatorow ustalic sposob
+reagowania na generator wewnetrzny (np. seed), tak aby mozna bylo taki
+generator przejrzec, zmienic i edytowac. ( Moze jako tymczasowe i dodatkowe
+pole ComboBox'a dodane rowniez w ogolnym projekcie, a wycofywane po zamknieciu
+okienka ).
+Status: zrobione.
+
+Dodanie do klasy Mysys operacji pozwalaj±cych na rozpoznanie rozmiaru
+aktualnego panelu pracy, aby mo¿na by³o usytuowaæ okienka w centralnym
+polo¿eniu na pulpicie.
+Status: wykonane - zosta³a odpowiednia metoda umieszczona w klasie Convert.
+
+Dodanie Layout'a umozliwiajacego zmiane wielkosci okien z dostosowywaniem
+stosunku rozmiarowego poszczegolnych elementow.
+Status: zostalo to zrobione probnie. Efekt - bardzo fatalne zastosowanie
+	wewnatrz okien poslugujacych sie ScrolledPane'm. Powod - nie jest z tego
+	kontenera przekazywana akcja o zmianie rozmiaru widoku. Do zastosowañ
+	w oknach normalnych nalezy jeszcze dopisac przechowywanie oryginalnych
+	rozmiarow elementow - powodem jest zanikanie ich autentycznych rozmiarow
+	podczas zbyt nagminnego manipulowania rozmiarem okienek.
+
+Wykorzystac okienka pomocy do pokazywania ogolnych pomocy, rowniez do
+pokazywania opisow Generatorow, Testow i innych danych. Ustalenie, ze jezeli
+w opisie jest umieszczony znacznik html: to w nastepnej kolejnosci jest podawana
+nazwa pliku, ktory ma byc zaprezentowany.
+Status: zmienione. Poszukiwany jest najpierw odpowiednik w postaci pliku
+html, a przy nie znalezieniu takowego zostaje wykorzystany interfejs
+ParameterInterface.
+
+W oknie, w ktorym sa pokazywane parametry dodaæ przycisk poka¿ opis zamiast
+ju¿ umieszczonego tam opisu. Pozwoli to na lepsz± prezentacjê opisu zmienianego
+elementu (okno pomocy ma mo¿liwo¶æ w miarê swobodnego zmieniania rozmiaru).
+Status: nie zmienione ( nie zostanie taka mo¿liwo¶æ dodana z powodu zmiany
+		organizacji przedstawiania opisów ).
+
+Centrowanie okien w zaleznosci od pulpitu pracy uzytkownika.
+Status: Zostalo zrobione. Dodano nowa funkcje setCentral w klasie Convert.
+
+Przebudowanie Okienek na przycisk Generator tak, aby otwierala sie lista
+generatorow, a przy kreowaniu nowego generatora dodac mozliwosc wybierania
+typu generatora za pomoca MyFileChooser na rozszerzenie .java. Dodatkowo
+umiescic przycisk opisu generatora w NewGeneratorFrame, a wyrzucic opis
+generowany w polu scr ( dodanie nowego przycisku, jak ma to miejsce w testach ).
+Czyli zrezygnowanie z przegladania dostepnych typow generatorow. Do wylistowania
+dodac przycisk uruchamiania generacji.
+Status: zmienione.
+
+Dodanie operacji 'NONE' do generowania danych z generatora, aby przy aktualnych
+ustawieniach byla mozliwa generacja, a zeby nie zostalo nic zmienione, oraz
+przekazanie zmian do generatora po jego uruchomieniu, aby mozna bylo generator
+w takim momencie zapisaæ.
+Status: zmienione.
+
+Przeniesienie plików .dat opisów czerpi±cych poprzez ParameterInterface do
+katalogu jêzykowego opisów.
+Status: nie zmienione.

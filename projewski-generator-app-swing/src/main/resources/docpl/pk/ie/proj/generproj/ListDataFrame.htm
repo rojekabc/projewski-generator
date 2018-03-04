@@ -1,0 +1,43 @@
+<HTML>
+	<HEAD>
+	<META http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+	</HEAD>
+	<BODY>
+		<div align=center bgcolor=#00EEEE><BIG>Zbiory danych</BIG></div>
+		Okienko odpowiadające za zarządzanie wygenerowanymi
+		zbiorami danych. Dane powstały w wyniku uruchamiania
+		wybranych generatorów, bądź na skutek przeprowadzania
+		operacji testowania. Zbiory danych są określone przez
+		datę i czas generacji oraz nazwę przydzieloną im przed
+		generacją. Zbiory danych są zapisane na dysku w postaci
+		plików .gdt. Informacja o załączeniu pliku zbioru danych
+		do programu jest przechowywana z ustawieniami aplikacji GenerProj.
+		Plik .gdt powstaje na skutek przekierowania strumienia obiektowego
+		na wyjscie plikowe, gdy na wejsciu jest podawana tablica z danymi
+		do przechowania.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole wyboru <B>Typ podglądu</B></DIV>
+		Pole, które określa, jaka klasa zostanie użyta do przyjrzenia się wybranym
+		danym po nacisnięciu przycisku <B>Pokaż</B>. Zbiór obecnych tutaj nazw
+		stanowi bazowe nazwy klas, które implementują interfejs
+		<B>ViewDataInterface</B>, służący do przeglądania danych. Program
+		wykorzystuje metodę <I>showView(NumberStoreOne)</I> tegoż interfejsu
+		do zaprezentowania danych.
+		<div align=center bgcolor=#00CCCC>Przycisk <B>...</B></DIV>
+		Przycisk, który ma na celu załadowanie nowego typu podglądu. Wybrana klasa
+		musi implementować interfejs <B>ViewDataInterface</B>, a konkretnie metodę
+		tego interfejsu <I>showView(NumberStoreOne)</I>. Wybrana klasa zostanie
+		zachowana do następnego wykorzystania w programie.
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Pokaż</B></DIV>
+		Przycisk, który umożliwia przyjrzenie się zbiorowi danych. Sposób
+		podglądania danych określa pole wyboru <B>Typ podglądu</B>.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Usuń</B></DIV>
+		Przycisk usuwający zaznaczone dane z listy. Należy pamiętać o tym,
+		że usunięciu podlega również plik .gdt z danymi zapisanymi na dysku.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Koniec</B></DIV>
+		Powrócenie do poprzedniego okna.
+		<BR>
+	</BODY>
+</HTML>

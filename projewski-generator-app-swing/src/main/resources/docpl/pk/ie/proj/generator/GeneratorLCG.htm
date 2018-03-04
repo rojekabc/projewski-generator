@@ -1,0 +1,42 @@
+<HTML>
+	<BODY>
+		<div align=center bgcolor=#00EEEE><BIG>GeneratorLCG</BIG></div>
+		Generator liniowy kongruentny. Generator funkcjonuje w oparciu o wzór: X[n+1] = (a*X[n]+c) % m. Zak³ada siê, ¿e a&lt;m, c&lt;m.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Parametry generatora</DIV>
+		<ul>
+			<li>a - parametr nazywany mno¿nikiem
+			<li>c - parametr nazywany przesuniêciem
+			<li>m - parametr nazywany modu³em
+			<li>seed - ziarno generatora
+			<li>xn - ostatnio wygenerowana wartoœæ przez generator
+			<li>opis - dodatkowa informacja o generatorze, najczêœciej informacja o pochodzeniu wartoœci parametrów generatora
+		</ul>
+		<div align=center bgcolor=#00CCCC>Informacje o generatorze</DIV>
+		Jest to jeden z najprostszych generatorów o bardzo powszechnym zastosowaniu. Generacja nastêpuje w sposób liniowy.
+		<div align=center bgcolor=#00CCCC>Informacje o implementacji</DIV>
+		<ul>
+			<li>inicjowanie generatora polega na zainicjowaniu ziarna generatora i ustaleniu wartoœci pocz¹tkowej generatora na podstawie
+			generacji otrzymanej z ziarna
+			<li>reinicjowanie generatora polega na reinicjalizacji ziarna generatora i ustaleniu wartoœci pocz¹tkowej generatora na podstawie
+			generacji otrzymanej z ziarna
+			<li>aby przyspieszyæ jednostkowe funkcjonowanie generatora wartoœci parametrów s¹ ustalane po zainicjowaniu do zmiennych
+			wewnêtrznych klasy - zmiana parametrów podczas dzia³ania generatora, bez jego ponownej inicjalizacji, nie spowoduje zastosowania
+			nowych parametrów
+			<li>podstawow¹ jednostk¹ funkcjonowania generatora jest typ long; póŸniejsze skalowanie na wartoœci zmiennoprzecinkowe odbywa siê
+			poprzez wydzielenie wartoœci wylosowanej przez modu³ m
+			<li>po pobraniu wartoœci ziarna nastêpuje jej wyrównanie poprzez wykonanie na niej operacji modulo m i dopiero wtedy nastêpuje
+			przypisanie ustalenie pocz¹tkowego xn
+			<li>Aby spe³niæ warunek, ¿e a i c s¹ mniejsze od m, podczas inicjowania generatora wartoœci te s¹ wyrównywane modulo m, ale tylko
+			do zastosowañ wewnêtrznych (parametry widoczne na zewn¹trz pozostaj¹ bez zmian)
+			<li>do obliczania nastêpnej operacji wykonuje siê faktycznie zestaw operacji: x *= a; x += c; x %= m; Pewniejszym rozwi¹zaniem
+			by³oby zastosowanie operacji typu x *= a; x %= m; x += c; x %= m; co powodowa³oby dodatkowe wyrównanie i zapobieganie wiêkszej
+			mo¿liwoœci wyst¹pienia przepe³nienia, jednak tego typu operacja powoduje nawet dwukrotne spowolnienie dzia³ania samego algorytmu.
+			<li>w przypadku kiedy m wynosi 2^n - 1, zaleca siê wykorzystanie generatora typu LCGAnd, który wykonuje operacjê x &amp;= m,
+			równoznaczn¹ w tym przypadku z operacj¹ modulo, a powoduj¹c¹ znaczne przyspieszenie funkcjonowania algorytmu (przyspieszenie o prawie
+			1/3).
+		</ul>
+
+		<BR>
+	</BODY>
+</HTML>

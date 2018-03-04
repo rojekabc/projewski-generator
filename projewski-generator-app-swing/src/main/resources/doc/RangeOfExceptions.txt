@@ -1,0 +1,6 @@
+DescriptionException		100
+GeneratorException		200
+NumberStoreException		300
+LaborDataException		400
+ParameterException		500
+ViewDataException		600

@@ -1,0 +1,9 @@
+GeneratorSystemTime		10 +10
+GeneratorJavaRandom		20 +10
+LaborDataFrequency		30 +10
+GeneratorLCG					40 +10
+ViewRowTextTable			50 +10
+NewGeneratorFrame			60 +10
+NewGeneratorFram			70 +10 (classToString)
+GeneratorGausHastings	80 +10
+

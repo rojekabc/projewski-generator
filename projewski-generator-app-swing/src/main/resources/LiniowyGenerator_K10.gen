@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='Latin1' ?>
+<generator class='pk.ie.proj.generator.GeneratorLCG'>
+<parameter name='zm. losowa' class='java.lang.Long'>
+0
+</parameter>
+<parameter name='a' class='java.lang.Integer'>
+7
+</parameter>
+<parameter name='c' class='java.lang.Long'>
+0
+</parameter>
+<parameter name='m' class='java.lang.Long'>
+11
+</parameter>
+<parameter name='ziarno' class='java.lang.Long'>
+2
+</parameter>
+</generator>

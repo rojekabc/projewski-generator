@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='Latin1' ?>
+<generator class='pk.ie.proj.generator.GeneratorLCG'>
+<parameter name='a' class='java.lang.Integer'>
+16807
+</parameter>
+<parameter name='c' class='java.lang.Integer'>
+0
+</parameter>
+<parameter name='m' class='java.lang.Integer'>
+2147483647
+</parameter>
+<parameter name='ziarno' class='pk.ie.proj.generator.GeneratorSystemTime'>
+<parameter name='zm. losowa' class='java.lang.Integer'>
+0
+</parameter>
+</parameter>
+<parameter name='zm. losowa' class='java.lang.Integer'>
+0
+</parameter>
+<parameter name='Informacja' class='java.lang.String'>
+[Generator Park and Miller uzywany w pakiecie Matlab,
+Linux+ Magazine, 10/2008, str.62]
+[Pakiet Hasard,
+HASARD_PARK_MILLER,
+Park-Miller "Minimum Standard", First proposed by Lewis, Goodman and Miller in 1969, Apple CarbonLib]
+</parameter>
+</generator>

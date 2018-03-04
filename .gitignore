@@ -1,0 +1,10 @@
+# vim
+.*un~
+*~
+
+# Maven
+target
+
+# Idea InteliJ
+.idea
+*.iml

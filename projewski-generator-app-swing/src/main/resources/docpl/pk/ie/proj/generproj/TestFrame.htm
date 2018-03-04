@@ -1,0 +1,55 @@
+<HTML>
+	<HEAD>
+	<META http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+	</HEAD>
+	<BODY>
+		<div align=center bgcolor=#00EEEE><BIG>Testy</BIG></div>
+		Okienko, które ma na celu umożliwienie przeprowadzania zaprogramowanych
+		testów na danych wejściowych.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole <B>Rodzaj testu</B></DIV>
+		Pole pozwalające na wybranie testu, jaki ma zostać przeprowadzony.
+		Testy, wylistowane w tym polu, należą do interfejsu
+		<I>LaborDataInterface</I> i przesłaniają metodę
+		processInputData(NumberStoreOne, NumberStoreOne), wykorzystywaną jako
+		podstawową w przeprowadzeniu testu.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>...</B></DIV>
+		Przycisk umożliwiający na wyselekcjonowanie testu, który nie jest wymieniony
+		na liście. Test musi być przekompilowaną klasą języka Java implementujący
+		interfejs <I>LaborDataInterface</I>. Test, po pomyślnym wyselekcjonowaniu
+		zostanie dodany do listy wyboru i będzie przechowywany w programie do
+		przyszlych zastosowań.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole <B>Dane wejściowe</B></DIV>
+		Określa dane, które zostaną wykorzystane w teście do przeprowadzenia na
+		nich testu.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole <B>Dane wyjściowe</B></DIV>
+		Pozwala na określenie nazwy zbioru wynikowego danych.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole <B>Parametry Testu</B></DIV>
+		Następnym polem jest Pole parametrów. Jeżeli w danym teście zostały
+		zdefiniowane parametry, to zostaną one wylistowane tutaj w postaci trzech
+		kolumn. Pierwsza z nich określa nazwę danego parametru, druga stanowi
+		typ jaki należy przypisać danemu parametrowi, natomiast trzecia określa
+		wartość danego parametru, jaka ma być użyta do jego pracy po załadowaniu.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>OK</B></DIV>
+		Przycisk ten uruchamia test z podanymi parametrami na określonym
+		zbiorze danych. Po jego pomyślnym zakończeniu zostaje utworzony zbiór danych
+		zawierający zgromadzone wyniki.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Opis</B></DIV>
+		Jest to przycisk, który pozwala na przyjrzenie się opisowi testu, który
+		został wybrany w polu <B>Rodzaj testu</B>. Opis jest pobierany z katalogu
+		opisów programu jako plik o rozszerzeniu .htm w nazwie prefixowej
+		odpowiadającej nazwie testu. Jeśli plik nie jest odnaleziony następuje
+		domyślna generacja opisu na podstawie informacji dostarczanej przez klasę
+		testu z wykorzystaniem interfejsu <I>ParameterInterface</I>.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Koniec</B></DIV>
+		Powrócenie do poprzedniego okna.
+		<BR>
+	</BODY>
+</HTML>

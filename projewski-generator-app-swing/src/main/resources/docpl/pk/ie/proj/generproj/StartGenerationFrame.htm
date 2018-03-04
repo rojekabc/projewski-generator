@@ -1,0 +1,66 @@
+<HTML>
+	<HEAD>
+	<META http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+	</HEAD>
+	<BODY>
+		<div align=center bgcolor=#00EEEE><BIG>Generacja</BIG></div>
+		Jest to okienko, które odpowiada za ustalenie sposobu generowania
+		danych dla generatora, jaki został wcześniej sparametryzowany.
+		Generacja pobiera aktualny czas systemu i jest zapisywana w postaci
+		pliku z rozszerzeniem .gdt i z wykorzystaniem w nazwie ciągu znaków
+		określającego czas generacji.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole <B>Nazwa generacji</B></DIV>
+		Pole określającą przyjazną nazwę, jaką użytkownik pragnie określić
+		swoją generację. Domyślnie jest ono nazwą pochodzącą od nazwy generatora.
+		Pole to nie jest obowiązkowe i może być puste.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole <B>Liczba generacji</B></DIV>
+		Pole określa liczbę danych jakie mają być wygenerowane. Pole obowiązkowe.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole <B>Wielkość paczki</B></DIV>
+		Pole określa rozmiar paczki danych jaka ma być generowana jednorazowo.
+		Pole to nie jest obowiązkowe. Jeżeli nie jest wypełnione to jednorazowo
+		będzie wygenerowany pakiet o maksymalnej wielkości równej liczbie generacji.
+		Jeżeli jednak zostanie tu wpisana wartość to musi ona być taka, aby
+		dzieliła bez reszty wartość określoną w poli <B>Liczba generacji</B>.
+		W takim wypadku jednorazowo będzie generowana paczka danych równa tej
+		wielkości, aż do osiągnięcia żądanej liczby generacji. W pliku wynikowym
+		dane zostaną zapisane w postaci tablic o wymienionym tutaj rozmiarze.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole <B>Generowany Typ</B></DIV>
+		Pole to określa jakiego typu mają być dane wyjściowe. To jak dane zostaną
+		uformowane zależy od sposobu zaprojektowania <I>typu generatora</I>, no i
+		oczywiście parametrów danego generatora. Jeżeli dany typ generatora nie
+		obsługuje danego typu, może być generowana cały czas jednakowa wartość.
+		Dostępne są cztery typy generowanych danych: int, long, float oraz double.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole <B>Funkcja startu</B></DIV>
+		Pole to pozwala na wybranie jednej z trzech funkcji startujących pracę
+		generatora. Jest to albo funkcja <I>Init</I>, albo funkcja <I>Reinit</I>,
+		bądź funkcja <I>Brak</I>.
+		Funkcja <I>Init</I> standardowo powoduje zainicjowanie generatora od nowa,
+		a więc zostają w niej ustawione parametry dynamiczne i również te statyczne,
+		które pochodzą od innych generatorów. Natomiast w funkcji <I>Reinit</I>
+		zostaną jedynie wstępnie ustawione parametry dynamiczne na podstawie
+		posiadanych parametrów statycznych. W efekcie podczas wykorzystania funkcji
+		<I>Init</I> jest inicjowany od nowa cały generator, co powoduje otrzymanie
+		odmiennych wartości od poprzedniej generacji (jeżeli taką operację
+		przewidziano). Natomiast po wywołaniu funkcji <I>Reinit</I> jesteśmy
+		w stanie otrzymać ten sam przebieg dla wymienionych parametrów.
+		Jeżeli praca generatora ma być kontynuowana z zapisanej pracy można
+		zrezygnować z funkcji inicjujących i wybrać funkcję <I>Brak</I>.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Start</B></DIV>
+		Rozpoczęcie generowania. Jeżeli przebiegnie ono bez zarzutów to dane
+		zostaną zapisane do pliku o nazwie zaczynającej się od słowa wymienionego
+		w polu <B>Nazwa generacji</B>, po niej wystąpi ciąg określający czas
+		generacji, a następnie rozszerzenie .gdt. Dodatkowo nowo wygenerowane
+		dane zostaną dodane do listy <I>zbiorów danych</I>.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Koniec</B></DIV>
+		Powrócenie do poprzedniego okna.
+		<BR>
+	</BODY>
+</HTML>
+

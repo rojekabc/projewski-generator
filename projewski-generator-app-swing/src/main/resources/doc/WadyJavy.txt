@@ -1,0 +1,5 @@
+Nie mo¿na tworzyæ ogólnych szablonów klas dla zmiennych ró¿nych typów,
+zw³aszcza typów podstawowych takich jak int, long, float, double !
+Powoduje to do¶æ spory nak³ad kodu i rozpatrywanie ró¿nych wariantów.
+Przyk³ad: Interfejs NumberStoreInterface i klasy pochodne NumberStoreOne
+

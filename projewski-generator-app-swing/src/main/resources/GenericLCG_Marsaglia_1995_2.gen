@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='Latin1' ?>
+<generator class='pk.ie.proj.generator.GenericLCG'>
+<parameter name='a' class='pk.ie.proj.tools.VectorLong'>
+8192 8192 8192
+</parameter>
+<parameter name='c' class='java.lang.Long'>
+0
+</parameter>
+<parameter name='m' class='java.lang.Long'>
+4294967291
+</parameter>
+<parameter name='ziarno' class='pk.ie.proj.generator.GeneratorSystemTime'>
+<parameter name='zm. losowa' class='java.lang.Integer'>
+0
+</parameter>
+</parameter>
+<parameter name='zm. losowa' class='pk.ie.proj.tools.VectorLong'>
+
+</parameter>
+<parameter name='Informacja' class='java.lang.String'>
+[Zrodlo Marsaglia (1995)),
+wg. "Komputerowe generatory liczb losowych"
+Wieczorkowski, Zielinski,
+WNT Warszawa 1997,
+Tabela 2.1, strona 23]
+</parameter>
+</generator>

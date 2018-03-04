@@ -1,0 +1,61 @@
+<HTML>
+	<HEAD>
+	<META http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+	</HEAD>
+	<BODY>
+		<div align=center bgcolor=#00EEEE><BIG>Nowy generator</BIG></div>
+		Okienko pozwalające na projektowanie nowego <I>generatora użytkownika</I>.
+		Generator taki stanowi poszerzenie <I>typu generatora</I> o wartości
+		parametrów wybranych przez użytkownika.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole <B>Nazwa generatora</B></DIV>
+		Pole jest obowiązkowe. Pozwala użytkownikowi na określenie własnej,
+		unikalnej nazwy dla generatora. Równocześnie nazwa ta stanowi nazwę
+		pliku, w jakim zostanie zapisany generator, nie należy więc stosować
+		znaków specjalnych zabronionych w danym systemie plikowym. Znajdujący
+		się po prawej stronie przycisk <B>...</B> ma na celu ułatwienie możliwości
+		załadowania domyślnych parametrów wyselekcjonowanego generatora.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole <B>Typ generatora</B></DIV>
+		Pozwala ono na wybranie przez użytkownika <I>Typu generatora</I>,
+		jaki ma posłużyć do projektu generatora. Jeżeli nie został zdefiniowany
+		żaden typ pole to będzie puste. Aby pobrać klasę typu generatora z zewnątrz
+		należy nacisnąć przycisk <B>...</B>, umieszczony po prawej stronie.
+		Spowoduje on otwarcie okienka wyboru klasy, która implementuje interfejs
+		GeneratorInterface.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Pole <B>Parametry</B></DIV>
+		Następnym polem jest Pole parametrów. Jeżeli w danym generatorze zostały
+		zdefiniowane parametry, to zostaną one wylistowane tutaj w postaci trzech
+		kolumn. Pierwsza z nich określa nazwę danego parametru, trzecia stanowi
+		typ jaki należy przypisać danemu parametrowi, natomiast druga określa
+		wartość danego parametru, jaka ma być użyta do jego pracy po załadowaniu.
+		Należy pamiętać, że każdy generator posiada dwa rodzaje parametrów.
+		Są to mianowicie parametry statyczne i dynamiczne. Parametry statyczne,
+		to takie, które po wstępnym zainicjowaniu nie są zmieniane przez cały
+		okres pracy generatora. Natomiast parametry dynamiczne należą do takich,
+		które zmieniane są zwykle co każdą generację, albo równie często.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Generuj</B></DIV>
+		Przycisk ten otwiera okno generacji, odpowiadające za uruchomienie tak
+		sparametryzowanego typu generatora i wygenerowanie zbioru danych.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Zapisz</B></DIV>
+		Przycisk pozwala na zapisanie generatora w pliku określonego przez
+		nazwę wymienioną w polu <B>Nazwa generatora</B> i z rozszerzeniem .gen.
+		Równocześnie powoduje on automatyczne dodanie takiego generatora do listy
+		<I>generatorów użytkownika</I>.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Opis</B></DIV>
+		Przycisk otwiera okienko pomocy z opisem aktualnie wyselekcjonowanego
+		typu generatora. Plik opisu jest pobierany z katalogu językowego określonego
+		w ustawieniach aplikacji, bądź jest on automatycznie generowany z opisów
+		dostarczonych wraz z klasą definiującą typ generatora, a implementującą
+		interfejs <I>GeneratorInterface</I> wraz z interfejsem
+		<I>ParameterInterface</I>.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Koniec</B></DIV>
+		Powrócenie do poprzedniego okna.
+		<BR>
+	</BODY>
+</HTML>

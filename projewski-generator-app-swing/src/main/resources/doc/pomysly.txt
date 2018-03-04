@@ -1,0 +1,26 @@
+--------------------------------------------------------------------------
+Roz³¹czenie istniej¹cych klas i interfejsów na tyle skuteczne, ¿e w prosty
+sposób mo¿naby wykorzystaæ je do utowrzenia serwisu dla JBoss'a, który
+pozwoli³by na generowanie liczb i testowanie dowolnym wybranym algorytmem,
+podawaniu parametrów generatora i programu testuj¹cego - zmiana wy³¹cznie
+oprawy graficznej. Wiadomo, ¿e w tym momencie interfejs ViewData generuje
+jedynie typ widoku g³ównie jako JFrame - nale¿a³oby rozdzieliæ jego
+mo¿liwoœci, tudzie¿ w jakiœ sposób wyszczególniæ
+--------------------------------------------------------------------------
+Zastosowanie generatora podczas szyfrowania z kluczem. Kluczem by³by tutaj
+seed u¿yty do szyfrowania, lecz równoczeœnie móg³by to byæ pe³en zestaw
+parametrów. Po zaszyfrowaniu przesy³ki wszystko pakowane by³oby do koperty,
+czyli klucze podlega³yby szyfrowaniu przy pomocy RSA. Algorytm oparty
+o generator liniowy funkcjonowa³by o wiele szybciej od algorytmów typu
+DES. Nale¿a³oby równoczeœnie rozwa¿yæ jakie s¹ szanse z³amania kluczy
+na podstawie szyfrogramu z u¿yciem tekstu jawnego i bez tekstu jawnego.
+--------------------------------------------------------------------------
+Analiza VMPC - zastosowano generatory przy szyfrowaniu na bazie permutacji
+Po analizie wychodzi, ¿e nie uzyskuje siê pe³nego zakresu permutacyjnego,
+lecz zaledwie pewnego wycinka, wiêc sam algorytm nie mo¿e byæ w 100 %
+wykorzystany do tworzenia generatora permutacyjnego
+Rownoczeœnie algorytm wymaga³by istnienia pe³nej permutacji jednorazowo
+--------------------------------------------------------------------------
+Generator permutacyjny - opracowanie pomys³u na generator, który
+generowa³by ka¿dy ci¹g permutacji n z takim samym prawdopodobieñstwem
+Obecnie brak sensownego pomys³u

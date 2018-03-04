@@ -1,0 +1,22 @@
+-1:Nieopisany b³±d: '$0'
+101:B³±d pliku $0
+103:Nie odnaleziono komunikatu $0 na dostêpnej li¶cie
+200:Nie rozpoznany b³±d: '$0'
+201:B³êdny parametr $0. Oczekiwano, ¿e bêdzie on stanowi³ instancjê klasy $1.
+202:Parametr $0 posiada warto¶æ null, która uniemo¿liwia dalsze funkcjonowanie.
+203:Niemo¿liwa jest konwersja jednego z parametrów do wykonania obliczeñ. $0
+204:Podany plik $0 generatora ju¿ istnieje. Odmowa nadpisywania.
+205:Problem z zapisywaniem pliku generatora $0: $1
+206:Generator nie umo¿liwia takiego u¿ycia: $0
+300:Nie rozpoznany b³±d
+301:Operacja na nieprawid³owym typie zmiennej. Typ zmienej przechowywanej jest inny.
+302:Obs³uga wymienionego typu nie jest mo¿liwa przez wybran± klasê.
+400:Nie znany b³±d. $0
+401:Funkcja nie zaimplementowana. Spróbuj skorzystaæ z innej.
+402:Niedozwolona operacja na magazynie danych. $0
+403:Podano niedozwolon± warto¶æ, która nie pozwala na poprawne obliczenia. $0
+404:U¿yty typ klasy jest niezgodny z prowadzonymi obliczeniami. $0
+501:Nie mogê utworzyæ opisu. $0
+502:Struktura pliku $0 przechowuj±cego parametry jest nieodpowiednia.
+503:B³±d podczas operacji we/wy na pliku parametrów. $0
+504:Nie odnaleziono klasy, b³±d tworzenia instancji. $0

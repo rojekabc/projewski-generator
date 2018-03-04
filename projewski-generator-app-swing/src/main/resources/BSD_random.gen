@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='Latin1' ?>
+<generator class='pk.ie.proj.generator.GeneratorLCG'>
+<parameter name='a' class='java.lang.Integer'>
+1103515245
+</parameter>
+<parameter name='c' class='java.lang.Integer'>
+12345
+</parameter>
+<parameter name='m' class='java.lang.Long'>
+2147483648
+</parameter>
+<parameter name='ziarno' class='pk.ie.proj.generator.GeneratorSystemTime'>
+<parameter name='zm. losowa' class='java.lang.Integer'>
+0
+</parameter>
+</parameter>
+<parameter name='zm. losowa' class='java.lang.Integer'>
+0
+</parameter>
+<parameter name='Informacja' class='java.lang.String'>
+[random w systemie operacyjnym BSD,
+Linux+ Magazine, 10/2008, str. 62]
+[Pakiet Hasard,
+HASARD_MINIMUM_STANDARD,
+ANSI C: Watcom, Digital Mars, CodeWarrior, IBM VisualAge C/C++]
+</parameter>
+</generator>

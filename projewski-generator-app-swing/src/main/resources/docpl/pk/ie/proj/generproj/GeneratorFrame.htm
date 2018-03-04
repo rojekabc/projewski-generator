@@ -1,0 +1,40 @@
+<HTML>
+	<HEAD>
+	<META http-equiv=Content-Type content="text/html; charset=iso-8859-2">
+	</HEAD>
+	<BODY>
+		<div align=center bgcolor=#00EEEE><BIG>Generatory</BIG></div>
+		Okno pozwalające na zarządzanie generatorami. Znajdujące się
+		na nim przyciski określają rodzaje akcji, jakie można podjąć.
+		Ogólna zasada dotycząca każdego generatora odpowiada schematowi,
+		w którym każdy <I>generator użytkownika</I> stanowi określony
+		<I>typ generatora</I>, który jest przez niego parammetryzowany.
+		<I>Typy generatorów</I> są klasami, napisanymi w języku Java,
+		implementującymi interfejs <I>GeneratorInterface</I> i określającymi
+		sposób zachowania się danego generatora, jego opis i parametry
+		używane przez niego. Użytkownik budując wybrany przez siebie generator
+		określa typ, jaki chce zastosować i przypisuje parametry wybranemu
+		generatorowi.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Nowy generator</B></DIV>
+		Przycisk ten pozwala użytkownikowi na stworzenie przez siebie generatora
+		określonego typu z wybranymi przez niego parametrami. Stworzony generator
+		jest zapisywany w pliku o rozszerzeniu .gen.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Wczytaj generator</B></DIV>
+		Przycisk, który pozwala użytkownikowi na załadowanie stworzonego przez
+		niego generatora.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Lista generatorów</B></DIV>
+		Przycisk, który powoduje przejście do okienka listującego dostępne
+		w aplikacji <I>generatory użytkownika</I>
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Typy generatorów</B></DIV>
+		Przycisk, pozwalający na przejrzeni listy dostępnych
+		<I>typów generatorów</I>, utworzenie nowych, usunięcie niepotrzebnych.
+		<BR>
+		<div align=center bgcolor=#00CCCC>Przycisk <B>Koniec</B></DIV>
+		Powrócenie do poprzedniego okna.
+		<BR>
+	</BODY>
+</HTML>

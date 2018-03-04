@@ -1,0 +1,63 @@
+--------------------------------------------------------------------------------
+* Zapisywanie parametrów zrobiæ w postaci XML, je¿eli starczy czasu na zabawê.
+Tylko to wymaga Javy prawdopodobnie 1.4 lub do³adowania w³asnych klas.
+--------------------------------------------------------------------------------
+* Ka¿dy generator powinien posiadaæ pola:
+	seed - ziarno inicjuj±ce (lub wiêcej, je¿eli koniecze, oznaczane te¿ jako x0,
+			choæ mo¿e byæ inaczej) (oznaczenie SEED)
+	parametry statyczne - parametry teoretycznie niezmienne
+	x - aktualna warto¶æ (oznaczenie XN)
+* Generator po zainicjowaniu powinien nadaæ warto¶æ pocz±tkow±.
+--------------------------------------------------------------------------------
+* Generatory maj± funkcjê init oraz reinit. Funkcja init s³u¿y do wylosowania,
+wyznaczenia nowych warto¶ci pocz±tkowych generatora. Natomiast funkcja reinit
+ma na celu wprowadzenie generatora w stan jaki by³ podczas rozpoczêcia jego
+pracy. Dlatego te¿ ka¿dy z generatorów powinien przetrzymywaæ swoje warto¶ci
+pocz±tkowe, je¿eli istnieje mo¿liwo¶æ zmiany, swoje warto¶ci aktualne oraz
+algorytm, który pozwala na ponowne wyznaczenie warto¶ci pocz±tkowych, je¿eli
+s± one liczone jakim¶ sposobem. Mo¿e równie¿ podlegaæ inicjowaniu po podaniu
+przez u¿ytkownika w³asnych warto¶ci.
+
+         Stan X0  ------->  Stan Aktualny ---(reinit)-->  Stan X0
+				 (save)             (save)
+	
+Parametry generatora mo¿na podzieliæ na parametry statyczne i inicjuj±ce.
+Po wywo³aniu funkcji reinit parametry inicjuj±ce s± wprowadzane w stan,
+w jakim by³y przed uruchomieniem. Natomiast wywo³anie init powoduje ustalenie
+nowych parametrów inicjuj±cych.
+Generatory mo¿na te¿ rozdzieliæ na te, które posiadaj± ziarno programowe i jego
+nie posiadaj±. Te zaopatrzone weñ stanowi± generatory pseudolosowe, nadaj±ce siê
+do symulacji. Natomiast te bez zale¿± zwykle od innych czynników, jakim mo¿e
+byæ np. warto¶æ zegar systemowy.
+--------------------------------------------------------------------------------
+* Je¿eli w parametrach pierwszy dozwolony typ jest okre¶lony jako wektor
+to nastêpne okre¶laj±, jakie s± dozwolone typy dla tego¿ wektora
+--------------------------------------------------------------------------------
+* Postaæ pliku konfiguracyjnego XML'a dla zapisanych parametrów:
+<generator class='Nazwa Klasy Generatora'>
+	<parameter name='Nazwa parametru'>
+		<TYP_PARAMETRU>
+		warto¶æ_parametru
+		</TYP_PARAMETRU>
+	</parameter>
+</generator>
+
+Mo¿liwe typy TYP_PARAMETRU: generator, Integer, Long, Float, Double, Vector,
+	NumberStoreOne.
+                  ---------- UWAGI POCZATEK ----------
+	Vector i NumberStoreOne do ustalenia, mo¿e nie bêd± potrzebne,
+	Je¿eli jest to generator to nastêpuje zag³êbienie.
+	Podczas budowania parserem konieczne jest sk³adowanie utworzonych elementów.
+                  ---------- UWAGI KONIEC ----------
+--------------------------------------------------------------------------------
+Podczas pobierania dostêpnych typów dla ustawieñ parammetryzuj±cych du¿± uwagê
+nale¿y przywi±zywaæ do sprawdzenia pierwszego z typów, jaki jest umieszczony
+w tablicy. Je¿eli jest to
+- java.util.Vector to kolejne elementy tablicy wymieniaj± typy obiektów jakie
+	mog± znajdowaæ siê w wektorze.
+- java.lang.Class to kolejne typy wymienione w tablicy stanowi± typy do wyboru,
+	które maj± byæ przekazywane dalej, a nie maj± byæ tworzone ich obiekty.
+	Stanowi± wiêc, de facto, listê elementów do wyboru.
+- java.lang.Class[] to to samo co w przypadku java.lang.Class, ale przekazywany
+	obiekt powinien stanowiæ tablicê takowych typów wybranych.
+--------------------------------------------------------------------------------
