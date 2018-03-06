@@ -65,7 +65,7 @@ class Test1
 			System.out.print("Genracja: ");
 			for ( i=0; i<m; i++ )
 			{
-				System.out.print("" + gen.getInt() + " ");
+				System.out.print("" + gen.nextInt() + " ");
 			}
 			System.out.println(" dla generatora z a="+tab[0]+" c="+tab[1]);
 		}

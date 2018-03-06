@@ -2,88 +2,64 @@ package pl.projewski.generator.interfaces;
 
 import pl.projewski.generator.exceptions.ParameterException;
 
-/*
- * Interfejs obsługi parametrów i opisów.
- */
-public interface ParameterInterface
-{
-	/** 
-	* Lista nazw parametrów.
- */
-	public String [] listParameters() 
-		throws ParameterException;
-	/** 
-	* Lista wartości parametrów.
- */
-//	public Object [] listValues()
-//		throws ParameterException;
-	/** M4_GEN_PI_GET_ALLOWED_CLASSES_S */
-	public Class<?> [] getAllowedClass(String param)
-		throws ParameterException;
-	/** M4_GEN_PI_GET_ALLOWED_CLASSES_I */
-//	public abstract Class [] getAllowedClass(int paramIx)
-//		throws ParameterException;
-	/** 
-	* Funkcja pozwala na ustalenie wartości parametru.
-	* @param param Nazwa parametru.
-	* @param value Przypisywana wartość.
-	* @exception ParameterException
-	* @see ParameterException
- */
-	public void setParameter(String param, Object value)
-		throws ParameterException;
+import java.util.List;
+import java.util.Set;
 
-	/** 
-	* Funkcja pozwala na ustalenie wartości parametru.
-	* @param paramIx Indeks parametru.
-	* @param value Przypisywana wartość.
-	* @exception ParameterException
-	* @see ParameterException
+/*
+ * The interface for object parametrization.
+ *
+ * Also contains methods to receive basic description of parameter and object.
  */
-//	public void setParameter(int paramIx, Object value)
-//		throws ParameterException;
-	/** 
-	* Funkcja pozwala uzyskać aktualną wartość parametru.
-	* @param param Nazwa parametru.
-	* @return Aktualnie przypisana wartość.
-	* @exception ParameterException
-	* @see ParameterException
- */
-	public Object getParameter(String param)
-		throws ParameterException;
-	/** 
-	* Funkcja pozwala uzyskać aktualną wartość parametru.
-	* @param paramIx Indeks parametru parametru.
-	* @return Aktualnie przypisana wartość.
-	* @exception ParameterException
-	* @see ParameterException
- */
-//	public Object getParameter(int paramIx)
-//		throws ParameterException;
-	/** 
-	* Funkcja pozwala uzyskać opis parametru.
-	* @param paramIx Indeks parametru.
-	* @return Opis parametru.
-	* @exception ParameterException
-	* @see ParameterException
- */
-//	public String getParameterDescription(int paramIx)
-//		throws ParameterException;
-	/** 
-	* Funkcja pozwala uzyskać opis parametru.
-	* @param param Nazwa parametru.
-	* @return Opis parametru.
-	* @exception ParameterException
-	* @see ParameterException
- */
-	public String getParameterDescription(String param)
-		throws ParameterException;
-	/** 
-	* Funkcja pozwala uzyskać opis klasy.
-	* @return Opis klasy.
-	* @exception ParameterException
-	* @see ParameterException
- */
-	public String getDescription()
-		throws ParameterException;
+public interface ParameterInterface {
+    /**
+     * Get the list of available parameters.
+     *
+     * @return the list of parameters
+     * @throws ParameterException
+     */
+    Set<String> listParameters() throws ParameterException;
+
+    /**
+     * Get allowed set of class for parameter.
+     *
+     * @param param name of parameter
+     * @return set of allowed parameters
+     * @throws ParameterException
+     */
+    List<Class<?>> getAllowedClass(String param) throws ParameterException;
+
+    /**
+     * Set parameter value
+     *
+     * @param param parameter name
+     * @param value parameter value
+     * @throws ParameterException
+     */
+    void setParameter(String param, Object value) throws ParameterException;
+
+    /**
+     * Get value of parameter.
+     *
+     * @param param the parameter name
+     * @return get the value of parameter
+     * @throws ParameterException
+     */
+    Object getParameter(String param) throws ParameterException;
+
+    /**
+     * Get the description of parameter.
+     *
+     * @param param the parameter name
+     * @return the description
+     * @throws ParameterException
+     */
+    String getParameterDescription(String param) throws ParameterException;
+
+    /**
+     * Get the description of object.
+     *
+     * @return the description
+     * @throws ParameterException
+     */
+    String getDescription() throws ParameterException;
 }

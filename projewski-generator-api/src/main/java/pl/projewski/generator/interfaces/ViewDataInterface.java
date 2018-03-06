@@ -1,105 +1,76 @@
 package pl.projewski.generator.interfaces;
 
-import pl.projewski.generator.abstracts.AbstractParameter;
 import pl.projewski.generator.exceptions.ViewDataException;
-import pl.projewski.generator.tools.Mysys;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.util.Vector;
 
-/*
- * Interfejs zamiany podawanych elementów na jakiś bardziej sensowny
- * obraz, który można zaprezentować użytkownikowi. Postać wyjściowa
- * prezentacji jest właściwie dowolna i uzależniona od sposobu przedstawienia
- * interfejsu. To jakie parametry ma interfejs jest już uzależnione od
- * parametrów ustawianych poprzez ParameterInterface.
+
+/**
+ * The interface of presentation data.
  */
-public abstract class ViewDataInterface
-	extends AbstractParameter {
-	Vector<ViewDataListener> vecViewDataListeners;
-	// zwrócenie obiektu jakiegoś dowolnego typu, jaki może byc utworzony
-	// w interfejsie do reprezentacji danych
-	public abstract Object getView()
-		throws ViewDataException;
-//	public abstract Object getView(NumberStoreOne data)
-//		throws ViewDataException;
-//	public abstract Object getView(NumberStoreOne [] data)
-//		throws ViewDataException;
+public interface ViewDataInterface extends ParameterInterface {
 
-	// zarządanie pokazania wyników ustawionych parametrów w sposób jaki jest
-	// najbardziej dogodny dla interfejsu
-	public abstract void showView()
-		throws ViewDataException;
-/*	public void showView(NumberStoreOne data)
-		throws ViewDataException;
-	public void showView(NumberStoreOne [] data)
-		throws ViewDataException;
-*/
-	// jeżeli jest to wygenerowany widok, to po zmianie parametrów może być
-	// konieczne jakieś odświeżenie informacji. Niekiedy jest to całkowicie
-	// zbędna operacja
-	public abstract void refreshView()
-		throws ViewDataException;
+    // zwrócenie obiektu jakiegoś dowolnego typu, jaki może byc utworzony
+    // w interfejsie do reprezentacji danych
 
-	// ustawianie danych, jakie mają zorganizować widok
-	public abstract void setData(NumberInterface data)
-		throws ViewDataException;
-//	public abstract void setData(NumberStoreOne data)
-//		throws ViewDataException;
-/*	public void setData(NumberStoreOne [] data)
-		throws ViewDataException;
-*/
-	public boolean canViewData(ParameterInterface dataSource)
-	{
-		return true;
-	}
-	
-	public boolean addViewDataListener(ViewDataListener listener)
-	{
-		if ( listener == null )
-			return false;
-		if ( this.vecViewDataListeners == null )
-			this.vecViewDataListeners = new Vector<ViewDataListener>();
-		return this.vecViewDataListeners.add(listener);
-	}
-	
-	public void sendMouseEventToListeners(Frame frame, ParameterInterface pi, MouseEvent event)
-	{
-		Mysys.debugln("Send Mouse Event");
-		if ( this.vecViewDataListeners == null )
-			return;
-		for ( int i = 0; i < this.vecViewDataListeners.size(); i++ )
-		{
-			Mysys.debugln("Send Mouse Event to " + i);
-			((ViewDataListener)this.vecViewDataListeners.get(i)).onMouseEvent(frame, pi, event);
-		}
-	}
-	
-	public String getTypeName() {
-		return "viewdata";
-	}
-	
-	public String toString()
-	{
-		return toString(null);
-	}
-	
-	public String toString(String prefix)
-	{
-		if ( prefix == null )
-			prefix = "";
-		StringBuffer sb = new StringBuffer();
-		sb.append("ViewData ");
-		sb.append(this.getClass().getSimpleName());
-		sb.append("\n");
-		sb.append(prefix);
-		sb.append("[\n");
-		sb.append(super.toString(prefix + "\t"));
-		sb.append(prefix);
-		sb.append("]");
-		return sb.toString();
-	}
-	
-	
+    /**
+     * Get the presentation object.
+     *
+     * @return the presentation object
+     * @throws ViewDataException
+     */
+    Object getView() throws ViewDataException;
+
+    /**
+     * Show the view.
+     *
+     * @throws ViewDataException
+     */
+    void showView() throws ViewDataException;
+
+    // jeżeli jest to wygenerowany widok, to po zmianie parametrów może być
+    // konieczne jakieś odświeżenie informacji. Niekiedy jest to całkowicie
+    // zbędna operacja
+
+    /**
+     * Refresh the view. May be used if data changes in meanwhile.
+     *
+     * @throws ViewDataException
+     */
+    void refreshView() throws ViewDataException;
+
+    /**
+     * Set data for the view.
+     *
+     * @param data the data
+     * @throws ViewDataException
+     */
+    void setData(NumberInterface data) throws ViewDataException;
+
+    /**
+     * Check, that data may be shown by this view.
+     *
+     * @param dataSource source of data
+     * @return
+     */
+    boolean canViewData(ParameterInterface dataSource);
+
+    /**
+     * Append view data listener.
+     *
+     * @param listener the listener
+     * @return
+     */
+    void addViewDataListener(ViewDataListener listener);
+
+    /**
+     * Send mouse event to the view.
+     *
+     * @param frame
+     * @param pi
+     * @param event
+     */
+    void sendMouseEventToListeners(Frame frame, ParameterInterface pi, MouseEvent event);
+
 }

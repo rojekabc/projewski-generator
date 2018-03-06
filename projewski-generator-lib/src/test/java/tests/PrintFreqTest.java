@@ -3,6 +3,7 @@
  */
 package tests;
 
+import pl.projewski.generator.common.NumberWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
 import pl.projewski.generator.exceptions.*;
 import pl.projewski.generator.generator.GeneratorGausHastings;
@@ -13,7 +14,6 @@ import pl.projewski.generator.interfaces.NumberInterface;
 import pl.projewski.generator.interfaces.ViewDataInterface;
 import pl.projewski.generator.labordata.Frequency;
 import pl.projewski.generator.tools.NumberStoreOne;
-import pl.projewski.generator.tools.stream.NumberWriter;
 import pl.projewski.generator.viewdata.text.PrintFreq;
 
 import java.io.FileNotFoundException;
@@ -24,24 +24,24 @@ import java.io.IOException;
  */
 public class PrintFreqTest {
 
-    public static void testForLCG(NumberInterface store) throws ParameterException, GeneratorException,
+    public static void testForLCG(final NumberInterface store) throws ParameterException, GeneratorException,
             NumberStoreException, IOException {
-        GeneratorInterface gi = new GeneratorLCG();
+        final GeneratorInterface gi = new GeneratorLCG();
         gi.setParameter(GeneratorLCG.M, Integer.valueOf(1073741823));
         gi.setParameter(GeneratorLCG.A, Integer.valueOf(742938285));
         gi.setParameter(GeneratorLCG.C, Integer.valueOf(0));
         gi.setParameter(GeneratorLCG.SEED, Long.valueOf(1130656722138l));
-        NumberWriter writer = store.getNumberWriter();
+        final NumberWriter writer = store.getNumberWriter();
         store.setDataSource(gi);
         gi.init();
         gi.rawFill(writer, ClassEnumerator.DOUBLE, 5000);
         writer.close();
     }
 
-    public static void testForGaus(NumberInterface store)
+    public static void testForGaus(final NumberInterface store)
             throws ParameterException, NumberStoreException, GeneratorException, IOException {
-        GeneratorInterface gi = new GeneratorGausHastings();
-        GeneratorInterface internalgi = new GeneratorLCG();
+        final GeneratorInterface gi = new GeneratorGausHastings();
+        final GeneratorInterface internalgi = new GeneratorLCG();
 
 /*			internalgi.setParameter(GeneratorLCG.M, new Integer(101));
 		internalgi.setParameter(GeneratorLCG.A, new Integer(11));
@@ -53,7 +53,7 @@ public class PrintFreqTest {
         internalgi.setParameter(GeneratorLCG.C, Integer.valueOf(0));
         internalgi.setParameter(GeneratorLCG.SEED, Long.valueOf(1130656722138l));
         gi.setParameter(GeneratorGausHastings.GENERATOR, internalgi);
-        NumberWriter writer = store.getNumberWriter();
+        final NumberWriter writer = store.getNumberWriter();
         store.setDataSource(gi);
         gi.init();
         gi.rawFill(writer, ClassEnumerator.DOUBLE, 5000);
@@ -63,16 +63,16 @@ public class PrintFreqTest {
     /**
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         try {
-            NumberInterface ni = new NumberStoreOne();
+            final NumberInterface ni = new NumberStoreOne();
 
             //testForLCG(ni);
             testForGaus(ni);
 
-            LaborDataInterface li = new Frequency();
-            ViewDataInterface vi = new PrintFreq();
-            NumberInterface freq = new NumberStoreOne();
+            final LaborDataInterface li = new Frequency();
+            final ViewDataInterface vi = new PrintFreq();
+            final NumberInterface freq = new NumberStoreOne();
             li.setParameter(Frequency.CLASSAMMOUNT, Integer.valueOf(20));
             li.setInputData(ni);
             li.getOutputData(freq);
@@ -80,19 +80,19 @@ public class PrintFreqTest {
             vi.setParameter(PrintFreq.LINESAMMOUNT, Integer.valueOf(10));
             vi.setData(freq);
             vi.showView();
-        } catch (NumberStoreException e) {
+        } catch (final NumberStoreException e) {
             e.printStackTrace();
-        } catch (GeneratorException e) {
+        } catch (final GeneratorException e) {
             e.printStackTrace();
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
-        } catch (LaborDataException e) {
+        } catch (final LaborDataException e) {
             e.printStackTrace();
-        } catch (ViewDataException e) {
+        } catch (final ViewDataException e) {
             e.printStackTrace();
-        } catch (ParameterException e) {
+        } catch (final ParameterException e) {
             e.printStackTrace();
         }
         System.exit(0);

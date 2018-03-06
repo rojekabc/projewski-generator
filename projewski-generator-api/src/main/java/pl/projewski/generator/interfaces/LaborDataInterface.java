@@ -1,59 +1,25 @@
 package pl.projewski.generator.interfaces;
 
-import pl.projewski.generator.abstracts.AbstractParameter;
 import pl.projewski.generator.exceptions.LaborDataException;
 
-/*
- * Interfejs do wykonywania operacji liczbowych, realizacji algorytmów.
- * Przyjmije na wejściu określone dane, a następnie pozwala odczytać wyniki.
+/**
+ * The interface to operate on set of data. It process incoming data, calculates and gives results.
  */
-public abstract class LaborDataInterface
-	extends AbstractParameter
-{
-	/**
-	 * Ustaw dane wejściowe
-	 * 
-	 * @param data - dane wejściowe
-	 * @throws LaborDataException
-	 */
-	public abstract void setInputData(NumberInterface data)
-		throws LaborDataException;
-	/**
-	 * Pobierz dane wynikowe
-	 * 
-	 * @param data - miejsce do zapisania danych wyjściowych
-	 * @return true, jeżeli udało się wygenerować dane wynikowe, false jeżeli nie ma takiej możliwości
-	 * @throws LaborDataException
-	 */
-	public abstract boolean getOutputData(NumberInterface data)
-		throws LaborDataException;
-	
-	public String getTypeName() {
-		return "labordata";
-	}
-	
-	public String toString()
-	{
-		return toString(null);
-	}
-	
-	public String toString(String prefix)
-	{
-		StringBuffer sb = new StringBuffer();
-		sb.append("LaborData ");
-		sb.append(this.getClass().getSimpleName());
-		sb.append("\n");
-		if ( prefix != null )
-			sb.append(prefix);
-		sb.append("[\n");
-		if ( prefix != null )
-			sb.append(super.toString(prefix + "\t"));
-		else
-			sb.append(super.toString("\t"));
-		if ( prefix != null )
-			sb.append(prefix);
-		sb.append("]");
-		return sb.toString();
-	}	
-	
+public interface LaborDataInterface extends ParameterInterface {
+    /**
+     * Set the input data to process.
+     *
+     * @param data the input data
+     * @throws LaborDataException
+     */
+    void setInputData(NumberInterface data) throws LaborDataException;
+
+    /**
+     * Get the calculated data.
+     *
+     * @param data the container for calculated data
+     * @return false, if it's impossible to generate data
+     * @throws LaborDataException
+     */
+    boolean getOutputData(NumberInterface data) throws LaborDataException;
 }

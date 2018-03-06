@@ -56,7 +56,7 @@ public class GenericLCGTest {
 		n = 40;
 		for ( j=0; j<numOfGeneration; j++ )
 		{
-			long generated = gi.getLong();
+			long generated = gi.nextLong();
 			long x = c;
 			for (i=0; i<counted.length; i++)
 				x += counted[counted.length - i - 1] * initA[i];
@@ -76,17 +76,17 @@ public class GenericLCGTest {
 			{
 				System.out.println("Wygenerowano: " + generated + ", oczekiwano: " + x );
 				System.out.println("Pozycja b��dnej pr�bki: " + j);
-				System.out.println("Typ generacji: getLong");
+				System.out.println("Typ generacji: nextLong");
 				System.exit(0);
 			}
 		}
-		System.out.println("Funkcja getLong: Ok");
+		System.out.println("Funkcja nextLong: Ok");
 		
 		gi.reinit();
 		n = 5;
 		for ( j=0; j<numOfGeneration; j++ )
 		{
-			double generated = gi.getDouble();
+			double generated = gi.nextDouble();
 			long x = c;
 			for (i=0; i<counted.length; i++)
 				x += counted[i] * initA[i];
@@ -106,11 +106,11 @@ public class GenericLCGTest {
 			{
 				System.out.println("Wygenerowano: " + generated + ", oczekiwano: " + x );
 				System.out.println("Pozycja b��dnej pr�bki: " + j);
-				System.out.println("Typ generacji: getDouble");
+				System.out.println("Typ generacji: nextDouble");
 				System.exit(0);			
 			}
 		}
-		System.out.println("Funkcja getDouble: Ok");
+		System.out.println("Funkcja nextDouble: Ok");
 		
 	}
 
