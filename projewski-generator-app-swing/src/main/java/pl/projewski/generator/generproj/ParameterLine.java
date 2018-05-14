@@ -1,9 +1,5 @@
-/**
- *
- */
 package pl.projewski.generator.generproj;
 
-import pl.projewski.generator.exceptions.ParameterException;
 import pl.projewski.generator.interfaces.GeneratorInterface;
 import pl.projewski.generator.interfaces.ParameterInterface;
 import pl.projewski.generator.tools.Mysys;
@@ -16,7 +12,7 @@ import java.util.List;
 /**
  * @author projewski
  */
-public class ParameterLine {
+class ParameterLine {
     Component label;
     Component edit;
     int height;
@@ -24,9 +20,8 @@ public class ParameterLine {
     private ParameterLine() {
     }
 
-    public static ParameterLine generateParameterLine(final ParameterInterface pi, final String param,
-                                                      final ActionListener listener) throws
-            ParameterException {
+    static ParameterLine generateParameterLine(final ParameterInterface pi, final String param,
+            final ActionListener listener) {
         // final String[] params = pi.listParameters();
         final String paramName = Mysys.encString(param);
         final Object paramValue = pi.getParameter(param);
@@ -45,7 +40,7 @@ public class ParameterLine {
      * @return true, je�li tak
      */
     private boolean hasClass(final List<Class<?>> table, final Class<?> c) {
-        return table == null ? false : table.contains(c);
+        return table != null && table.contains(c);
     }
 
     /**
@@ -54,7 +49,6 @@ public class ParameterLine {
      *
      * @param c         Lista klas, jaki obiekt obs�uguje
      * @param initValue warto�� pocz�tkowa
-     * @return Utworzony obiekt
      */
     private void setComponentByClass(final List<Class<?>> c, final Object initValue) {
         if (hasClass(c, GeneratorInterface.class)) {

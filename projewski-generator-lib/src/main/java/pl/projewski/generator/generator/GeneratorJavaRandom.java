@@ -15,7 +15,6 @@ import pl.projewski.generator.exceptions.GeneratorException;
 import pl.projewski.generator.interfaces.GeneratorInterface;
 import pl.projewski.generator.tools.Convert;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -25,13 +24,13 @@ public class GeneratorJavaRandom
     public final static String XN = "zm. losowa";
     public final static String BOUND = "maksimum";
     public final static String SEED = "ziarno";
-    protected Random javaRandom = null;
+    private Random javaRandom = null;
 
     @Override
     public void initParameters() {
-        this.parameters.put(XN, Long.valueOf(0));
-        this.parameters.put(BOUND, Integer.valueOf(0));
-        this.parameters.put(SEED, Integer.valueOf(0));
+        this.parameters.put(XN, 0L);
+        this.parameters.put(BOUND, 0);
+        this.parameters.put(SEED, 0);
     }
 
     /* zainicjowanie generatora wedle określonych uprzednio paramertrów */
@@ -44,10 +43,7 @@ public class GeneratorJavaRandom
             if (seed instanceof GeneratorInterface) {
                 final GeneratorInterface gi = (GeneratorInterface) seed;
                 gi.init();
-                final Object obj = gi.nextLong();
-                if (obj != null) {
-                    xn = obj;
-                }
+                xn = gi.nextLong();
             } else {
                 xn = seed;
             }
@@ -71,10 +67,7 @@ public class GeneratorJavaRandom
             if (seed instanceof GeneratorInterface) {
                 final GeneratorInterface gi = (GeneratorInterface) seed;
                 gi.reinit();
-                final Object obj = gi.nextLong();
-                if (obj != null) {
-                    xn = obj;
-                }
+                xn = gi.nextLong();
             } else {
                 xn = seed;
             }
@@ -110,13 +103,10 @@ public class GeneratorJavaRandom
             if (seed == null) {
                 ret = javaRandom.nextInt();
             } else {
-                try {
-                    ret = javaRandom.nextInt(Convert.tryToInt(seed));
-                } catch (final ClassCastException e) {
-                }
+                ret = javaRandom.nextInt(Convert.tryToInt(seed));
             }
         }
-        this.parameters.put(XN, Integer.valueOf(ret));
+        this.parameters.put(XN, ret);
         return ret;
     }
 
@@ -127,7 +117,7 @@ public class GeneratorJavaRandom
         if (javaRandom != null) {
             ret = javaRandom.nextFloat();
         }
-        this.parameters.put(XN, Float.valueOf(ret));
+        this.parameters.put(XN, ret);
         return ret;
     }
 
@@ -138,7 +128,7 @@ public class GeneratorJavaRandom
         if (javaRandom != null) {
             ret = javaRandom.nextLong();
         }
-        this.parameters.put(XN, Long.valueOf(ret));
+        this.parameters.put(XN, ret);
         return ret;
     }
 
@@ -149,7 +139,7 @@ public class GeneratorJavaRandom
         if (javaRandom != null) {
             ret = javaRandom.nextDouble();
         }
-        this.parameters.put(XN, Double.valueOf(ret));
+        this.parameters.put(XN, ret);
         return ret;
     }
 
@@ -161,47 +151,39 @@ public class GeneratorJavaRandom
             return;
         }
 
-        try {
-            final Object obj = this.parameters.get(BOUND);
-            if (obj == null) {
-                bound = Convert.tryToInt(obj);
-            }
-        } catch (final ClassCastException e) {
-        }
+        final Object obj = this.parameters.get(BOUND);
+        bound = Convert.tryToInt(obj);
 
-        try {
-            if (tablica instanceof int[]) {
-                final int[] tmp = Convert.tryToTInt(tablica);
-                if (bound == 0) {
-                    for (int i = 0; i < tmp.length; i++) {
-                        tmp[i] = javaRandom.nextInt();
-                    }
-                } else {
-                    for (int i = 0; i < tmp.length; i++) {
-                        tmp[i] = javaRandom.nextInt(bound);
-                    }
-                }
-                this.parameters.put(XN, Integer.valueOf(tmp[tmp.length - 1]));
-            } else if (tablica instanceof float[]) {
-                final float[] tmp = Convert.tryToTFloat(tablica);
+        if (tablica instanceof int[]) {
+            final int[] tmp = Convert.tryToTInt(tablica);
+            if (bound == 0) {
                 for (int i = 0; i < tmp.length; i++) {
-                    tmp[i] = javaRandom.nextFloat();
+                    tmp[i] = javaRandom.nextInt();
                 }
-                this.parameters.put(XN, Float.valueOf(tmp[tmp.length - 1]));
-            } else if (tablica instanceof long[]) {
-                final long[] tmp = Convert.tryToTLong(tablica);
+            } else {
                 for (int i = 0; i < tmp.length; i++) {
-                    tmp[i] = javaRandom.nextLong();
+                    tmp[i] = javaRandom.nextInt(bound);
                 }
-                this.parameters.put(XN, Long.valueOf(tmp[tmp.length - 1]));
-            } else if (tablica instanceof double[]) {
-                final double[] tmp = Convert.tryToTDouble(tablica);
-                for (int i = 0; i < tmp.length; i++) {
-                    tmp[i] = javaRandom.nextDouble();
-                }
-                this.parameters.put(XN, Double.valueOf(tmp[tmp.length - 1]));
             }
-        } catch (final ClassCastException e) {
+            this.parameters.put(XN, tmp[tmp.length - 1]);
+        } else if (tablica instanceof float[]) {
+            final float[] tmp = Convert.tryToTFloat(tablica);
+            for (int i = 0; i < tmp.length; i++) {
+                tmp[i] = javaRandom.nextFloat();
+            }
+            this.parameters.put(XN, tmp[tmp.length - 1]);
+        } else if (tablica instanceof long[]) {
+            final long[] tmp = Convert.tryToTLong(tablica);
+            for (int i = 0; i < tmp.length; i++) {
+                tmp[i] = javaRandom.nextLong();
+            }
+            this.parameters.put(XN, tmp[tmp.length - 1]);
+        } else if (tablica instanceof double[]) {
+            final double[] tmp = Convert.tryToTDouble(tablica);
+            for (int i = 0; i < tmp.length; i++) {
+                tmp[i] = javaRandom.nextDouble();
+            }
+            this.parameters.put(XN, tmp[tmp.length - 1]);
         }
     }
 
@@ -213,50 +195,39 @@ public class GeneratorJavaRandom
             return;
         }
 
-        try {
-            final Object obj = this.parameters.get(BOUND);
-            if (obj == null) {
-                bound = Convert.tryToInt(obj);
-            }
-        } catch (final ClassCastException e) {
-        }
+        final Object obj = this.parameters.get(BOUND);
+        bound = Convert.tryToInt(obj);
 
-        try {
-            if (c == ClassEnumerator.INTEGER) {
-                int tmp = 0;
-                if (bound == 0) {
-                    while (size-- > 0) {
-                        writer.write(tmp = javaRandom.nextInt());
-                    }
-                } else {
-                    while (size-- > 0) {
-                        writer.write(tmp = javaRandom.nextInt(bound));
-                    }
-                }
-                this.parameters.put(XN, Integer.valueOf(tmp));
-            } else if (c == ClassEnumerator.FLOAT) {
-                float tmp = 0.0f;
+        if (c == ClassEnumerator.INTEGER) {
+            int tmp = 0;
+            if (bound == 0) {
                 while (size-- > 0) {
-                    writer.write(tmp = javaRandom.nextFloat());
+                    writer.write(tmp = javaRandom.nextInt());
                 }
-                this.parameters.put(XN, Float.valueOf(tmp));
-            } else if (c == ClassEnumerator.LONG) {
-                long tmp = 0l;
+            } else {
                 while (size-- > 0) {
-                    writer.write(tmp = javaRandom.nextLong());
+                    writer.write(tmp = javaRandom.nextInt(bound));
                 }
-                this.parameters.put(XN, Long.valueOf(tmp));
-            } else if (c == ClassEnumerator.DOUBLE) {
-                double tmp = 0.0;
-                while (size-- > 0) {
-                    writer.write(tmp = javaRandom.nextDouble());
-                }
-                this.parameters.put(XN, Double.valueOf(tmp));
             }
-        } catch (final ClassCastException e) {
-            throw new GeneratorException(e);
-        } catch (final IOException e) {
-            throw new GeneratorException(e);
+            this.parameters.put(XN, tmp);
+        } else if (c == ClassEnumerator.FLOAT) {
+            float tmp = 0.0f;
+            while (size-- > 0) {
+                writer.write(tmp = javaRandom.nextFloat());
+            }
+            this.parameters.put(XN, tmp);
+        } else if (c == ClassEnumerator.LONG) {
+            long tmp = 0l;
+            while (size-- > 0) {
+                writer.write(tmp = javaRandom.nextLong());
+            }
+            this.parameters.put(XN, tmp);
+        } else if (c == ClassEnumerator.DOUBLE) {
+            double tmp = 0.0;
+            while (size-- > 0) {
+                writer.write(tmp = javaRandom.nextDouble());
+            }
+            this.parameters.put(XN, tmp);
         }
     }
 

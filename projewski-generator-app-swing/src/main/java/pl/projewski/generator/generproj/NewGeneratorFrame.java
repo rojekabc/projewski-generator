@@ -2,11 +2,9 @@ package pl.projewski.generator.generproj;
 
 import lombok.extern.slf4j.Slf4j;
 import pl.projewski.generator.exceptions.GeneratorException;
-import pl.projewski.generator.exceptions.ParameterException;
 import pl.projewski.generator.generproj.layout.AlaNullSizedLayout;
 import pl.projewski.generator.interfaces.GeneratorInterface;
 import pl.projewski.generator.tools.Convert;
-import pl.projewski.generator.tools.Mysys;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,7 +59,7 @@ class NewGeneratorFrame extends JFrame
     boolean isChanged = false;
 
     public NewGeneratorFrame(final GeneratorInterface gi, final String name,
-                             final CreationInterface ci, final String setParam) {
+            final CreationInterface ci, final String setParam) {
         this(gi, name, ci);
         if (setParam != null) {
             buttGen.setVisible(false);
@@ -74,7 +72,7 @@ class NewGeneratorFrame extends JFrame
     }
 
     public NewGeneratorFrame(final GeneratorInterface gi, final String name,
-                             final CreationInterface ci) {
+            final CreationInterface ci) {
         this(gi, name);
         inCi = ci;
     }
@@ -95,7 +93,7 @@ class NewGeneratorFrame extends JFrame
         addWindowListener(new EventSimpleFrame());
         budujObiekty();
         inGI = gi;
-//		paramEl = new ParameterParamPack( panParam, null );
+        //		paramEl = new ParameterParamPack( panParam, null );
         // dodaje typy generatorów - usunieto z powodu zbednego dodawania do ustawien
 /*		try {
 			if ( gi != null )
@@ -114,12 +112,8 @@ class NewGeneratorFrame extends JFrame
                     break;
                 }
             }
-//			comType.setSelectedItem( gi.getClass().getSimpleName() );
-            try {
-                paneDescr.setText(gi.getDescription());
-            } catch (final ParameterException e) {
-                Mysys.println(e.toString());
-            }
+            //			comType.setSelectedItem( gi.getClass().getSimpleName() );
+            paneDescr.setText(gi.getDescription());
             if (name != null) {
                 texName.setText(name);
             }
@@ -218,11 +212,11 @@ class NewGeneratorFrame extends JFrame
         paramEl.setLayout(new AlaNullSizedLayout(360, 140,
                 AlaNullSizedLayout.CHANGE_X));
 
-//		panParam = new javax.swing.JPanel();
-//		panParam.setLayout(new AlaNullSizedLayout(380, 140,
-//					AlaNullSizedLayout.CHANGE_X));
+        //		panParam = new javax.swing.JPanel();
+        //		panParam.setLayout(new AlaNullSizedLayout(380, 140,
+        //					AlaNullSizedLayout.CHANGE_X));
         scrPanParam.setBounds(20, 170, 390, 150);
-//		scrPanParam.setViewportView( panParam );
+        //		scrPanParam.setViewportView( panParam );
         scrPanParam.setViewportView(paramEl);
         scrPanParam.getViewport().setBackground(new Color(0xffcccccc));
         paramEl.setBackground(new Color(0xffcccccc));
@@ -377,34 +371,27 @@ class NewGeneratorFrame extends JFrame
         try {
             // próba dodania
             gi = buildGenerator();
-            if (gi != null) {
+            if (gi == null) {
+                return false;
+            }
+            boolean addGenerator = true;
+            if (GenerProj.hasGeneratorFile(s)) {
+                final int response = javax.swing.JOptionPane.showConfirmDialog(this,
+                        Convert.stringWrap(s + "\n"
+                                + GenerProj.getDescription(ID_OVERWRITE_WARNING), 30),
+                        GenerProj.getDescription(ID_WARNING),
+                        javax.swing.JOptionPane.YES_NO_OPTION,
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+                addGenerator = response == javax.swing.JOptionPane.YES_OPTION;
+            }
+            if (addGenerator) {
                 GenerProj.addGenerator(s, gi);
             } else {
                 return false;
             }
         } catch (final GeneratorException e) {
             // czy okazało się, że już istnieje
-            if (e.getCode() == GeneratorException.FILE_ALREADY_EXISTS) {
-                final int response = javax.swing.JOptionPane.showConfirmDialog(this,
-                        Convert.stringWrap(e.toString() + "\n"
-                                + GenerProj.getDescription(ID_OVERWRITE_WARNING), 30),
-                        GenerProj.getDescription(ID_WARNING),
-                        javax.swing.JOptionPane.YES_NO_OPTION,
-                        javax.swing.JOptionPane.ERROR_MESSAGE);
-                if (response == javax.swing.JOptionPane.YES_OPTION) {
-                    // wykonaj ponowną próbe nadpisania po wykasowaniu z zasobów
-                    try {
-                        GenerProj.removeGenerator(s);
-                        GenerProj.addGenerator(s, gi);
-                    } catch (final GeneratorException e2) {
-                        errStr = e2.toString();
-                    }
-                } else {
-                    return false; // Naciśnięto przycisk NO
-                }
-            } else {
-                errStr = e.toString();
-            }
+            errStr = e.toString();
         } // try - catch
         if (errStr != null) {
             JOptionPane.showMessageDialog(this, Convert.stringWrap(errStr, 30),

@@ -1,28 +1,30 @@
 package pl.projewski.generator.common;
 
 import pl.projewski.generator.enumeration.ClassEnumerator;
-import pl.projewski.generator.exceptions.NumberStoreException;
 
-public interface NumberReader {
-    public boolean hasNext() throws NumberStoreException;
+import java.io.Closeable;
 
-    public int readInt() throws NumberStoreException;
+public interface NumberReader extends Closeable {
+    boolean hasNext();
 
-    public long readLong() throws NumberStoreException;
+    int readInt();
 
-    public float readFloat() throws NumberStoreException;
+    long readLong();
 
-    public double readDouble() throws NumberStoreException;
+    float readFloat();
 
-    public int read(int[] a) throws NumberStoreException;
+    double readDouble();
 
-    public int read(long[] a) throws NumberStoreException;
+    int read(int[] a);
 
-    public int read(float[] a) throws NumberStoreException;
+    int read(long[] a);
 
-    public int read(double[] a) throws NumberStoreException;
+    int read(float[] a);
 
-    public Object readAsObject(ClassEnumerator c) throws NumberStoreException;
+    int read(double[] a);
 
-    public void close() throws NumberStoreException;
+    Object readAsObject(ClassEnumerator c);
+
+    @Override
+    void close();
 }

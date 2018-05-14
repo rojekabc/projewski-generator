@@ -1,19 +1,17 @@
-/**
- *
- */
 package pl.projewski.generator.generator;
 
-import pk.ie.proj.enumeration.ClassEnumerator;
-import pk.ie.proj.exceptions.GeneratorException;
-import pk.ie.proj.exceptions.NumberStoreException;
-import pk.ie.proj.exceptions.ParameterException;
-import pk.ie.proj.interfaces.GeneratorInterface;
-import pk.ie.proj.interfaces.NumberInterface;
-import pk.ie.proj.tools.Convert;
-import pk.ie.proj.tools.stream.NumberReader;
-import pk.ie.proj.tools.stream.NumberWriter;
+import org.apache.commons.collections.ListUtils;
+import pl.projewski.generator.abstracts.GeneratorBase;
+import pl.projewski.generator.common.NumberReader;
+import pl.projewski.generator.common.NumberWriter;
+import pl.projewski.generator.enumeration.ClassEnumerator;
+import pl.projewski.generator.exceptions.GeneratorException;
+import pl.projewski.generator.exceptions.WrongParameterGeneratorException;
+import pl.projewski.generator.interfaces.NumberInterface;
+import pl.projewski.generator.tools.Convert;
 
-import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author projewski
@@ -21,22 +19,29 @@ import java.io.IOException;
  * To jest generator, który dane czerpie z interfejsu NumberInterface.
  * Dzięki temu można podpišć wygenerowany plik, jako generator zestawu liczb.
  */
-public class NumberInterfaceGenerator extends GeneratorInterface {
+public class NumberInterfaceGenerator extends GeneratorBase {
 
-    public static final String NUMBERSOURCE = "ródło danych";
-    public static final String ROLLING = "Przewijanie";
-    NumberInterface ni = null;
-    NumberReader reader = null;
-    boolean rolling = false;
+    public static final String NUMBERSOURCE = "Data source";
+    public static final String ROLLING = "Rolling";
+
+    private NumberInterface ni = null;
+    private NumberReader reader = null;
+    private boolean rolling = false;
 
     @Override
-    public Class<?>[] getAllowedClass(final String param) throws ParameterException {
-        return super.getAllowedClass(param);
+    public List<Class<?>> getAllowedClass(final String param) {
+        switch (param) {
+        case ROLLING:
+            return Collections.singletonList(Boolean.class);
+        case NUMBERSOURCE:
+            return Collections.singletonList(NumberInterface.class);
+        default:
+            return ListUtils.EMPTY_LIST;
+        }
     }
 
     @Override
-    public void initParameterInterface() {
-        super.initParameterInterface();
+    public void initParameters() {
         parameters.put(NUMBERSOURCE, ni);
         parameters.put(ROLLING, rolling);
     }
@@ -45,94 +50,74 @@ public class NumberInterfaceGenerator extends GeneratorInterface {
      * @see pk.ie.proj.interfaces.GeneratorInterface#nextDouble()
      */
     @Override
-    public double getDouble() throws GeneratorException {
-        try {
-            if (!reader.hasNext()) {
-                reader.close();
-                if (rolling) {
-                    reader = ni.getNumberReader();
-                }
+    public double nextDouble() {
+        if (!reader.hasNext()) {
+            reader.close();
+            if (rolling) {
+                reader = ni.getNumberReader();
             }
-            return reader.readDouble();
-        } catch (final NumberStoreException e) {
-            throw new GeneratorException(e);
         }
+        return reader.readDouble();
     }
 
     /* (non-Javadoc)
      * @see pk.ie.proj.interfaces.GeneratorInterface#nextFloat()
      */
     @Override
-    public float getFloat() throws GeneratorException {
-        try {
-            if (!reader.hasNext()) {
-                reader.close();
-                if (rolling) {
-                    reader = ni.getNumberReader();
-                }
+    public float nextFloat() throws GeneratorException {
+        if (!reader.hasNext()) {
+            reader.close();
+            if (rolling) {
+                reader = ni.getNumberReader();
             }
-            return reader.readFloat();
-        } catch (final NumberStoreException e) {
-            throw new GeneratorException(e);
         }
+        return reader.readFloat();
     }
 
     /* (non-Javadoc)
      * @see pk.ie.proj.interfaces.GeneratorInterface#nextInt()
      */
     @Override
-    public int getInt() throws GeneratorException {
-        try {
-            if (!reader.hasNext()) {
-                reader.close();
-                if (rolling) {
-                    reader = ni.getNumberReader();
-                }
+    public int nextInt() throws GeneratorException {
+        if (!reader.hasNext()) {
+            reader.close();
+            if (rolling) {
+                reader = ni.getNumberReader();
             }
-            return reader.readInt();
-        } catch (final NumberStoreException e) {
-            throw new GeneratorException(e);
         }
+        return reader.readInt();
     }
 
     /* (non-Javadoc)
      * @see pk.ie.proj.interfaces.GeneratorInterface#nextLong()
      */
     @Override
-    public long getLong() throws GeneratorException {
-        try {
-            if (!reader.hasNext()) {
-                reader.close();
-                if (rolling) {
-                    reader = ni.getNumberReader();
-                }
+    public long nextLong() throws GeneratorException {
+        if (!reader.hasNext()) {
+            reader.close();
+            if (rolling) {
+                reader = ni.getNumberReader();
             }
-            return reader.readLong();
-        } catch (final NumberStoreException e) {
-            throw new GeneratorException(e);
         }
+        return reader.readLong();
     }
 
     private void initGenerator(final boolean isReinit) throws GeneratorException {
         Object o = parameters.get(NUMBERSOURCE);
         if (o == null) {
-            throw new GeneratorException(GeneratorException.NULL_PARAMETER_ERROR, NUMBERSOURCE);
+            throw new WrongParameterGeneratorException(NUMBERSOURCE);
         }
         ni = (NumberInterface) o;
         o = parameters.get(ROLLING);
         if (o == null) {
-            throw new GeneratorException(GeneratorException.NULL_PARAMETER_ERROR, ROLLING);
+            throw new WrongParameterGeneratorException(ROLLING);
         }
-        rolling = ((Boolean) o).booleanValue();
+        rolling = (Boolean) o;
 
-        try {
-            if (reader != null) {
-                reader.close();
-            }
-            reader = ni.getNumberReader();
-        } catch (final NumberStoreException e) {
-            throw new GeneratorException(e);
+        if (reader != null) {
+            reader.close();
         }
+        reader = ni.getNumberReader();
     }
 
     /* (non-Javadoc)
@@ -148,30 +133,26 @@ public class NumberInterfaceGenerator extends GeneratorInterface {
      */
     @Override
     public void rawFill(final Object tablica) throws GeneratorException {
-        try {
-            if (tablica instanceof int[]) {
-                final int[] tmp = Convert.tryToTInt(tablica);
-                for (int i = 0; i < tmp.length; i++) {
-                    tmp[i] = getInt();
-                }
-            } else if (tablica instanceof float[]) {
-                final float[] tmp = Convert.tryToTFloat(tablica);
-                for (int i = 0; i < tmp.length; i++) {
-                    tmp[i] = getFloat();
-                }
-            } else if (tablica instanceof long[]) {
-                final long[] tmp = Convert.tryToTLong(tablica);
-                for (int i = 0; i < tmp.length; i++) {
-                    tmp[i] = getLong();
-                }
-            } else if (tablica instanceof double[]) {
-                final double[] tmp = Convert.tryToTDouble(tablica);
-                for (int i = 0; i < tmp.length; i++) {
-                    tmp[i] = getDouble();
-                }
+        if (tablica instanceof int[]) {
+            final int[] tmp = Convert.tryToTInt(tablica);
+            for (int i = 0; i < tmp.length; i++) {
+                tmp[i] = nextInt();
             }
-        } catch (final ClassCastException e) {
-            throw new GeneratorException(e);
+        } else if (tablica instanceof float[]) {
+            final float[] tmp = Convert.tryToTFloat(tablica);
+            for (int i = 0; i < tmp.length; i++) {
+                tmp[i] = nextFloat();
+            }
+        } else if (tablica instanceof long[]) {
+            final long[] tmp = Convert.tryToTLong(tablica);
+            for (int i = 0; i < tmp.length; i++) {
+                tmp[i] = nextLong();
+            }
+        } else if (tablica instanceof double[]) {
+            final double[] tmp = Convert.tryToTDouble(tablica);
+            for (int i = 0; i < tmp.length; i++) {
+                tmp[i] = nextDouble();
+            }
         }
     }
 
@@ -181,28 +162,22 @@ public class NumberInterfaceGenerator extends GeneratorInterface {
     @Override
     public void rawFill(final NumberWriter writer, final ClassEnumerator cl, int size)
             throws GeneratorException {
-        try {
-            if (cl == ClassEnumerator.INTEGER) {
-                while (size-- > 0) {
-                    writer.write(getInt());
-                }
-            } else if (cl == ClassEnumerator.FLOAT) {
-                while (size-- > 0) {
-                    writer.write(getFloat());
-                }
-            } else if (cl == ClassEnumerator.LONG) {
-                while (size-- > 0) {
-                    writer.write(getLong());
-                }
-            } else if (cl == ClassEnumerator.DOUBLE) {
-                while (size-- > 0) {
-                    writer.write(getDouble());
-                }
+        if (cl == ClassEnumerator.INTEGER) {
+            while (size-- > 0) {
+                writer.write(nextInt());
             }
-        } catch (final ClassCastException e) {
-            throw new GeneratorException(e);
-        } catch (final IOException e) {
-            throw new GeneratorException(e);
+        } else if (cl == ClassEnumerator.FLOAT) {
+            while (size-- > 0) {
+                writer.write(nextFloat());
+            }
+        } else if (cl == ClassEnumerator.LONG) {
+            while (size-- > 0) {
+                writer.write(nextLong());
+            }
+        } else if (cl == ClassEnumerator.DOUBLE) {
+            while (size-- > 0) {
+                writer.write(nextDouble());
+            }
         }
     }
 

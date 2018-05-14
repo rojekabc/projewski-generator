@@ -3,8 +3,6 @@ package pl.projewski.generator.viewdata.text;
 import org.apache.commons.collections.ListUtils;
 import pl.projewski.generator.abstracts.ViewDataBase;
 import pl.projewski.generator.common.NumberReader;
-import pl.projewski.generator.exceptions.LaborDataException;
-import pl.projewski.generator.exceptions.ViewDataException;
 import pl.projewski.generator.interfaces.NumberInterface;
 import pl.projewski.generator.labordata.FindMax;
 import pl.projewski.generator.labordata.FindMin;
@@ -12,7 +10,7 @@ import pl.projewski.generator.tools.Convert;
 import pl.projewski.generator.tools.Mysys;
 import pl.projewski.generator.tools.NumberStoreOne;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ViewRowTextTable
@@ -33,19 +31,19 @@ public class ViewRowTextTable
     private final static String STRINGBETWEENDATA = "StringBetweenData";
     //	private final static String INPUTDATA = "InputData";
     private final static String NUMOFDATA = "NumOfData";
-    NumberInterface _data = null;
-    private FindMin _min = null;
-    private FindMax _max = null;
-//	private final static String TYPEOFDATA = "TypeOfData"; // na co ma odbywac sie konwersja
+    NumberInterface data = null;
+    private FindMin min = null;
+    private FindMax max = null;
+    //	private final static String TYPEOFDATA = "TypeOfData"; // na co ma odbywac sie konwersja
 
     @Override
     public void initParameters() {
         parameters.put(TITLENAME, null);
         parameters.put(ROWNAMES, new String[0]);
-        parameters.put(FLAGS, Integer.valueOf(F_START_LINE | F_END_LINE));
-        parameters.put(TABLELENGTH, Integer.valueOf(79));
+        parameters.put(FLAGS, F_START_LINE | F_END_LINE);
+        parameters.put(TABLELENGTH, 79);
         parameters.put(DATALENGTH, null);
-        parameters.put(NAMELENGTH, Integer.valueOf(12));
+        parameters.put(NAMELENGTH, 12);
         parameters.put(STRINGBETWEENDATA, " ");
         parameters.put(NUMOFDATA, null);
     }
@@ -53,21 +51,22 @@ public class ViewRowTextTable
     @Override
     public List<Class<?>> getAllowedClass(final String param) {
 
-        if (param.equals(TITLENAME)) {
-            return Arrays.asList(String.class);
-        } else if (param.equals(ROWNAMES)) {
-            return Arrays.asList(String[].class);
-        } else if (param.equals(FLAGS)) {
-            return Arrays.asList(Integer.class);
-        } else if (param.equals(TABLELENGTH)) {
-            return Arrays.asList(Integer.class);
-        } else if (param.equals(DATALENGTH)) {
-            return Arrays.asList(Integer.class);
-        } else if (param.equals(NAMELENGTH)) {
-            return Arrays.asList(Integer.class);
-        } else if (param.equals(STRINGBETWEENDATA)) {
-            return Arrays.asList(String.class);
-        } else {
+        switch (param) {
+        case TITLENAME:
+            return Collections.singletonList(String.class);
+        case ROWNAMES:
+            return Collections.singletonList(String[].class);
+        case FLAGS:
+            return Collections.singletonList(Integer.class);
+        case TABLELENGTH:
+            return Collections.singletonList(Integer.class);
+        case DATALENGTH:
+            return Collections.singletonList(Integer.class);
+        case NAMELENGTH:
+            return Collections.singletonList(Integer.class);
+        case STRINGBETWEENDATA:
+            return Collections.singletonList(String.class);
+        default:
             return ListUtils.EMPTY_LIST;
         }
 
@@ -77,24 +76,21 @@ public class ViewRowTextTable
      * M4_GEN_VDI_GETVIEW
      */
     @Override
-    public Object getView()
-            throws ViewDataException {
+    public Object getView() {
         return null;
     }
 
     /**
      * M4_GEN_VDI_GETVIEW_NSI
      */
-    public Object getView(final NumberStoreOne data)
-            throws ViewDataException {
+    public Object getView(final NumberStoreOne data) {
         return null;
     }
 
     /**
      * M4_GEN_VDI_GETVIEW_tNSI
      */
-    public Object getView(final NumberStoreOne[] data)
-            throws ViewDataException {
+    public Object getView(final NumberStoreOne[] data) {
         return null;
     }
 
@@ -106,10 +102,10 @@ public class ViewRowTextTable
         int len = 0;
         try {
             String s = "";
-            s += this._min.getMinimum().toString();
+            s += this.min.getMinimum().toString();
             len = s.length();
             s = "";
-            s += this._max.getMaximum().toString();
+            s += this.max.getMaximum().toString();
             if (s.length() > len) {
                 len = s.length();
             }
@@ -123,8 +119,7 @@ public class ViewRowTextTable
      * M4_GEN_VDI_SHOWVIEW
      */
     @Override
-    public void showView()
-            throws ViewDataException {
+    public void showView() {
         final String title;
         final String[] rownames;
         String beedata = ""; // ciag między danymi
@@ -132,54 +127,54 @@ public class ViewRowTextTable
         final int tLength;
         final int dLength;
         final int nLength;
-//		String bData = null;
+        //		String bData = null;
         byte[] formLine = null;
-//		java.util.Vector data = null;
+        //		java.util.Vector data = null;
         int numOfData = -1;
-//		Class []types = null;
+        //		Class []types = null;
 
         // Przeinicjowanie zmiennych
-//		if ( paramValue[INPUTDATA] != null )
-//			data = (java.util.Vector)paramValue[ INPUTDATA ];
-//		else
-//			return; // TODO: Exception NO INPUT DATA
+        //		if ( paramValue[INPUTDATA] != null )
+        //			data = (java.util.Vector)paramValue[ INPUTDATA ];
+        //		else
+        //			return; // TODO: Exception NO INPUT DATA
         // Test na zgodnosc klas w wektorze
-//		for ( int i = 0; i < data.size(); i++ ) {
-//			if ( data.get( i ) instanceof NumberStoreOne )
-//				continue;
-//			if ( data.get( i ) instanceof GeneratorInterface )
-//				continue;
-//			return; // TODO: Exception INCORRECT INPUT DATA TYPE
-//		}
-//
+        //		for ( int i = 0; i < data.size(); i++ ) {
+        //			if ( data.get( i ) instanceof NumberStoreOne )
+        //				continue;
+        //			if ( data.get( i ) instanceof GeneratorInterface )
+        //				continue;
+        //			return; // TODO: Exception INCORRECT INPUT DATA TYPE
+        //		}
+        //
 
         title = (String) Convert.assignIfNull(parameters.get(TITLENAME), null);
         rownames = (String[]) Convert.assignIfNull(parameters.get(ROWNAMES), new String[0]);
-        flags = Convert.tryToInt(Convert.assignIfNull(parameters.get(FLAGS), Integer.valueOf(0)));
-        tLength = Convert.tryToInt(Convert.assignIfNull(parameters.get(TABLELENGTH), Integer.valueOf(60)));
-        dLength = Convert.tryToInt(Convert.assignIfNull(parameters.get(DATALENGTH), Integer.valueOf(getDataLength())));
-        nLength = Convert.tryToInt(Convert.assignIfNull(parameters.get(NAMELENGTH), Integer.valueOf(12)));
+        flags = Convert.tryToInt(Convert.assignIfNull(parameters.get(FLAGS), 0));
+        tLength = Convert.tryToInt(Convert.assignIfNull(parameters.get(TABLELENGTH), 60));
+        dLength = Convert.tryToInt(Convert.assignIfNull(parameters.get(DATALENGTH), getDataLength()));
+        nLength = Convert.tryToInt(Convert.assignIfNull(parameters.get(NAMELENGTH), 12));
         beedata = (String) Convert.assignIfNull(parameters.get(STRINGBETWEENDATA), "");
-        numOfData = Convert.tryToInt(Convert.assignIfNull(parameters.get(NUMOFDATA), Integer.valueOf(-1)));
-//		if ( paramValue[TYPEOFDATA] != null )
-//			types = (Class[])paramValue[TYPEOFDATA];
+        numOfData = Convert.tryToInt(Convert.assignIfNull(parameters.get(NUMOFDATA), -1));
+        //		if ( paramValue[TYPEOFDATA] != null )
+        //			types = (Class[])paramValue[TYPEOFDATA];
 
         // Ustalanie typów używanych do pokazywania
-//		if (types == null)
-//		{
-//			types = new Class[data.size()];
-//			for ( int i = 0; i < types.length; i++ )
-//				types[i] = Long.class;
-//		}
-//		if ( types.length < data.size() )
-//		{
-//			Class [] tmp = new Class[data.size()];
-//			for ( int i = 0; i < tmp.length; i++ )
-//				tmp[i] = Long.class;
-//			for ( int i = 0; i < types.length; i++ )
-//				tmp[i] = types[i];
-//			types = tmp;
-//		}
+        //		if (types == null)
+        //		{
+        //			types = new Class[data.size()];
+        //			for ( int i = 0; i < types.length; i++ )
+        //				types[i] = Long.class;
+        //		}
+        //		if ( types.length < data.size() )
+        //		{
+        //			Class [] tmp = new Class[data.size()];
+        //			for ( int i = 0; i < tmp.length; i++ )
+        //				tmp[i] = Long.class;
+        //			for ( int i = 0; i < types.length; i++ )
+        //				tmp[i] = types[i];
+        //			types = tmp;
+        //		}
 
         // Formowanie linijki długiej do obrysowań
         formLine = new byte[tLength];
@@ -187,8 +182,7 @@ public class ViewRowTextTable
             formLine[i] = '-';
         }
 
-        NumberReader reader = null;
-        try {
+        try (final NumberReader reader = data.getNumberReader()) {
 
             if ((flags & F_START_LINE) == F_START_LINE) {
                 Mysys.println(new String(formLine));
@@ -204,9 +198,9 @@ public class ViewRowTextTable
                 Mysys.println(new String(formLine));
             }
 
-//		int nj = tempFile.size();
+            //		int nj = tempFile.size();
             int nx = tLength;
-            numOfData = _data.getSize();
+            numOfData = data.getSize();
 
             // ustala najmniejszą możliwą liczbę danych - zabezpieczenie przed
             // wyjściem poza rozmiar tablicy
@@ -244,30 +238,29 @@ public class ViewRowTextTable
             String prow;
             int i = 0;
             String tmpNum;
-            reader = _data.getNumberReader();
-//		Object tmpObj;
+            //		Object tmpObj;
             while (i < numOfData) {
                 if ((i != 0) && ((flags & F_ROW_LINE) == F_ROW_LINE)) {
                     Mysys.println(new String(formLine));
                 }
 
-//			for ( int j = 0; j<nj; j++ ) {
-//				tmpObj = data.get( j );
+                //			for ( int j = 0; j<nj; j++ ) {
+                //				tmpObj = data.get( j );
                 prow = "";
                 if ((flags & F_BOUND_COL) == F_BOUND_COL) {
                     prow += "| ";
                 }
-//				if ( (j<rownames.length)&&(rownames[j] != null ))
-//					prow += formData(rownames[j], nLength, 0);
+                //				if ( (j<rownames.length)&&(rownames[j] != null ))
+                //					prow += formData(rownames[j], nLength, 0);
 
                 for (int a = 0; (a < nx) && (a + i < numOfData); a++) {
-                    tmpNum = reader.readAsObject(_data.getStoreClass()).toString();
-//					if ( tmpObj instanceof NumberStoreOne )
-//						tmpNum = ((NumberStoreOne)tmpObj).getAsString(a+i);
-//					else if ( tmpObj instanceof GeneratorInterface )
-//						tmpNum = ((GeneratorInterface)tmpObj).getAsObject(types[j]).toString();
-//					else
-//						tmpNum = "ERR";
+                    tmpNum = reader.readAsObject(data.getStoreClass()).toString();
+                    //					if ( tmpObj instanceof NumberStoreOne )
+                    //						tmpNum = ((NumberStoreOne)tmpObj).getAsString(a+i);
+                    //					else if ( tmpObj instanceof GeneratorInterface )
+                    //						tmpNum = ((GeneratorInterface)tmpObj).getAsObject(types[j]).toString();
+                    //					else
+                    //						tmpNum = "ERR";
                     prow += formData(tmpNum, dLength, 2);
                     if (a != nx - 1) {
                         prow += beedata;
@@ -282,7 +275,7 @@ public class ViewRowTextTable
                     prow += ' ';
                 }
                 Mysys.println(prow);
-//			}
+                //			}
                 i += nx;
             }
 
@@ -294,43 +287,9 @@ public class ViewRowTextTable
         } catch (final Exception e) {
             Mysys.println(e.toString());
             e.printStackTrace();
-        } finally {
-            Mysys.closeQuiet(reader);
         }
     }
-    /** M4_GEN_VDI_SHOWVIEW_NSI  */
-/*	public void showView(NumberStoreOne data)
-		throws ViewDataException
-	{
-		java.util.Vector svVec;
-		if ( paramValue[ INPUTDATA ] == null )
-			svVec = null;
-		else
-			svVec = (java.util.Vector)paramValue[ INPUTDATA ]; // zachowanie
-		setData( data ); // ustawienie danych
-		try {
-		Object o = data.get();
-		} catch ( Exception e ) {
-		}
-		showView(); // pokazanie
-		paramValue[ INPUTDATA ] = svVec; // przywrócenie
-	}*/
 
-    /**
-     * M4_GEN_VDI_SHOWVIEW_tNSI
-     */
-/*	public void showView(NumberStoreOne [] data)
-		throws ViewDataException
-	{
-		java.util.Vector svVec;
-		if ( paramValue[ INPUTDATA ] == null )
-			svVec = null;
-		else
-			svVec = (java.util.Vector)paramValue[ INPUTDATA ]; // zachowanie
-		setData( data ); // ustawienie danych
-		showView(); // pokazanie
-		paramValue[ INPUTDATA ] = svVec; // przywrócenie
-	}*/
     // justify: 0 Left   1 Center   2 Right
     private String formData(final String text, final int length, final int justify) {
         final byte[] tmp;
@@ -347,17 +306,17 @@ public class ViewRowTextTable
             }
 
             switch (justify) {
-                case 0:
-                    out = text + (new String(tmp));
-                    break;
-                case 1:
-                    out = (new String(tmp)) + text + (new String(tmp));
-                    break;
-                case 2:
-                    out = (new String(tmp)) + text;
-                    break;
-                default:
-                    return "";
+            case 0:
+                out = text + (new String(tmp));
+                break;
+            case 1:
+                out = (new String(tmp)) + text + (new String(tmp));
+                break;
+            case 2:
+                out = (new String(tmp)) + text;
+                break;
+            default:
+                return "";
             }
         } else {
             out = text.substring(0, length);
@@ -373,32 +332,26 @@ public class ViewRowTextTable
      * M4_GEN_VDI_REFRESHVIEW
      */
     @Override
-    public void refreshView()
-            throws ViewDataException {
+    public void refreshView() {
     }
 
     /**
      * M4_GEN_VDI_SETDATA_NSI
      */
     @Override
-    public void setData(final NumberInterface data)
-            throws ViewDataException {
-        if (_min == null) {
-            _min = new FindMin();
+    public void setData(final NumberInterface data) {
+        if (min == null) {
+            min = new FindMin();
         }
-        if (_max == null) {
-            _max = new FindMax();
+        if (max == null) {
+            max = new FindMax();
         }
-        try {
-            _min.setInputData(data);
-            _max.setInputData(data);
-            _data = data;
-        } catch (final LaborDataException e) {
-            e.printStackTrace();
-        }
-//		java.util.Vector v = new java.util.Vector();
-//		v.add( data );
-//		paramValue[ INPUTDATA ] = v;
+        min.setInputData(data);
+        max.setInputData(data);
+        this.data = data;
+        //		java.util.Vector v = new java.util.Vector();
+        //		v.add( data );
+        //		paramValue[ INPUTDATA ] = v;
     }
 /*	public void setData(NumberStoreOne [] data)
 		throws ViewDataException

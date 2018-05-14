@@ -3,10 +3,9 @@ package pl.projewski.generator.distribution;
 import org.apache.commons.collections.ListUtils;
 import pl.projewski.generator.abstracts.DistributionBase;
 import pl.projewski.generator.common.Fraction;
-import pl.projewski.generator.exceptions.ParameterException;
 import pl.projewski.generator.tools.Convert;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ChiSquare extends DistributionBase {
@@ -48,7 +47,7 @@ public class ChiSquare extends DistributionBase {
             final int[] t = (int[]) INVERSE[0];
             int i;
             int j;
-//			System.out.println("t.length="+t.length+" f="+f);
+            //			System.out.println("t.length="+t.length+" f="+f);
             for (i = 0; i < t.length; i++) {
                 if (t[i] == f) {
                     break;
@@ -93,13 +92,13 @@ public class ChiSquare extends DistributionBase {
 
     @Override
     public void initParameters() {
-        this.parameters.put(V, Integer.valueOf(20));
+        this.parameters.put(V, 20);
     }
 
     @Override
-    public List<Class<?>> getAllowedClass(final String param) throws ParameterException {
+    public List<Class<?>> getAllowedClass(final String param) {
         if (param.equals(V)) {
-            return Arrays.asList(Integer.class);
+            return Collections.singletonList(Integer.class);
         }
         return ListUtils.EMPTY_LIST;
     }

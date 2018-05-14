@@ -32,41 +32,37 @@ import pl.projewski.generator.abstracts.LaborDataBase;
 import pl.projewski.generator.common.NumberReader;
 import pl.projewski.generator.common.NumberWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
-import pl.projewski.generator.exceptions.LaborDataException;
-import pl.projewski.generator.exceptions.NumberStoreException;
-import pl.projewski.generator.exceptions.ParameterException;
 import pl.projewski.generator.interfaces.NumberInterface;
 import pl.projewski.generator.tools.GeneratedData;
 import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.exceptions.WriteFileGeneratorException;
 import pl.projewski.generator.tools.stream.SeparatorStreamReader;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
+// TODO: Remove duplicated code, if possible
 public class ExternalSort extends LaborDataBase {
     public final static String REMOVETHESAME = "Usuń podobne";
-    java.util.Vector<File> vecFiles = new java.util.Vector<>();
-    //	java.io.File sortedStreamFile = null;
-//	SeparatorStreamReader sortedStream = null;
-//	int pkgSize = 0;
-    ClassEnumerator storeCl = null;
+    private final java.util.Vector<File> vecFiles = new java.util.Vector<>();
+    private ClassEnumerator storeCl = null;
 
     public void initParameterInterface() {
-        parameters.put(REMOVETHESAME, Boolean.valueOf(false));
+        parameters.put(REMOVETHESAME, Boolean.FALSE);
     }
 
     /**
      * M4_GEN_PI_GET_ALLOWED_CLASSES_I
      */
     @Override
-    public List<Class<?>> getAllowedClass(final String param) throws ParameterException {
+    public List<Class<?>> getAllowedClass(final String param) {
         return ListUtils.EMPTY_LIST;
     }
 
     @Override
-    public boolean getOutputData(final NumberInterface data) throws LaborDataException {
+    public boolean getOutputData(final NumberInterface data) {
         try {
             // Jesli nie ma strumienia danych posortowanych utwórz go i wykonaj zapisywanie
             // w nim posortowanych danych ze strumieni pomocniczych
@@ -89,11 +85,11 @@ public class ExternalSort extends LaborDataBase {
             final int n = vecFiles.size();
             // Tablica strumieni do odczytu
             // Jeżeli null, to dany strumień już sie wyczerpał
-            for (int i = 0; i < n; i++) {
+            for (final File vecFile : vecFiles) {
                 sortseed.addInputStream(
                         new SeparatorStreamReader(
-                                new java.io.FileInputStream(
-                                        vecFiles.get(i).toString())));
+                                new FileInputStream(
+                                        vecFile.toString())));
             }
 	
 	/*				// Operacje sortowania strumieniowego
@@ -131,7 +127,7 @@ public class ExternalSort extends LaborDataBase {
             final NumberWriter writer = data.getNumberWriter();
             boolean remts = false;
             if (parameters.get(REMOVETHESAME) != null) {
-                remts = ((Boolean) parameters.get(REMOVETHESAME)).booleanValue();
+                remts = (Boolean) parameters.get(REMOVETHESAME);
             }
 
             boolean start = false;
@@ -211,15 +207,11 @@ public class ExternalSort extends LaborDataBase {
             writer.close();
             data.setStoreClass(storeCl);
             data.setSize(dataCnt);
-        } catch (final FileNotFoundException e) {
-            throw new LaborDataException(e);
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
         } catch (final IOException e) {
-            throw new LaborDataException(e);
+            throw new WriteFileGeneratorException(null, e);
         } finally {
-            for (int i = 0; i < vecFiles.size(); i++) {
-                if (!vecFiles.get(i).delete()) {
+            for (final File vecFile : vecFiles) {
+                if (!vecFile.delete()) {
                     Mysys.error("Nie moge usunac tymczasowego pliku sortowania");
                 }
             }
@@ -228,10 +220,8 @@ public class ExternalSort extends LaborDataBase {
     }
 
     @Override
-    public void setInputData(final NumberInterface data) throws LaborDataException {
-        NumberReader gis = null;
-        try {
-            gis = data.getNumberReader();
+    public void setInputData(final NumberInterface data) {
+        try (final NumberReader gis = data.getNumberReader()) {
             final ClassEnumerator c = data.getStoreClass();
             int counter = data.getSize();
             final InternalSort sorter = new InternalSort();
@@ -248,14 +238,6 @@ public class ExternalSort extends LaborDataBase {
                 sorter.getOutputData(iSort);
                 vecFiles.add(new File(iSort.getDataFilename()));
             }
-        } catch (final ParameterException e) {
-            throw new LaborDataException(e);
-        } catch (final java.io.IOException e) {
-            throw new LaborDataException(e);
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
-        } finally {
-            Mysys.closeQuiet(gis);
         }
     }
 
@@ -269,7 +251,7 @@ class ExternalSortQuery {
     private Object tval;
     private SeparatorStreamReader[] tfis;
 
-    public ExternalSortQuery(final ClassEnumerator cl) {
+    ExternalSortQuery(final ClassEnumerator cl) {
         storeCl = cl;
         tfis = new SeparatorStreamReader[0];
         if (cl == ClassEnumerator.INTEGER) {
@@ -284,7 +266,7 @@ class ExternalSortQuery {
     }
 
     // Dodaj do tablicy wraz z sortowaniem podle najmniejszy -> najwiekszy
-    public void addInputStream(final SeparatorStreamReader fis) {
+    void addInputStream(final SeparatorStreamReader fis) {
         try {
             if (fis == null) {
                 return;
@@ -406,216 +388,196 @@ class ExternalSortQuery {
     }
 
     // Odczytaj następnš danš ze strumienia elementu 0
-    private void readNextInt() throws LaborDataException {
+    private void readNextInt() {
         final int[] tmp = (int[]) tval;
         final int[] tnew;
         final SeparatorStreamReader[] tfisnew;
-        try {
-            if (tfis[0].hasNext()) { // read and sort
-                tnew = new int[tmp.length];
-                tfisnew = new SeparatorStreamReader[tfis.length];
-                int val = 0;
-                val = tfis[0].readInt();
+        if (tfis[0].hasNext()) { // read and sort
+            tnew = new int[tmp.length];
+            tfisnew = new SeparatorStreamReader[tfis.length];
+            int val = 0;
+            val = tfis[0].readInt();
 
-                int i;
-                for (i = 1; i < tmp.length; i++) {
-                    if (tmp[i] > val) {
-                        break;
-                    } else {
-                        tnew[i - 1] = tmp[i];
-                        tfisnew[i - 1] = tfis[i];
-                    }
+            int i;
+            for (i = 1; i < tmp.length; i++) {
+                if (tmp[i] > val) {
+                    break;
+                } else {
+                    tnew[i - 1] = tmp[i];
+                    tfisnew[i - 1] = tfis[i];
                 }
-                tnew[i - 1] = val;
-                tfisnew[i - 1] = tfis[0];
-                for (; i < tmp.length; i++) {
-                    tnew[i] = tmp[i];
-                    tfisnew[i] = tfis[i];
-                }
-                tval = tnew;
-                tfis = tfisnew;
-            } else { // remove first position
-                tnew = new int[tmp.length - 1];
-                tfisnew = new SeparatorStreamReader[tfis.length - 1];
-                tfis[0].close();
-                for (int i = 0; i < tnew.length; i++) {
-                    tnew[i] = tmp[i + 1];
-                    tfisnew[i] = tfis[i + 1];
-                }
+            }
+            tnew[i - 1] = val;
+            tfisnew[i - 1] = tfis[0];
+            for (; i < tmp.length; i++) {
+                tnew[i] = tmp[i];
+                tfisnew[i] = tfis[i];
             }
             tval = tnew;
             tfis = tfisnew;
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
+        } else { // remove first position
+            tnew = new int[tmp.length - 1];
+            tfisnew = new SeparatorStreamReader[tfis.length - 1];
+            tfis[0].close();
+            for (int i = 0; i < tnew.length; i++) {
+                tnew[i] = tmp[i + 1];
+                tfisnew[i] = tfis[i + 1];
+            }
         }
+        tval = tnew;
+        tfis = tfisnew;
     }
 
     // Odczytaj następnš danš ze strumienia elementu 0
-    private void readNextLong() throws LaborDataException {
+    private void readNextLong() {
         final long[] tmp = (long[]) tval;
         final long[] tnew;
         final SeparatorStreamReader[] tfisnew;
-        try {
-            if (tfis[0].hasNext()) { // read and sort
-                tnew = new long[tmp.length];
-                tfisnew = new SeparatorStreamReader[tfis.length];
-                long val = 0;
-                val = tfis[0].readLong();
+        if (tfis[0].hasNext()) { // read and sort
+            tnew = new long[tmp.length];
+            tfisnew = new SeparatorStreamReader[tfis.length];
+            long val = 0;
+            val = tfis[0].readLong();
 
-                int i;
-                for (i = 1; i < tmp.length; i++) {
-                    if (tmp[i] > val) {
-                        break;
-                    } else {
-                        tnew[i - 1] = tmp[i];
-                        tfisnew[i - 1] = tfis[i];
-                    }
+            int i;
+            for (i = 1; i < tmp.length; i++) {
+                if (tmp[i] > val) {
+                    break;
+                } else {
+                    tnew[i - 1] = tmp[i];
+                    tfisnew[i - 1] = tfis[i];
                 }
-                tnew[i - 1] = val;
-                tfisnew[i - 1] = tfis[0];
-                for (; i < tmp.length; i++) {
-                    tnew[i] = tmp[i];
-                    tfisnew[i] = tfis[i];
-                }
-                tval = tnew;
-                tfis = tfisnew;
-            } else { // remove first position
-                tnew = new long[tmp.length - 1];
-                tfisnew = new SeparatorStreamReader[tfis.length - 1];
-                tfis[0].close();
-                for (int i = 0; i < tnew.length; i++) {
-                    tnew[i] = tmp[i + 1];
-                    tfisnew[i] = tfis[i + 1];
-                }
+            }
+            tnew[i - 1] = val;
+            tfisnew[i - 1] = tfis[0];
+            for (; i < tmp.length; i++) {
+                tnew[i] = tmp[i];
+                tfisnew[i] = tfis[i];
             }
             tval = tnew;
             tfis = tfisnew;
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
+        } else { // remove first position
+            tnew = new long[tmp.length - 1];
+            tfisnew = new SeparatorStreamReader[tfis.length - 1];
+            tfis[0].close();
+            for (int i = 0; i < tnew.length; i++) {
+                tnew[i] = tmp[i + 1];
+                tfisnew[i] = tfis[i + 1];
+            }
         }
+        tval = tnew;
+        tfis = tfisnew;
     }
 
     // Odczytaj następnš danš ze strumienia elementu 0
-    private void readNextFloat() throws LaborDataException {
+    private void readNextFloat() {
         final float[] tmp = (float[]) tval;
         final float[] tnew;
         final SeparatorStreamReader[] tfisnew;
-        try {
-            if (tfis[0].hasNext()) { // read and sort
-                tnew = new float[tmp.length];
-                tfisnew = new SeparatorStreamReader[tfis.length];
-                float val = 0;
-                val = tfis[0].readFloat();
+        if (tfis[0].hasNext()) { // read and sort
+            tnew = new float[tmp.length];
+            tfisnew = new SeparatorStreamReader[tfis.length];
+            float val = 0;
+            val = tfis[0].readFloat();
 
-                int i;
-                for (i = 1; i < tmp.length; i++) {
-                    if (tmp[i] > val) {
-                        break;
-                    } else {
-                        tnew[i - 1] = tmp[i];
-                        tfisnew[i - 1] = tfis[i];
-                    }
+            int i;
+            for (i = 1; i < tmp.length; i++) {
+                if (tmp[i] > val) {
+                    break;
+                } else {
+                    tnew[i - 1] = tmp[i];
+                    tfisnew[i - 1] = tfis[i];
                 }
-                tnew[i - 1] = val;
-                tfisnew[i - 1] = tfis[0];
-                for (; i < tmp.length; i++) {
-                    tnew[i] = tmp[i];
-                    tfisnew[i] = tfis[i];
-                }
-                tval = tnew;
-                tfis = tfisnew;
-            } else { // remove first position
-                tnew = new float[tmp.length - 1];
-                tfisnew = new SeparatorStreamReader[tfis.length - 1];
-                tfis[0].close();
-                for (int i = 0; i < tnew.length; i++) {
-                    tnew[i] = tmp[i + 1];
-                    tfisnew[i] = tfis[i + 1];
-                }
+            }
+            tnew[i - 1] = val;
+            tfisnew[i - 1] = tfis[0];
+            for (; i < tmp.length; i++) {
+                tnew[i] = tmp[i];
+                tfisnew[i] = tfis[i];
             }
             tval = tnew;
             tfis = tfisnew;
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
+        } else { // remove first position
+            tnew = new float[tmp.length - 1];
+            tfisnew = new SeparatorStreamReader[tfis.length - 1];
+            tfis[0].close();
+            for (int i = 0; i < tnew.length; i++) {
+                tnew[i] = tmp[i + 1];
+                tfisnew[i] = tfis[i + 1];
+            }
         }
+        tval = tnew;
+        tfis = tfisnew;
     }
 
     // Odczytaj następnš danš ze strumienia elementu 0
-    private void readNextDouble() throws LaborDataException {
+    private void readNextDouble() {
         final double[] tmp = (double[]) tval;
         final double[] tnew;
         final SeparatorStreamReader[] tfisnew;
-        try {
-            if (tfis[0].hasNext()) { // read and sort
-                tnew = new double[tmp.length];
-                tfisnew = new SeparatorStreamReader[tfis.length];
-                double val = 0;
-                val = tfis[0].readDouble();
+        if (tfis[0].hasNext()) { // read and sort
+            tnew = new double[tmp.length];
+            tfisnew = new SeparatorStreamReader[tfis.length];
+            double val = 0;
+            val = tfis[0].readDouble();
 
-                int i;
-                for (i = 1; i < tmp.length; i++) {
-                    if (tmp[i] > val) {
-                        break;
-                    } else {
-                        tnew[i - 1] = tmp[i];
-                        tfisnew[i - 1] = tfis[i];
-                    }
+            int i;
+            for (i = 1; i < tmp.length; i++) {
+                if (tmp[i] > val) {
+                    break;
+                } else {
+                    tnew[i - 1] = tmp[i];
+                    tfisnew[i - 1] = tfis[i];
                 }
-                tnew[i - 1] = val;
-                tfisnew[i - 1] = tfis[0];
-                for (; i < tmp.length; i++) {
-                    tnew[i] = tmp[i];
-                    tfisnew[i] = tfis[i];
-                }
-                tval = tnew;
-                tfis = tfisnew;
-            } else { // remove first position
-                tnew = new double[tmp.length - 1];
-                tfisnew = new SeparatorStreamReader[tfis.length - 1];
-                tfis[0].close();
-                for (int i = 0; i < tnew.length; i++) {
-                    tnew[i] = tmp[i + 1];
-                    tfisnew[i] = tfis[i + 1];
-                }
+            }
+            tnew[i - 1] = val;
+            tfisnew[i - 1] = tfis[0];
+            for (; i < tmp.length; i++) {
+                tnew[i] = tmp[i];
+                tfisnew[i] = tfis[i];
             }
             tval = tnew;
             tfis = tfisnew;
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
+        } else { // remove first position
+            tnew = new double[tmp.length - 1];
+            tfisnew = new SeparatorStreamReader[tfis.length - 1];
+            tfis[0].close();
+            for (int i = 0; i < tnew.length; i++) {
+                tnew[i] = tmp[i + 1];
+                tfisnew[i] = tfis[i + 1];
+            }
         }
+        tval = tnew;
+        tfis = tfisnew;
     }
 
     public boolean isData() {
-        if (tfis.length != 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return tfis.length != 0;
     }
 
     // pobierz dane jako dany typ i wczytaj następnš dostępnš danš
-    public int getInt() throws LaborDataException {
+    public int getInt() {
         final int[] tmp = (int[]) tval;
         final int ret = tmp[0];
         readNextInt();
         return ret;
     }
 
-    public long getLong() throws LaborDataException {
+    public long getLong() {
         final long[] tmp = (long[]) tval;
         final long ret = tmp[0];
         readNextLong();
         return ret;
     }
 
-    public float getFloat() throws LaborDataException {
+    public float getFloat() {
         final float[] tmp = (float[]) tval;
         final float ret = tmp[0];
         readNextFloat();
         return ret;
     }
 
-    public double getDouble() throws LaborDataException {
+    public double getDouble() {
         final double[] tmp = (double[]) tval;
         final double ret = tmp[0];
         readNextDouble();

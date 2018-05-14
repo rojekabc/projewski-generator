@@ -1,7 +1,6 @@
 package tests;
 
 import pl.projewski.generator.exceptions.GeneratorException;
-import pl.projewski.generator.exceptions.ParameterException;
 import pl.projewski.generator.generator.GeneratorLCG;
 import pl.projewski.generator.tools.Convert;
 import tests.test8.OneGenerator;
@@ -34,12 +33,12 @@ class Test8 {
     public static boolean PrintGeneratedNumbers = false;
     public static int Seed = 1;
     //	public static TestInterface ti = new AllVariation(7);
-//	public static TestInterface ti = new OneMVariation(11);
+    //	public static TestInterface ti = new OneMVariation(11);
     public static TestInterface ti = new OneGenerator(101, 29, 5);
-//	public static TestInterface ti = new TypeOne(23);
+    //	public static TestInterface ti = new TypeOne(23);
 
 
-    public static void printGeneratorInfo(final GeneratorLCG gen) throws ParameterException {
+    public static void printGeneratorInfo(final GeneratorLCG gen) {
         System.out.print("Generator ");
         final Set<String> params = gen.listParameters();
         for (final String param : params) {
@@ -62,11 +61,9 @@ class Test8 {
      * @return ciag znakow okreslajacy jaki typ generatora wykryto
      * @throws NumberFormatException
      * @throws ClassCastException
-     * @throws ParameterException
      * @throws GeneratorException
      */
-    public static String testGeneratorType(final GeneratorLCG gen)
-            throws NumberFormatException, ClassCastException, ParameterException, GeneratorException {
+    public static String testGeneratorType(final GeneratorLCG gen) {
         int i;
         final int m = Convert.tryToInt(gen.getParameter(GeneratorLCG.M));
         final int first = gen.nextInt();
@@ -108,7 +105,7 @@ class Test8 {
             // x - górna granicja wariancji
             ti.init();
 
-//			Wariancja wpar = new Wariancja(3, 1, 1);
+            //			Wariancja wpar = new Wariancja(3, 1, 1);
             while ((tab = ti.getNextToTest()) != null) {
                 gen = new GeneratorLCG();
                 // zawsze od 1 zacznij

@@ -7,13 +7,9 @@ import pl.projewski.generator.abstracts.LaborDataBase;
 import pl.projewski.generator.common.NumberReader;
 import pl.projewski.generator.common.NumberWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
-import pl.projewski.generator.exceptions.LaborDataException;
-import pl.projewski.generator.exceptions.NumberStoreException;
+import pl.projewski.generator.exceptions.NotImplementedGeneratorException;
 import pl.projewski.generator.interfaces.NumberInterface;
-import pl.projewski.generator.tools.Mysys;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 public class FindMin extends LaborDataBase {
@@ -22,7 +18,7 @@ public class FindMin extends LaborDataBase {
 
     @Override
     public void initParameters() {
-//		parameters.put(MIN, null);
+        //		parameters.put(MIN, null);
     }
 
     /*
@@ -89,8 +85,8 @@ public class FindMin extends LaborDataBase {
      * parameters.put(MIN, null); return true; }
      */
     @Override
-    public boolean getOutputData(final NumberInterface data) throws LaborDataException {
-//		Object out = parameters.get(MIN);
+    public boolean getOutputData(final NumberInterface data) {
+        //		Object out = parameters.get(MIN);
 
         // No more data for send, so give a false code
         if (minimum == null) {
@@ -100,50 +96,36 @@ public class FindMin extends LaborDataBase {
             return false; // TODO: NULL Ecxeption
         }
 
-        NumberWriter writer = null;
-        try {
-            writer = data.getNumberWriter();
-
+        try (final NumberWriter writer = data.getNumberWriter()) {
             if (minimum instanceof Integer) {
-                writer.write(((Integer) minimum).intValue());
+                writer.write(minimum.intValue());
                 data.setStoreClass(ClassEnumerator.INTEGER);
             } else if (minimum instanceof Long) {
-                writer.write(((Long) minimum).longValue());
+                writer.write(minimum.longValue());
                 data.setStoreClass(ClassEnumerator.LONG);
             } else if (minimum instanceof Float) {
-                writer.write(((Float) minimum).floatValue());
+                writer.write(minimum.floatValue());
                 data.setStoreClass(ClassEnumerator.FLOAT);
             } else if (minimum instanceof Double) {
-                writer.write(((Double) minimum).doubleValue());
+                writer.write(minimum.doubleValue());
                 data.setStoreClass(ClassEnumerator.DOUBLE);
             } else {
                 return false; // TODO: Wrong Output Data
             }
             data.setSize(1);
-        } catch (final FileNotFoundException e) {
-            throw new LaborDataException(e);
-        } catch (final IOException e) {
-            throw new LaborDataException(e);
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
-        } finally {
-            Mysys.closeQuiet(writer);
         }
 
-//		parameters.put(MIN, null);
+        //		parameters.put(MIN, null);
         return true;
     }
 
     @Override
-    public void setInputData(final NumberInterface data) throws LaborDataException {
-        NumberReader reader = null;
-        try {
+    public void setInputData(final NumberInterface data) {
+        try (final NumberReader reader = data.getNumberReader()) {
             final ClassEnumerator cl = data.getStoreClass();
             if (cl == null) {
-                throw new LaborDataException(LaborDataException.NOT_IMPLEMENTED_ERROR);
+                throw new NotImplementedGeneratorException();
             }
-
-            reader = data.getNumberReader();
 
             if (cl == ClassEnumerator.INTEGER) {
                 int min = Integer.MAX_VALUE;
@@ -154,7 +136,7 @@ public class FindMin extends LaborDataBase {
                         min = tmp;
                     }
                 }
-                minimum = Integer.valueOf(min);
+                minimum = min;
             } else if (cl == ClassEnumerator.LONG) {
                 long min = Long.MAX_VALUE;
                 long tmp;
@@ -164,7 +146,7 @@ public class FindMin extends LaborDataBase {
                         min = tmp;
                     }
                 }
-                minimum = Long.valueOf(min);
+                minimum = min;
             } else if (cl == ClassEnumerator.FLOAT) {
                 float min = Float.MAX_VALUE;
                 float tmp;
@@ -174,7 +156,7 @@ public class FindMin extends LaborDataBase {
                         min = tmp;
                     }
                 }
-                minimum = Float.valueOf(min);
+                minimum = min;
             } else if (cl == ClassEnumerator.DOUBLE) {
                 double min = Double.MAX_VALUE;
                 double tmp;
@@ -184,17 +166,10 @@ public class FindMin extends LaborDataBase {
                         min = tmp;
                     }
                 }
-                minimum = Double.valueOf(min);
+                minimum = min;
             } else {
-                throw new LaborDataException(LaborDataException.NOT_IMPLEMENTED_ERROR);
+                throw new NotImplementedGeneratorException();
             }
-            // return new NumberStoreOne(outData);
-        } catch (final ClassCastException e) {
-            throw new LaborDataException(LaborDataException.WRONG_TYPE_ERROR);
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
-        } finally {
-            Mysys.closeQuiet(reader);
         }
 
     }

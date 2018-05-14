@@ -2,7 +2,6 @@ package pl.projewski.generator.distribution;
 
 import pl.projewski.generator.abstracts.DistributionBase;
 import pl.projewski.generator.common.Fraction;
-import pl.projewski.generator.exceptions.ParameterException;
 import pl.projewski.generator.tools.Convert;
 
 import java.util.Arrays;
@@ -90,7 +89,7 @@ public class FromVector
     }
 
     @Override
-    public List<Class<?>> getAllowedClass(final String param) throws ParameterException {
+    public List<Class<?>> getAllowedClass(final String param) {
         return Arrays.asList(double[].class);
     }
 

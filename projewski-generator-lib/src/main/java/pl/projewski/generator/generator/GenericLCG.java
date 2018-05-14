@@ -1,6 +1,3 @@
-/**
- *
- */
 package pl.projewski.generator.generator;
 
 import org.apache.commons.collections.ListUtils;
@@ -8,13 +5,12 @@ import pl.projewski.generator.abstracts.GeneratorBase;
 import pl.projewski.generator.common.NumberWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
 import pl.projewski.generator.exceptions.GeneratorException;
-import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.exceptions.WrongParameterGeneratorException;
 import pl.projewski.generator.interfaces.GeneratorInterface;
 import pl.projewski.generator.tools.ArrayUtil;
 import pl.projewski.generator.tools.Convert;
 import pl.projewski.generator.tools.VectorLong;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,14 +42,17 @@ public class GenericLCG extends GeneratorBase {
     private long m;
 
     @Override
-    public List<Class<?>> getAllowedClass(final String param) throws ParameterException {
-        if (param.equals(A) || param.equals(XN)) {
+    public List<Class<?>> getAllowedClass(final String param) {
+        switch (param) {
+        case A:
+        case XN:
             return Arrays.asList(VectorLong.class);
-        } else if (param.equals(C) || param.equals(M)) {
+        case C:
+        case M:
             return Arrays.asList(Long.class);
-        } else if (param.equals(SEED)) {
+        case SEED:
             return Arrays.asList(VectorLong.class, GeneratorInterface.class);
-        } else {
+        default:
             return ListUtils.EMPTY_LIST;
         }
     }
@@ -61,9 +60,9 @@ public class GenericLCG extends GeneratorBase {
     @Override
     public void initParameters() {
         parameters.put(A, new VectorLong());
-        parameters.put(C, Long.valueOf(0));
-        parameters.put(M, Long.valueOf(0));
-        parameters.put(SEED, Long.valueOf(2));
+        parameters.put(C, 0L);
+        parameters.put(M, 0L);
+        parameters.put(SEED, 2L);
         parameters.put(XN, new VectorLong());
     }
 
@@ -105,59 +104,44 @@ public class GenericLCG extends GeneratorBase {
         return (float) nextLong() / (float) m;
     }
 
-    /* (non-Javadoc)
-     * @see pk.ie.proj.interfaces.GeneratorInterface#nextInt()
-     */
     @Override
-    public int nextInt() throws GeneratorException {
+    public int nextInt() {
         return (int) nextLong();
     }
 
-    /* (non-Javadoc)
-     * @see pk.ie.proj.interfaces.GeneratorInterface#nextLong()
-     */
     @Override
-    public long nextLong() throws GeneratorException {
+    public long nextLong() {
         final long n = next();
         parameters.put(XN, new VectorLong(xn));
         return n;
     }
 
-    private void initGenerator(final boolean isReinit) throws GeneratorException {
+    private void initGenerator(final boolean isReinit) {
         // pobranie parametrów poczštkowych
         final Object seedObj = parameters.get(SEED);
         final Object aObj = parameters.get(A);
         final Object cObj = parameters.get(C);
         final Object mObj = parameters.get(M);
 
-        // sprawdzenie wartoci
         if (seedObj == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, SEED
-            );
+            throw new WrongParameterGeneratorException(SEED);
         }
 
         if (aObj == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, A
-            );
+            throw new WrongParameterGeneratorException(A);
         }
 
         if (cObj == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, C
-            );
+            throw new WrongParameterGeneratorException(C);
         }
 
         if (mObj == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, M
-            );
+            throw new WrongParameterGeneratorException(M);
         }
 
-//		VectorLong a = (VectorLong)aObj;
+        //		VectorLong a = (VectorLong)aObj;
         a = Convert.tryToTLong(aObj);
-//		VectorLong xn = new VectorLong();
+        //		VectorLong xn = new VectorLong();
         m = Convert.tryToLong(mObj);
         c = Convert.tryToLong(cObj);
 
@@ -187,49 +171,33 @@ public class GenericLCG extends GeneratorBase {
         parameters.put(XN, new VectorLong(xn));
     }
 
-    /* (non-Javadoc)
-     * @see pk.ie.proj.interfaces.GeneratorInterface#init()
-     */
     @Override
-    public void init() throws GeneratorException {
+    public void init() {
         initGenerator(false);
     }
 
-    /* (non-Javadoc)
-     * @see pk.ie.proj.interfaces.GeneratorInterface#rawFill(java.lang.Object)
-     */
     @Override
-    public void rawFill(final Object arg0) throws GeneratorException {
-        // TODO Auto-generated method stub
-
+    public void rawFill(final Object arg0) {
     }
 
-    /* (non-Javadoc)
-     * @see pk.ie.proj.interfaces.GeneratorInterface#rawFill(pk.ie.proj.tools.stream.NumberWriter, pk.ie.proj.enumeration.ClassEnumerator, int)
-     */
     @Override
-    public void rawFill(final NumberWriter writer, final ClassEnumerator cl, int size)
-            throws GeneratorException {
-        try {
-            if (cl == ClassEnumerator.LONG) {
-                while (size-- > 0) {
-                    writer.write(this.nextLong());
-                }
-            } else if (cl == ClassEnumerator.INTEGER) {
-                while (size-- > 0) {
-                    writer.write(this.nextInt());
-                }
-            } else if (cl == ClassEnumerator.FLOAT) {
-                while (size-- > 0) {
-                    writer.write(this.nextFloat());
-                }
-            } else if (cl == ClassEnumerator.DOUBLE) {
-                while (size-- > 0) {
-                    writer.write(this.nextDouble());
-                }
+    public void rawFill(final NumberWriter writer, final ClassEnumerator cl, int size) {
+        if (cl == ClassEnumerator.LONG) {
+            while (size-- > 0) {
+                writer.write(this.nextLong());
             }
-        } catch (final IOException e) {
-            throw new GeneratorException(e);
+        } else if (cl == ClassEnumerator.INTEGER) {
+            while (size-- > 0) {
+                writer.write(this.nextInt());
+            }
+        } else if (cl == ClassEnumerator.FLOAT) {
+            while (size-- > 0) {
+                writer.write(this.nextFloat());
+            }
+        } else if (cl == ClassEnumerator.DOUBLE) {
+            while (size-- > 0) {
+                writer.write(this.nextDouble());
+            }
         }
     }
 
@@ -237,7 +205,7 @@ public class GenericLCG extends GeneratorBase {
      * @see pk.ie.proj.interfaces.GeneratorInterface#reinit()
      */
     @Override
-    public void reinit() throws GeneratorException {
+    public void reinit() {
         initGenerator(true);
     }
 }

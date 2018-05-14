@@ -1,21 +1,15 @@
-/**
- * 
- */
 package tests;
 
-import pk.ie.proj.tools.Mysys;
+
+import pl.projewski.generator.tools.Mysys;
 
 /**
  * @author projewski
- *
  */
 public class MysysTest {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Mysys.error("Test wypisu");
-	}
+    public static void main(final String[] args) {
+        Mysys.error("Test wypisu");
+    }
 
 }

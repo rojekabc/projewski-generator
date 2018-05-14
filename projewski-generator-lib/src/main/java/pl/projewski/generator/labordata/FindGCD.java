@@ -8,13 +8,9 @@ import pl.projewski.generator.abstracts.LaborDataBase;
 import pl.projewski.generator.common.NumberReader;
 import pl.projewski.generator.common.NumberWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
-import pl.projewski.generator.exceptions.LaborDataException;
-import pl.projewski.generator.exceptions.NumberStoreException;
+import pl.projewski.generator.exceptions.NotImplementedGeneratorException;
 import pl.projewski.generator.interfaces.NumberInterface;
-import pl.projewski.generator.tools.Mysys;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 public class FindGCD extends LaborDataBase {
@@ -131,7 +127,7 @@ public class FindGCD extends LaborDataBase {
     }
 
     @Override
-    public boolean getOutputData(final NumberInterface data) throws LaborDataException {
+    public boolean getOutputData(final NumberInterface data) {
         final Object out = parameters.get(GCD);
 
         if (out == null) {
@@ -141,36 +137,23 @@ public class FindGCD extends LaborDataBase {
             return false; // TODO: NULL Ecxeption
         }
 
-        NumberWriter writer = null;
-
-        try {
-            writer = data.getNumberWriter();
-
+        try (final NumberWriter writer = data.getNumberWriter()) {
             if (out instanceof Integer) {
-                writer.write(((Integer) out).intValue());
+                writer.write((Integer) out);
                 data.setStoreClass(ClassEnumerator.INTEGER);
             } else if (out instanceof Long) {
-                writer.write(((Long) out).longValue());
+                writer.write((Long) out);
                 data.setStoreClass(ClassEnumerator.LONG);
             } else if (out instanceof Float) {
-                writer.write(((Float) out).floatValue());
+                writer.write((Float) out);
                 data.setStoreClass(ClassEnumerator.FLOAT);
             } else if (out instanceof Double) {
-                writer.write(((Double) out).doubleValue());
+                writer.write((Double) out);
                 data.setStoreClass(ClassEnumerator.DOUBLE);
             } else {
                 return false; // TODO: Wrong Output Data
             }
-
             data.setSize(1);
-        } catch (final FileNotFoundException e) {
-            throw new LaborDataException(e);
-        } catch (final IOException e) {
-            throw new LaborDataException(e);
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
-        } finally {
-            Mysys.closeQuiet(writer);
         }
 
         parameters.put(GCD, null);
@@ -178,57 +161,42 @@ public class FindGCD extends LaborDataBase {
     }
 
     @Override
-    public void setInputData(final NumberInterface data) throws LaborDataException {
+    public void setInputData(final NumberInterface data) {
 
-        NumberReader is = null;
-
-        try {
+        try (final NumberReader reader = data.getNumberReader()) {
             final ClassEnumerator cl = data.getStoreClass();
             if (cl == null) {
                 return; // TODO: Throw info about null data
             }
 
-            is = data.getNumberReader();
-
             if (cl == ClassEnumerator.INTEGER) {
                 int gcd = 0;
-                if (is.hasNext()) {
-                    gcd = is.readInt();
+                if (reader.hasNext()) {
+                    gcd = reader.readInt();
                 }
-                while (is.hasNext()) {
-                    gcd = gcdInt(gcd, is.readInt());
+                while (reader.hasNext()) {
+                    gcd = gcdInt(gcd, reader.readInt());
                 }
 
-                parameters.put(GCD, Integer.valueOf(gcd));
+                parameters.put(GCD, gcd);
             } else if (cl == ClassEnumerator.LONG) {
                 long gcd = 0l;
-                if (is.hasNext()) {
-                    gcd = is.readLong();
+                if (reader.hasNext()) {
+                    gcd = reader.readLong();
                 }
-                while (is.hasNext()) {
-                    gcd = gcdLong(gcd, is.readLong());
+                while (reader.hasNext()) {
+                    gcd = gcdLong(gcd, reader.readLong());
                 }
 
-                parameters.put(GCD, Long.valueOf(gcd));
+                parameters.put(GCD, gcd);
             } else if (cl == ClassEnumerator.FLOAT) {
-                throw new LaborDataException(
-                        LaborDataException.NOT_IMPLEMENTED_ERROR);
+                throw new NotImplementedGeneratorException();
             } else if (cl == ClassEnumerator.DOUBLE) {
-                throw new LaborDataException(
-                        LaborDataException.NOT_IMPLEMENTED_ERROR);
+                throw new NotImplementedGeneratorException();
             } else {
                 return; // TODO: Exception Unknown Input Data Type
             }
-//			return new NumberStoreOne(outData);
-
-        } catch (final ClassCastException e) {
-            throw new LaborDataException(
-                    LaborDataException.WRONG_TYPE_ERROR
-            );
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
-        } finally {
-            Mysys.closeQuiet(is);
+            //			return new NumberStoreOne(outData);
         }
     }
 

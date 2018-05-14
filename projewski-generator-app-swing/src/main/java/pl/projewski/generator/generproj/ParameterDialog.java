@@ -1,15 +1,9 @@
-/**
- *
- */
 package pl.projewski.generator.generproj;
 
-import pl.projewski.generator.exceptions.ParameterException;
-import pl.projewski.generator.exceptions.ViewDataException;
 import pl.projewski.generator.generproj.layout.AlaNullLayout;
 import pl.projewski.generator.interfaces.ParameterInterface;
 import pl.projewski.generator.interfaces.ViewDataInterface;
 import pl.projewski.generator.tools.Convert;
-import pl.projewski.generator.tools.Mysys;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +25,7 @@ public class ParameterDialog extends JDialog implements ActionListener {
     private final ParameterParamPack paramPack;
     private final ViewDataInterface view;
 
-    ParameterDialog(final Frame frame, final ParameterInterface pi, final ViewDataInterface vi) {
+    private ParameterDialog(final Frame frame, final ParameterInterface pi, final ViewDataInterface vi) {
         super(frame, true);
         dialogButtOk = new JButton("Ok");
         dialogButtOk.setBounds(400, 10, 80, 25);
@@ -68,39 +62,24 @@ public class ParameterDialog extends JDialog implements ActionListener {
 
         if (o == this.dialogButtOk) {
             paramPack.getParameterInterface(inPi);
-//			Object[] paramValue;
+            //			Object[] paramValue;
             final Set<String> paramName;
-            try {
-//				paramValue = inPi.listValues();
-                paramName = inPi.listParameters();
-            } catch (final ParameterException e) {
-                Mysys.error(e);
-                return;
-            }
+            //				paramValue = inPi.listValues();
+            paramName = inPi.listParameters();
 
             for (final String param : paramName) {
-                try {
-                    if (inPi.getParameter(param) == null) {
-                        JOptionPane.showMessageDialog(this,
-                                Convert.stringWrap("Niepoprawnie ustawiona wartosc parametru " + param, 30),
-                                "Warning",
-                                JOptionPane.WARNING_MESSAGE);
-                        return;
-                    }
-                } catch (final ParameterException e) {
-                    Mysys.error(e);
+                if (inPi.getParameter(param) == null) {
+                    JOptionPane.showMessageDialog(this,
+                            Convert.stringWrap("Niepoprawnie ustawiona wartosc parametru " + param, 30),
+                            "Warning",
+                            JOptionPane.WARNING_MESSAGE);
                     return;
                 }
             }
 
-            try {
-                view.refreshView();
-            } catch (final ViewDataException e) {
-                Mysys.error(e);
-            }
+            view.refreshView();
 
             setVisible(false);
-            return;
         }
 
     }

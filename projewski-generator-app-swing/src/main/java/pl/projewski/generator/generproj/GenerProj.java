@@ -24,8 +24,8 @@ import java.util.*;
 public class GenerProj
         extends DefaultHandler {
     //	private String actualParam=null; // aktualnie obrabiany parametr pliku konfiguracyjnego z XMLa
-//	private String actName=null, actTick=null;
-//	private String rdBuf=null;
+    //	private String actName=null, actTick=null;
+    //	private String rdBuf=null;
     private static final String configurationFile = "generproj.cnf";
     // Do systemu otwierania okien i zamykania, gdzie jedno jest zawsze aktualne
     // a wyjscie nastepuje, gdy juz zostanie zamkniete okno glowne
@@ -119,7 +119,7 @@ public class GenerProj
     private static <T> T tryCreateInstance(final Class<T> clazz) {
         try {
             return clazz.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (final InstantiationException | IllegalAccessException e) {
             log.warn("Cannot instance " + clazz.getName(), e);
             return null;
         }
@@ -141,10 +141,8 @@ public class GenerProj
     public static List<Class<? extends ViewDataInterface>> listView() {
         final List<Class<? extends ViewDataInterface>> result = new ArrayList<>();
         final ServiceLoader<PackageInterface> serviceLoader = ServiceLoader.load(PackageInterface.class);
-        final Iterator<PackageInterface> iterator = serviceLoader.iterator();
-        while (iterator.hasNext()) {
-            final PackageInterface pack = iterator.next();
-            Arrays.stream(pack.listViewData()).forEach(result::add);
+        for (final PackageInterface pack : serviceLoader) {
+            result.addAll(Arrays.asList(pack.listViewData()));
         }
         return result;
     }
@@ -152,12 +150,20 @@ public class GenerProj
     public static List<Class<? extends LaborDataInterface>> listTest() {
         final List<Class<? extends LaborDataInterface>> result = new ArrayList<>();
         final ServiceLoader<PackageInterface> serviceLoader = ServiceLoader.load(PackageInterface.class);
-        final Iterator<PackageInterface> iterator = serviceLoader.iterator();
-        while (iterator.hasNext()) {
-            final PackageInterface pack = iterator.next();
-            Arrays.stream(pack.listLaborData()).forEach(result::add);
+        for (final PackageInterface pack : serviceLoader) {
+            result.addAll(Arrays.asList(pack.listLaborData()));
         }
         return result;
+    }
+
+    public static boolean hasGeneratorFile(final String filename) {
+        File file = null;
+        if (filename.endsWith(".gen")) {
+            file = new File(filename);
+        } else {
+            file = new File(filename + ".gen");
+        }
+        return file.exists();
     }
 
     // nazwa bez rozszerzenia / generator - zapisanie do pliku i dodanie do
@@ -251,7 +257,7 @@ public class GenerProj
         try {
             final java.io.PrintStream savefile = new java.io.PrintStream(
                     new java.io.FileOutputStream(configurationFile));
-//			Object [] vecGeneratorType = listGeneratorTypes();
+            //			Object [] vecGeneratorType = listGeneratorTypes();
             savefile.println("<?xml version='1.0' encoding='Latin1'?>");
             // zapisz wektor z klasami generator�w
             savefile.println("<GenerProjConfiguration>");
@@ -320,8 +326,8 @@ public class GenerProj
             if (osname.equals("Windows XP")) {
                 UIManager.setLookAndFeel("com.stefankrause.xplookandfeel.XPLookAndFeel");
             } else if (osname.equals("Linux")) {
-//		javax.swing.UIManager.setLookAndFeel("com.birosoft.liquid.LiquidLookAndFeel");
-//		javax.swing.UIManager.setLookAndFeel("de.muntjak.tinylookandfeel.TinyLookAndFeel");
+                //		javax.swing.UIManager.setLookAndFeel("com.birosoft.liquid.LiquidLookAndFeel");
+                //		javax.swing.UIManager.setLookAndFeel("de.muntjak.tinylookandfeel.TinyLookAndFeel");
                 javax.swing.UIManager.setLookAndFeel("com.digitprop.tonic.TonicLookAndFeel");
             } else {
                 System.out.println("Nieznany system operacyjny: " + osname);
@@ -420,17 +426,15 @@ public class GenerProj
      * Metoda wywo�ywana przy rozpocz�ciu analizy dokumentu XML
      */
     @Override
-    public void startDocument()
-            throws SAXException {
-//		rdBuf = new String("");
+    public void startDocument() {
+        //		rdBuf = new String("");
     }
 
     /**
      * Metoda wywo�ywana przy zako�czeniu analizy dokumentu XML
      */
     @Override
-    public void endDocument()
-            throws SAXException {
+    public void endDocument() {
     }
 
     /**
@@ -438,8 +442,7 @@ public class GenerProj
      */
     @Override
     public void startElement(final String uriname, final String sname, final String qname,
-                             final Attributes attr)
-            throws SAXException {
+            final Attributes attr) {
         try {
             String name = sname;
             if (name.equals("")) {

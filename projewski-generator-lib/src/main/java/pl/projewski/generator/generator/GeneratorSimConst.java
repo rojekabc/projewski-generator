@@ -11,11 +11,11 @@ import pl.projewski.generator.abstracts.GeneratorBase;
 import pl.projewski.generator.common.NumberWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
 import pl.projewski.generator.exceptions.GeneratorException;
-import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.exceptions.NotAllowedOperationGeneratorException;
+import pl.projewski.generator.exceptions.WrongParameterGeneratorException;
 import pl.projewski.generator.interfaces.GeneratorInterface;
 import pl.projewski.generator.tools.Convert;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,15 +29,15 @@ public class GeneratorSimConst
 
     @Override
     public void initParameters() {
-        parameters.put(CONST, Double.valueOf(0.0));
+        parameters.put(CONST, 0.0);
         parameters.put(GENERATOR, null);
-        parameters.put(MULTIP, Double.valueOf(1.0));
-        parameters.put(XN, Double.valueOf(0.0));
+        parameters.put(MULTIP, 1.0);
+        parameters.put(XN, 0.0);
     }
 
 
     @Override
-    public List<Class<?>> getAllowedClass(final String param) throws ParameterException {
+    public List<Class<?>> getAllowedClass(final String param) {
         if (param.equals(XN)
                 || param.equals(CONST)
                 || param.equals(MULTIP)
@@ -51,38 +51,25 @@ public class GeneratorSimConst
     }
 
     @Override
-    public void init()
-            throws GeneratorException {
+    public void init() {
         final Object generator = parameters.get(GENERATOR);
         if (parameters.get(CONST) == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, CONST
-            );
+            throw new WrongParameterGeneratorException(CONST);
         }
 
         if (parameters.get(MULTIP) == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, MULTIP
-            );
+            throw new WrongParameterGeneratorException(MULTIP);
         }
 
-        if (generator == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, GENERATOR
-            );
+        if (generator == null || !(generator instanceof GeneratorInterface)) {
+            throw new WrongParameterGeneratorException(GENERATOR);
         }
 
-        if (generator instanceof GeneratorInterface) {
-            // inicjuj generator podrzędny
-            final GeneratorInterface gi = (GeneratorInterface) generator;
-            gi.init();
-            // pobierz pierwszą wartość
-            parameters.put(XN, nextDouble());
-        } else {
-            throw new GeneratorException(
-                    GeneratorException.WRONG_PARAMETER_INSTANCE_ERROR,
-                    GENERATOR);
-        }
+        // inicjuj generator podrzędny
+        final GeneratorInterface gi = (GeneratorInterface) generator;
+        gi.init();
+        // pobierz pierwszą wartość
+        parameters.put(XN, nextDouble());
     }
 
     @Override
@@ -90,87 +77,55 @@ public class GeneratorSimConst
             throws GeneratorException {
         final Object generator = parameters.get(GENERATOR);
         if (parameters.get(CONST) == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, CONST
-            );
+            throw new WrongParameterGeneratorException(CONST);
         }
 
         if (parameters.get(MULTIP) == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, MULTIP
-            );
+            throw new WrongParameterGeneratorException(MULTIP);
         }
 
-        if (generator == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, GENERATOR
-            );
+        if (generator == null || !(generator instanceof GeneratorInterface)) {
+            throw new WrongParameterGeneratorException(GENERATOR);
         }
 
-        if (generator instanceof GeneratorInterface) {
-            // reinicjuj generator podrzędny
-            final GeneratorInterface gi = (GeneratorInterface) generator;
-            gi.reinit();
-            // pobierz pierwszą wartość
-            parameters.put(XN, nextDouble());
-        } else {
-            throw new GeneratorException(
-                    GeneratorException.WRONG_PARAMETER_INSTANCE_ERROR,
-                    GENERATOR);
-        }
+        // reinicjuj generator podrzędny
+        final GeneratorInterface gi = (GeneratorInterface) generator;
+        gi.reinit();
+        // pobierz pierwszą wartość
+        parameters.put(XN, nextDouble());
     }
 
     @Override
-    public long nextLong()
-            throws GeneratorException {
-        throw new GeneratorException(
-                GeneratorException.NOT_ALLOWED_USE_ERROR,
-                "Long value generation");
+    public long nextLong() {
+        throw new NotAllowedOperationGeneratorException();
     }
 
     @Override
-    public int nextInt()
-            throws GeneratorException {
-        throw new GeneratorException(
-                GeneratorException.NOT_ALLOWED_USE_ERROR,
-                "Integer value generation");
+    public int nextInt() {
+        throw new NotAllowedOperationGeneratorException();
     }
 
     @Override
-    public float nextFloat()
-            throws GeneratorException {
+    public float nextFloat() {
         final float r = (float) nextDouble();
         return r;
     }
 
     @Override
-    public double nextDouble()
-            throws GeneratorException {
+    public double nextDouble() {
         final Object objConst = parameters.get(CONST);
         final Object objMultip = parameters.get(MULTIP);
         final Object generator = parameters.get(GENERATOR);
         if (objConst == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, CONST
-            );
+            throw new WrongParameterGeneratorException(CONST);
         }
 
         if (objMultip == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, MULTIP
-            );
+            throw new WrongParameterGeneratorException(MULTIP);
         }
 
-        if (generator == null) {
-            throw new GeneratorException(
-                    GeneratorException.NULL_PARAMETER_ERROR, GENERATOR
-            );
-        }
-
-        if (!(generator instanceof GeneratorInterface)) {
-            throw new GeneratorException(
-                    GeneratorException.WRONG_PARAMETER_INSTANCE_ERROR,
-                    GENERATOR);
+        if (generator == null || !(generator instanceof GeneratorInterface)) {
+            throw new WrongParameterGeneratorException(GENERATOR);
         }
 
         final GeneratorInterface gi = (GeneratorInterface) generator;
@@ -182,61 +137,49 @@ public class GeneratorSimConst
     }
 
     @Override
-    public void rawFill(final Object tablica)
-            throws GeneratorException {
-        try {
-            if (tablica instanceof int[]) {
-                final int[] tmp = Convert.tryToTInt(tablica);
-                for (int i = 0; i < tmp.length; i++) {
-                    tmp[i] = nextInt();
-                }
-            } else if (tablica instanceof float[]) {
-                final float[] tmp = Convert.tryToTFloat(tablica);
-                for (int i = 0; i < tmp.length; i++) {
-                    tmp[i] = nextFloat();
-                }
-            } else if (tablica instanceof long[]) {
-                final long[] tmp = Convert.tryToTLong(tablica);
-                for (int i = 0; i < tmp.length; i++) {
-                    tmp[i] = nextLong();
-                }
-            } else if (tablica instanceof double[]) {
-                final double[] tmp = Convert.tryToTDouble(tablica);
-                for (int i = 0; i < tmp.length; i++) {
-                    tmp[i] = nextDouble();
-                }
+    public void rawFill(final Object tablica) {
+        if (tablica instanceof int[]) {
+            final int[] tmp = Convert.tryToTInt(tablica);
+            for (int i = 0; i < tmp.length; i++) {
+                tmp[i] = nextInt();
             }
-        } catch (final ClassCastException e) {
+        } else if (tablica instanceof float[]) {
+            final float[] tmp = Convert.tryToTFloat(tablica);
+            for (int i = 0; i < tmp.length; i++) {
+                tmp[i] = nextFloat();
+            }
+        } else if (tablica instanceof long[]) {
+            final long[] tmp = Convert.tryToTLong(tablica);
+            for (int i = 0; i < tmp.length; i++) {
+                tmp[i] = nextLong();
+            }
+        } else if (tablica instanceof double[]) {
+            final double[] tmp = Convert.tryToTDouble(tablica);
+            for (int i = 0; i < tmp.length; i++) {
+                tmp[i] = nextDouble();
+            }
         }
     }
 
 
     @Override
-    public void rawFill(final NumberWriter writer, final ClassEnumerator c, int size)
-            throws GeneratorException {
-        try {
-            if (c == ClassEnumerator.INTEGER) {
-                while (size-- > 0) {
-                    writer.write(nextInt());
-                }
-            } else if (c == ClassEnumerator.FLOAT) {
-                while (size-- > 0) {
-                    writer.write(nextFloat());
-                }
-            } else if (c == ClassEnumerator.LONG) {
-                while (size-- > 0) {
-                    writer.write(nextLong());
-                }
-            } else if (c == ClassEnumerator.DOUBLE) {
-                while (size-- > 0) {
-                    writer.write(nextDouble());
-                }
+    public void rawFill(final NumberWriter writer, final ClassEnumerator c, int size) {
+        if (c == ClassEnumerator.INTEGER) {
+            while (size-- > 0) {
+                writer.write(nextInt());
             }
-        } catch (final ClassCastException e) {
-            throw new GeneratorException(e);
-        } catch (final IOException e) {
-            throw new GeneratorException(e);
+        } else if (c == ClassEnumerator.FLOAT) {
+            while (size-- > 0) {
+                writer.write(nextFloat());
+            }
+        } else if (c == ClassEnumerator.LONG) {
+            while (size-- > 0) {
+                writer.write(nextLong());
+            }
+        } else if (c == ClassEnumerator.DOUBLE) {
+            while (size-- > 0) {
+                writer.write(nextDouble());
+            }
         }
-
     }
 }

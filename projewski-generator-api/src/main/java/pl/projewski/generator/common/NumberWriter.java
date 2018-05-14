@@ -1,29 +1,27 @@
-/**
- *
- */
 package pl.projewski.generator.common;
 
-import java.io.IOException;
+import java.io.Closeable;
 
 /**
  * @author projewski
  */
-public interface NumberWriter {
-    public void write(int a) throws IOException;
+public interface NumberWriter extends Closeable {
+    void write(int a);
 
-    public void write(long a) throws IOException;
+    void write(long a);
 
-    public void write(float a) throws IOException;
+    void write(float a);
 
-    public void write(double a) throws IOException;
+    void write(double a);
 
-    public void write(int[] a) throws IOException;
+    void write(int[] a);
 
-    public void write(long[] a) throws IOException;
+    void write(long[] a);
 
-    public void write(float[] a) throws IOException;
+    void write(float[] a);
 
-    public void write(double[] a) throws IOException;
+    void write(double[] a);
 
-    public void close() throws IOException;
+    @Override
+    void close();
 }

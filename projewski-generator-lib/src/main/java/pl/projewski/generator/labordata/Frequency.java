@@ -27,13 +27,10 @@ import pl.projewski.generator.abstracts.LaborDataBase;
 import pl.projewski.generator.common.NumberReader;
 import pl.projewski.generator.common.NumberWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
-import pl.projewski.generator.exceptions.LaborDataException;
-import pl.projewski.generator.exceptions.NumberStoreException;
 import pl.projewski.generator.interfaces.NumberInterface;
 import pl.projewski.generator.tools.Convert;
-import pl.projewski.generator.tools.Mysys;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Frequency
@@ -60,7 +57,7 @@ public class Frequency
     protected int[] countForInt(final NumberReader numberReader) {
         final int min;
         final int max;
-        int clnum = MAXIMUMCLASSAMMOUNT;
+        int clnum;
         final double[] classLevel; // poziom danej klasy
 
         try {
@@ -100,8 +97,8 @@ public class Frequency
                 while (tmp > classLevel[j]) {
                     j++;
                 }
-//				while ( ((double)(tmp-min))/((double)(max-min)) > jmp*(j+1) )
-//					j++;
+                //				while ( ((double)(tmp-min))/((double)(max-min)) > jmp*(j+1) )
+                //					j++;
                 frequency[j]++;
             }
         } catch (final Exception e) {
@@ -114,7 +111,7 @@ public class Frequency
     protected int[] countForLong(final NumberReader numberReader) {
         final long min;
         final long max;
-        int clnum = MAXIMUMCLASSAMMOUNT;
+        int clnum;
         final double[] classLevel; // poziom danej klasy
 
         try {
@@ -166,7 +163,7 @@ public class Frequency
     protected int[] countForFloat(final NumberReader numberReader) {
         final float min;
         final float max;
-        int clnum = MAXIMUMCLASSAMMOUNT;
+        int clnum;
         final double[] classLevel; // poziom danej klasy
 
         try {
@@ -217,7 +214,7 @@ public class Frequency
     protected int[] countForDouble(final NumberReader numberReader) {
         final double min;
         final double max;
-        int clnum = MAXIMUMCLASSAMMOUNT;
+        int clnum;
         final double[] classLevel; // poziom danej klasy
 
         try {
@@ -267,68 +264,55 @@ public class Frequency
     @Override
     public List<Class<?>> getAllowedClass(final String param) {
         if (param.equals(CLASSAMMOUNT)) {
-            return Arrays.asList(Integer.class);
+            return Collections.singletonList(Integer.class);
         } else {
-            return Arrays.asList(Double.class);
+            return Collections.singletonList(Double.class);
         }
     }
 
     @Override
-    public boolean getOutputData(final NumberInterface data) throws LaborDataException {
-        NumberWriter writer = null;
-        try {
-            if (frequency == null) {
-                return false;
-            }
+    public boolean getOutputData(final NumberInterface data) {
+        if (frequency == null) {
+            return false;
+        }
+        data.setStoreClass(ClassEnumerator.INTEGER);
+        data.setSize(frequency.length);
 
-            data.setStoreClass(ClassEnumerator.INTEGER);
-            data.setSize(frequency.length);
-            writer = data.getNumberWriter();
-            for (int i = 0; i < frequency.length; i++) {
-                writer.write(frequency[i]);
+        try (final NumberWriter writer = data.getNumberWriter()) {
+            for (final int aFrequency : frequency) {
+                writer.write(aFrequency);
             }
             return true;
-        } catch (final Exception e) {
-            throw new LaborDataException(e);
-        } finally {
-            Mysys.debugln("Closing stream for writing freq");
-            Mysys.closeQuiet(writer);
         }
     }
 
     @Override
-    public void setInputData(final NumberInterface data) throws LaborDataException {
+    public void setInputData(final NumberInterface data) {
+        // wyznaczenie minimum
+        if (parameters.get(MINIMUM) == null) {
+            final FindMin min = new FindMin();
+            min.setInputData(data);
+            parameters.put(MINIMUM, min.getMinimum());
+        }
 
-        // LaborDataInterface labordata = null;
-        NumberReader reader = null;
+        // wyznaczenie maksimum
+        if (parameters.get(MAXIMUM) == null) {
+            final FindMax max = new FindMax();
+            max.setInputData(data);
+            parameters.put(MAXIMUM, max.getMaximum());
+        }
 
-        try {
-            // wyznaczenie minimum
-            if (parameters.get(MINIMUM) == null) {
-                final FindMin min = new FindMin();
-                min.setInputData(data);
-                parameters.put(MINIMUM, min.getMinimum());
-            }
+        // ustalenie classammount
+        parameters.putIfAbsent(CLASSAMMOUNT, 20);
 
-            // wyznaczenie maksimum
-            if (parameters.get(MAXIMUM) == null) {
-                final FindMax max = new FindMax();
-                max.setInputData(data);
-                parameters.put(MAXIMUM, max.getMaximum());
-            }
+        // posortowanie otrzymanych danych - to jesli chcemy inaczej policzyc czestotliwosc
+        // labordata = new ExternalSort();
+        // labordata.setInputData( data );
 
-            // ustalenie classammount
-            if (parameters.get(CLASSAMMOUNT) == null) {
-                parameters.put(CLASSAMMOUNT, Integer.valueOf(20));
-            }
-
-            // posortowanie otrzymanych danych - to jesli chcemy inaczej policzyc czestotliwosc
-            // labordata = new ExternalSort();
-            // labordata.setInputData( data );
+        try (final NumberReader reader = data.getNumberReader()) {
 
             // obliczenie liczebnosci wystepowania
             final ClassEnumerator c = data.getStoreClass();
-            reader = data.getNumberReader();
 
             if (c == ClassEnumerator.INTEGER) {
                 frequency = countForInt(reader);
@@ -339,10 +323,6 @@ public class Frequency
             } else if (c == ClassEnumerator.DOUBLE) {
                 frequency = countForDouble(reader);
             }
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
-        } finally {
-            Mysys.closeQuiet(reader);
         }
 
     }

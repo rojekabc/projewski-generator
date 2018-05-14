@@ -1,19 +1,13 @@
-/**
- *
- */
 package pl.projewski.generator.viewdata.text;
 
 import org.apache.commons.collections.ListUtils;
 import pl.projewski.generator.abstracts.ViewDataBase;
 import pl.projewski.generator.common.NumberReader;
-import pl.projewski.generator.exceptions.NumberStoreException;
-import pl.projewski.generator.exceptions.ParameterException;
-import pl.projewski.generator.exceptions.ViewDataException;
+import pl.projewski.generator.exceptions.WrongDataGeneratorException;
 import pl.projewski.generator.interfaces.NumberInterface;
 import pl.projewski.generator.interfaces.ParameterInterface;
 import pl.projewski.generator.labordata.TestSpeed;
 import pl.projewski.generator.tools.Convert;
-import pl.projewski.generator.tools.Mysys;
 
 import java.util.List;
 
@@ -22,51 +16,34 @@ import java.util.List;
  */
 public class PrintTestSpeed extends ViewDataBase {
 
-    NumberInterface data;
+    private NumberInterface data;
 
     @Override
     public boolean canViewData(final ParameterInterface dataSource) {
         return dataSource instanceof TestSpeed;
     }
 
-    /* (non-Javadoc)
-     * @see pk.ie.proj.interfaces.ViewDataInterface#getView()
-     */
     @Override
-    public Object getView() throws ViewDataException {
-        // TODO Auto-generated method stub
+    public Object getView() {
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see pk.ie.proj.interfaces.ViewDataInterface#refreshView()
-     */
     @Override
-    public void refreshView() throws ViewDataException {
-        // TODO Auto-generated method stub
-
+    public void refreshView() {
     }
 
-    /* (non-Javadoc)
-     * @see pk.ie.proj.interfaces.ViewDataInterface#setData(pk.ie.proj.interfaces.NumberInterface)
-     */
     @Override
-    public void setData(final NumberInterface inputData) throws ViewDataException {
+    public void setData(final NumberInterface inputData) {
         data = inputData;
     }
 
-    /* (non-Javadoc)
-     * @see pk.ie.proj.interfaces.ViewDataInterface#showView()
-     */
     @Override
-    public void showView() throws ViewDataException {
-        NumberReader reader = null;
-        ParameterInterface src = null;
-        try {
-            reader = data.getNumberReader();
+    public void showView() {
+        final ParameterInterface src;
+        try (final NumberReader reader = data.getNumberReader()) {
             src = data.getDataSource();
             if (src == null) {
-                throw new ViewDataException(ViewDataException.UNKNOWN_ERROR); // TODO
+                throw new WrongDataGeneratorException();
             }
             final int testNum = Convert.tryToInt(src.getParameter(TestSpeed.NUMBEROFTESTS));
             if ((Boolean) src.getParameter(TestSpeed.TESTINTEGER)) {
@@ -101,16 +78,6 @@ public class PrintTestSpeed extends ViewDataBase {
                 }
                 System.out.println();
             }
-        } catch (final NumberStoreException e) {
-            throw new ViewDataException(e);
-        } catch (final NumberFormatException e) {
-            throw new ViewDataException(e);
-        } catch (final ClassCastException e) {
-            throw new ViewDataException(e);
-        } catch (final ParameterException e) {
-            throw new ViewDataException(e);
-        } finally {
-            Mysys.closeQuiet(reader);
         }
     }
 
@@ -127,7 +94,7 @@ public class PrintTestSpeed extends ViewDataBase {
      * @see pk.ie.proj.interfaces.ParameterInterface#getAllowedClass(java.lang.String)
      */
     @Override
-    public List<Class<?>> getAllowedClass(final String arg0) throws ParameterException {
+    public List<Class<?>> getAllowedClass(final String arg0) {
         return ListUtils.EMPTY_LIST;
     }
 

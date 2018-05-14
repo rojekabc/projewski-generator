@@ -3,14 +3,14 @@ package pl.projewski.generator.viewdata.swing;
 import org.apache.commons.collections.ListUtils;
 import pl.projewski.generator.abstracts.ViewDataBase;
 import pl.projewski.generator.common.NumberReader;
-import pl.projewski.generator.exceptions.GeneratorException;
-import pl.projewski.generator.exceptions.NumberStoreException;
-import pl.projewski.generator.exceptions.ViewDataException;
+import pl.projewski.generator.exceptions.WrongDataGeneratorException;
 import pl.projewski.generator.interfaces.GeneratorInterface;
 import pl.projewski.generator.interfaces.NumberInterface;
 import pl.projewski.generator.tools.Convert;
 import pl.projewski.generator.tools.GeneratorTool;
 import pl.projewski.generator.tools.Mysys;
+import pl.projewski.generator.tools.exceptions.ReadFileGeneratorException;
+import pl.projewski.generator.tools.exceptions.WriteFileGeneratorException;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
@@ -18,7 +18,7 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.*;
 
 public class ViewRowSwingTable
@@ -55,7 +55,7 @@ public class ViewRowSwingTable
         parameters.put(DATALENGTH, Integer.valueOf(8));
         parameters.put(NAMELENGTH, Integer.valueOf(12));
         parameters.put(STRINGBETWEENDATA, " ");
-//		parameters.put(INPUTDATA, null);
+        //		parameters.put(INPUTDATA, null);
         parameters.put(NUMOFDATA, null);
         parameters.put(TYPEOFDATA, null);
     }
@@ -73,12 +73,12 @@ public class ViewRowSwingTable
                 || param.equals(NAMELENGTH)) {
             return Arrays.asList(Integer.class);
         }
-//		else if ( param.equals(INPUTDATA) )
-//		{
-//			tmp = new Class[2];
-//			tmp[0] = NumberInterface.class;
-//			tmp[1] = GeneratorInterface.class;
-//		}
+        //		else if ( param.equals(INPUTDATA) )
+        //		{
+        //			tmp = new Class[2];
+        //			tmp[0] = NumberInterface.class;
+        //			tmp[1] = GeneratorInterface.class;
+        //		}
         else if (param.equals(TYPEOFDATA)) {
             return Arrays.asList(Class.class, Long.class, Integer.class, Float.class, Double.class);
         } else {
@@ -86,12 +86,8 @@ public class ViewRowSwingTable
         }
     }
 
-    /**
-     * M4_GEN_VDI_GETVIEW
-     */
     @Override
-    public Object getView()
-            throws ViewDataException {
+    public Object getView() {
         return null;
     }
 
@@ -99,15 +95,14 @@ public class ViewRowSwingTable
      * M4_GEN_VDI_SHOWVIEW
      */
     @Override
-    public void showView()
-            throws ViewDataException {
+    public void showView() {
         String title = null;
         String[] rownames = new String[0];
         String beedata = ""; // ciag między danymi
         int flags = 0, tLength = 60, dLength = 8, nLength = 12;
-//		String bData = null;
+        //		String bData = null;
         byte[] formLine = null;
-//		Vector<Object> data = null;
+        //		Vector<Object> data = null;
         int numOfData = -1;
         Class<?>[] types = null;
 
@@ -120,15 +115,15 @@ public class ViewRowSwingTable
             dataFile = Mysys.getTempFile();
             dataStream = new java.io.PrintStream(
                     new FileOutputStream(dataFile));
-        } catch (final Exception e) {
-//			if ( dataStream != null )
-//				dataStream.close();
+        } catch (final IOException e) {
+            //			if ( dataStream != null )
+            //				dataStream.close();
             if (dataFile != null) {
                 if (!dataFile.delete()) {
                     Mysys.error("Nieudane usuwanie tymczasowego pliku " + dataFile.getName());
                 }
             }
-            throw new ViewDataException(e);
+            throw new WriteFileGeneratorException(dataFile.getName(), e);
         }
         // Tymczasowy plik do odczytania
 
@@ -137,27 +132,25 @@ public class ViewRowSwingTable
         paneDescr = new JTextPane();
         paneDescr.setEditable(false);
         scrDesc.getViewport().setView(paneDescr);
-//		frame.setContentPane( new javax.swing.JPanel() );
-//		frame.getContentPane().setLayout(new java.awt.GridLayout(1, 1));
+        //		frame.setContentPane( new javax.swing.JPanel() );
+        //		frame.getContentPane().setLayout(new java.awt.GridLayout(1, 1));
         frame.getContentPane().add(scrDesc);
         frame.addWindowListener(this);
 
         // Przeinicjowanie zmiennych
-//		if ( parameters.get(INPUTDATA) != null )
-//			data = (java.util.Vector)parameters.get( INPUTDATA );
-//		else
+        //		if ( parameters.get(INPUTDATA) != null )
+        //			data = (java.util.Vector)parameters.get( INPUTDATA );
+        //		else
         if (vec == null) {
-            throw new ViewDataException("No inputData"); // TODO: Tekst
+            throw new WrongDataGeneratorException();
         }
         // Test na zgodnosc klas w wektorze
         for (int i = 0; i < vec.size(); i++) {
-            if (vec.get(i) instanceof NumberInterface) {
+            final Object value = vec.get(i);
+            if (value instanceof NumberInterface || value instanceof GeneratorInterface) {
                 continue;
             }
-            if (vec.get(i) instanceof GeneratorInterface) {
-                continue;
-            }
-            throw new ViewDataException("Incorrect Input Data"); // TODO: Tekst
+            throw new WrongDataGeneratorException();
         }
 
         if (parameters.get(TITLENAME) != null) {
@@ -247,8 +240,7 @@ public class ViewRowSwingTable
             }
 
             if (numOfData < 0) {
-                throw new ViewDataException(
-                        "CANNOT COUNT DATA AMMOUNT + Perhaps only generators in input data or no input data");
+                throw new WrongDataGeneratorException();
             }
 
             // Ustalanie nx, czyli ile danych wypadnie w jednym wierszu na podstawie
@@ -322,39 +314,34 @@ public class ViewRowSwingTable
             if ((flags & F_END_LINE) == F_END_LINE) {
                 dataStream.println(new String(formLine));
             }
-        } catch (final NumberStoreException e) {
-            throw new ViewDataException(e);
-        } catch (final GeneratorException e) {
-            throw new ViewDataException(e);
         } finally {
             dataStream.flush();
             dataStream.close();
             if (readers != null) {
                 final Iterator<NumberReader> kolekcja = readers.values().iterator();
                 while (kolekcja.hasNext()) {
-                    Mysys.closeQuiet(kolekcja.next());
+                    kolekcja.next().close();
                 }
             }
-//			if ( !dataFile.delete() )
-//				Mysys.error("Nie moge usunac danych tymczasowych");
+            //			if ( !dataFile.delete() )
+            //				Mysys.error("Nie moge usunac danych tymczasowych");
         }
 
+        final URI uri = dataFile.toURI();
         try {
-            paneDescr.setPage(dataFile.toURL());
-        } catch (final MalformedURLException e) {
-            throw new ViewDataException(e);
+            paneDescr.setPage(uri.toURL());
         } catch (final IOException e) {
-            throw new ViewDataException(e);
+            throw new ReadFileGeneratorException(dataFile.getName(), e);
         }
         paneDescr.setCaretPosition(0);
 
         frame.setBounds(0, 0, 500, 200);
-//		Convert.setCentral( frame, 400, 200 );
-//		Convert.setCentral( frame, 400, 200 );
-//		frame.pack();
+        //		Convert.setCentral( frame, 400, 200 );
+        //		Convert.setCentral( frame, 400, 200 );
+        //		frame.pack();
         frame.setVisible(true);
         frame.setBounds(0, 0, 500, 200);
-//		Convert.setCentral( frame, 400, 200 );
+        //		Convert.setCentral( frame, 400, 200 );
 
 
     }
@@ -375,17 +362,17 @@ public class ViewRowSwingTable
             }
 
             switch (justify) {
-                case 0:
-                    out = text + (new String(tmp));
-                    break;
-                case 1:
-                    out = (new String(tmp)) + text + (new String(tmp));
-                    break;
-                case 2:
-                    out = (new String(tmp)) + text;
-                    break;
-                default:
-                    return "";
+            case 0:
+                out = text + (new String(tmp));
+                break;
+            case 1:
+                out = (new String(tmp)) + text + (new String(tmp));
+                break;
+            case 2:
+                out = (new String(tmp)) + text;
+                break;
+            default:
+                return "";
             }
         } else {
             out = text.substring(0, length);
@@ -401,22 +388,20 @@ public class ViewRowSwingTable
      * M4_GEN_VDI_REFRESHVIEW
      */
     @Override
-    public void refreshView()
-            throws ViewDataException {
+    public void refreshView() {
     }
 
     /**
      * M4_GEN_VDI_SETDATA_NSI
      */
     @Override
-    public void setData(final NumberInterface data)
-            throws ViewDataException {
-//		Object obj = parameters.get(INPUTDATA);
+    public void setData(final NumberInterface data) {
+        //		Object obj = parameters.get(INPUTDATA);
         if (vec == null) {
             vec = new Vector<>();
         }
         vec.add(data);
-//		parameters.put(INPUTDATA, vec);
+        //		parameters.put(INPUTDATA, vec);
     }
 
     @Override

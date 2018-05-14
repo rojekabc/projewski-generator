@@ -5,13 +5,8 @@ import pl.projewski.generator.abstracts.LaborDataBase;
 import pl.projewski.generator.common.NumberReader;
 import pl.projewski.generator.common.NumberWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
-import pl.projewski.generator.exceptions.LaborDataException;
-import pl.projewski.generator.exceptions.NumberStoreException;
-import pl.projewski.generator.exceptions.ParameterException;
 import pl.projewski.generator.interfaces.NumberInterface;
-import pl.projewski.generator.tools.Mysys;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,10 +17,10 @@ import java.util.List;
 public class InternalSort extends LaborDataBase {
     public final static String REMOVETHESAME = "Usuń podobne";
 
-    protected Object _result;
+    private Object _result;
 
     public void initParameterInterface() {
-        parameters.put(REMOVETHESAME, Boolean.valueOf(false));
+        parameters.put(REMOVETHESAME, Boolean.FALSE);
     }
 
 
@@ -33,23 +28,21 @@ public class InternalSort extends LaborDataBase {
      * M4_GEN_PI_GET_ALLOWED_CLASSES_I
      */
     @Override
-    public List<Class<?>> getAllowedClass(final String param) throws ParameterException {
+    public List<Class<?>> getAllowedClass(final String param) {
         return ListUtils.EMPTY_LIST;
     }
 
     @Override
-    public boolean getOutputData(final NumberInterface data) throws LaborDataException {
+    public boolean getOutputData(final NumberInterface data) {
         boolean remts = false;
 
         if (parameters.get(REMOVETHESAME) != null) {
-            remts = ((Boolean) parameters.get(REMOVETHESAME)).booleanValue();
+            remts = (Boolean) parameters.get(REMOVETHESAME);
         }
 
-        NumberWriter writer = null;
-        try {
-            final ClassEnumerator c = ClassEnumerator.getType(_result);
-            int cnt = 0;
-            writer = data.getNumberWriter();
+        final ClassEnumerator c = ClassEnumerator.getType(_result);
+        int cnt = 0;
+        try (final NumberWriter writer = data.getNumberWriter()) {
             data.setStoreClass(c);
 
             if (c == ClassEnumerator.INTEGER) {
@@ -123,77 +116,60 @@ public class InternalSort extends LaborDataBase {
                 }
             }
             data.setSize(cnt);
-        } catch (final IOException e) {
-            throw new LaborDataException(e);
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
-        } finally {
-            Mysys.closeQuiet(writer);
         }
 
         return true;
     }
 
-    public void setInputData(final NumberReader is, final ClassEnumerator classEnumerator, final int size)
-            throws LaborDataException {
-        try {
-            if (classEnumerator == null) {
-                return; // TODO: Throw info about null data type
+    public void setInputData(final NumberReader is, final ClassEnumerator classEnumerator, final int size) {
+        if (classEnumerator == null) {
+            return; // TODO: Throw info about null data type
+        }
+
+        if (classEnumerator == ClassEnumerator.INTEGER) {
+            final int[] out = new int[size];
+            if (is.read(out) != size) {
+                return; // TODO: Brak danych
             }
 
-            if (classEnumerator == ClassEnumerator.INTEGER) {
-                final int[] out = new int[size];
-                if (is.read(out) != size) {
-                    return; // TODO: Brak danych
-                }
+            // sortowanie
+            Arrays.sort(out);
 
-                // sortowanie
-                Arrays.sort(out);
-
-                _result = out;
-            } else if (classEnumerator == ClassEnumerator.LONG) {
-                final long[] out = new long[size];
-                if (is.read(out) != size) {
-                    return;
-                }
-
-                Arrays.sort(out);
-
-                _result = out;
-            } else if (classEnumerator == ClassEnumerator.FLOAT) {
-                final float[] out = new float[size];
-                if (is.read(out) != size) {
-                    return;
-                }
-
-                Arrays.sort(out);
-                _result = out;
-            } else if (classEnumerator == ClassEnumerator.DOUBLE) {
-                final double[] out = new double[size];
-                if (is.read(out) != size) {
-                    return;
-                }
-                Arrays.sort(out);
-                _result = out;
-            } else {
-                return; // TODO: Exception Unknown Input Data Type
+            _result = out;
+        } else if (classEnumerator == ClassEnumerator.LONG) {
+            final long[] out = new long[size];
+            if (is.read(out) != size) {
+                return;
             }
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
+
+            Arrays.sort(out);
+
+            _result = out;
+        } else if (classEnumerator == ClassEnumerator.FLOAT) {
+            final float[] out = new float[size];
+            if (is.read(out) != size) {
+                return;
+            }
+
+            Arrays.sort(out);
+            _result = out;
+        } else if (classEnumerator == ClassEnumerator.DOUBLE) {
+            final double[] out = new double[size];
+            if (is.read(out) != size) {
+                return;
+            }
+            Arrays.sort(out);
+            _result = out;
+        } else {
+            return; // TODO: Exception Unknown Input Data Type
         }
 
     }
 
     @Override
-    public void setInputData(final NumberInterface data) throws LaborDataException {
-        NumberReader reader = null;
-        try {
-            reader = data.getNumberReader();
+    public void setInputData(final NumberInterface data) {
+        try (final NumberReader reader = data.getNumberReader()) {
             setInputData(reader, data.getStoreClass(), data.getSize());
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
-        } finally {
-            Mysys.closeQuiet(reader);
         }
     }
 

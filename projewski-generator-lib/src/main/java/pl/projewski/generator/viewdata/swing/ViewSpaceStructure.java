@@ -4,8 +4,6 @@ import org.apache.commons.collections.ListUtils;
 import pl.projewski.generator.abstracts.ViewDataBase;
 import pl.projewski.generator.common.NumberReader;
 import pl.projewski.generator.enumeration.ClassEnumerator;
-import pl.projewski.generator.exceptions.ParameterException;
-import pl.projewski.generator.exceptions.ViewDataException;
 import pl.projewski.generator.interfaces.GeneratorInterface;
 import pl.projewski.generator.interfaces.NumberInterface;
 import pl.projewski.generator.interfaces.ParameterInterface;
@@ -37,8 +35,7 @@ public class ViewSpaceStructure
      * M4_GEN_VDI_GETVIEW
      */
     @Override
-    public Object getView()
-            throws ViewDataException {
+    public Object getView() {
         return null;
     }
 
@@ -51,8 +48,7 @@ public class ViewSpaceStructure
      * M4_GEN_VDI_SHOWVIEW
      */
     @Override
-    public void showView()
-            throws ViewDataException {
+    public void showView() {
         if ((_min == null) || (_max == null)) {
             return;
         }
@@ -91,16 +87,14 @@ public class ViewSpaceStructure
      * M4_GEN_VDI_REFRESHVIEW
      */
     @Override
-    public void refreshView()
-            throws ViewDataException {
+    public void refreshView() {
     }
 
     /**
      * M4_GEN_VDI_SETDATA_NSI
      */
     @Override
-    public void setData(final NumberInterface data)
-            throws ViewDataException {
+    public void setData(final NumberInterface data) {
         try {
             _max = new FindMax();
             _min = new FindMin();
@@ -114,7 +108,7 @@ public class ViewSpaceStructure
     }
 
     @Override
-    public List<Class<?>> getAllowedClass(final String arg0) throws ParameterException {
+    public List<Class<?>> getAllowedClass(final String arg0) {
         return ListUtils.EMPTY_LIST;
     }
 
@@ -134,14 +128,10 @@ class ViewSpaceStructurePanel
         setBackground(java.awt.Color.white);
         setForeground(java.awt.Color.black);
 
-        try {
-            this.setParameter(GraphicPanelParameters.DATAMINX, new Double(_vs_.datamin));
-            this.setParameter(GraphicPanelParameters.DATAMAXX, new Double(_vs_.datamax));
-            this.setParameter(GraphicPanelParameters.DATAMINY, new Double(_vs_.datamin));
-            this.setParameter(GraphicPanelParameters.DATAMAXY, new Double(_vs_.datamax));
-        } catch (final ParameterException e) {
-            Mysys.debugln("ViewSpaceStructure::ViewSpaceStructure");
-        }
+        this.setParameter(GraphicPanelParameters.DATAMINX, new Double(_vs_.datamin));
+        this.setParameter(GraphicPanelParameters.DATAMAXX, new Double(_vs_.datamax));
+        this.setParameter(GraphicPanelParameters.DATAMINY, new Double(_vs_.datamin));
+        this.setParameter(GraphicPanelParameters.DATAMAXY, new Double(_vs_.datamax));
     }
 
     @Override
@@ -152,7 +142,7 @@ class ViewSpaceStructurePanel
 
         try {
             // Teraz nanieś dane
-//			ClassEnumerator cl = _vs_._data.getStoreClass();
+            //			ClassEnumerator cl = _vs_.data.getStoreClass();
             final NumberReader reader = _vs_._data.getNumberReader();
             g.setColor(java.awt.Color.blue);
 

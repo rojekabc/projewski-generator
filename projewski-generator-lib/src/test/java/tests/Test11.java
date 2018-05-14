@@ -1,20 +1,11 @@
-/**
- *
- */
 package tests;
 
 import pl.projewski.generator.common.NumberReader;
-import pl.projewski.generator.exceptions.GeneratorException;
-import pl.projewski.generator.exceptions.LaborDataException;
-import pl.projewski.generator.exceptions.NumberStoreException;
-import pl.projewski.generator.exceptions.ParameterException;
 import pl.projewski.generator.interfaces.GeneratorInterface;
 import pl.projewski.generator.interfaces.LaborDataInterface;
 import pl.projewski.generator.labordata.TestChiSquare;
 import pl.projewski.generator.tools.GeneratedData;
 import pl.projewski.generator.tools.GeneratorStoreFile;
-
-import java.io.IOException;
 
 /**
  * @author projewski
@@ -23,13 +14,10 @@ import java.io.IOException;
  */
 public class Test11 {
 
-    /**
-     * @param args
-     */
     public static void main(final String[] args) {
         final LaborDataInterface ld = new TestChiSquare();
-        GeneratorInterface gi = null;
-        GeneratedData gdt = null;
+        final GeneratorInterface gi;
+        final GeneratedData gdt;
         try {
             ld.setParameter(TestChiSquare.GENERATIONAMMOUNT, "100");
             ld.setParameter(TestChiSquare.TESTAMMOUNT, "5");
@@ -44,18 +32,9 @@ public class Test11 {
                 System.out.println(reader.readDouble());
             }
             gdt.delete();
-        } catch (final ParameterException e) {
-            e.printStackTrace();
-        } catch (final GeneratorException e) {
-            e.printStackTrace();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        } catch (final LaborDataException e) {
-            e.printStackTrace();
-        } catch (final NumberStoreException e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
-//		System.out.println(ld.toString());
     }
 
 }

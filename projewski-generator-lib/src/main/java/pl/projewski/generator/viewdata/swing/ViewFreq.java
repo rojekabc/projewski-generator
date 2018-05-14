@@ -4,8 +4,6 @@ import org.apache.commons.collections.ListUtils;
 import pl.projewski.generator.abstracts.ViewDataBase;
 import pl.projewski.generator.common.NumberReader;
 import pl.projewski.generator.enumeration.ClassEnumerator;
-import pl.projewski.generator.exceptions.ParameterException;
-import pl.projewski.generator.exceptions.ViewDataException;
 import pl.projewski.generator.interfaces.NumberInterface;
 import pl.projewski.generator.interfaces.ParameterInterface;
 import pl.projewski.generator.interfaces.ViewDataInterface;
@@ -21,12 +19,11 @@ import java.util.List;
 
 public class ViewFreq
         extends ViewDataBase {
-    javax.swing.JFrame frame = null;
-    NumberInterface _freq = null;
+    NumberInterface freq = null;
     boolean digitalData = false; // czy dane sa dyskretne
-
     double maxy, miny;
     double datamin, datamax, datadelta;
+    private javax.swing.JFrame frame = null;
 
     @Override
     public void initParameters() {
@@ -37,8 +34,7 @@ public class ViewFreq
      * M4_GEN_VDI_GETVIEW
      */
     @Override
-    public Object getView()
-            throws ViewDataException {
+    public Object getView() {
         return null;
     }
 
@@ -51,9 +47,8 @@ public class ViewFreq
      * M4_GEN_VDI_SHOWVIEW
      */
     @Override
-    public void showView()
-            throws ViewDataException {
-        if (_freq == null) {
+    public void showView() {
+        if (freq == null) {
             return; // TODO:
         }
 
@@ -61,7 +56,7 @@ public class ViewFreq
             final FindMax maxint;
 
             maxint = new FindMax();
-            maxint.setInputData(_freq);
+            maxint.setInputData(freq);
             maxy = Convert.tryToDouble(maxint.getMaximum());
             miny = 0.0;
 
@@ -83,8 +78,7 @@ public class ViewFreq
      * M4_GEN_VDI_REFRESHVIEW
      */
     @Override
-    public void refreshView()
-            throws ViewDataException {
+    public void refreshView() {
         Mysys.debugln("repaint");
         if (this.frame != null) {
             this.frame.repaint();
@@ -100,34 +94,23 @@ public class ViewFreq
     }
 
     @Override
-    public void setData(final NumberInterface data) throws ViewDataException {
-        ParameterInterface dataSource = null;
-
+    public void setData(final NumberInterface data) {
         // pobierz dane zrodlowe
-        try {
-            dataSource = data.getDataSource();
-            if (dataSource == null) {
-                Mysys.error("Brak zrodla danych");
-                return; // TODO
-            }
-            if (!canViewData(dataSource)) {
-                Mysys.error("Nieodpowiednie zrodlo danych");
-                return; // TODO:
-            }
-        } catch (final Exception e) {
-            throw new ViewDataException(e);
+        final ParameterInterface dataSource = data.getDataSource();
+        if (dataSource == null) {
+            Mysys.error("Brak zrodla danych");
+            return; // TODO
+        }
+        if (!canViewData(dataSource)) {
+            Mysys.error("Nieodpowiednie zrodlo danych");
+            return; // TODO:
         }
 
+        datamin = Convert.tryToDouble(dataSource.getParameter(Frequency.MINIMUM));
+        datamax = Convert.tryToDouble(dataSource.getParameter(Frequency.MAXIMUM));
+        freq = data;
 
-        try {
-            datamin = Convert.tryToDouble(dataSource.getParameter(Frequency.MINIMUM));
-            datamax = Convert.tryToDouble(dataSource.getParameter(Frequency.MAXIMUM));
-            _freq = data;
-
-            datadelta = Math.abs(datamax - datamin) / _freq.getSize();
-        } catch (final Exception e) {
-            throw new ViewDataException(e);
-        }
+        datadelta = Math.abs(datamax - datamin) / freq.getSize();
 
     }
 }
@@ -147,33 +130,27 @@ class ViewFreqPanel
         _vf_ = vf;
         setBackground(java.awt.Color.white);
         setForeground(java.awt.Color.black);
-        try {
-            this.setParameter(GraphicPanelParameters.DATAMINX, new Double(_vf_.datamin));
-            this.setParameter(GraphicPanelParameters.DATAMAXX, new Double(_vf_.datamax));
-            this.setParameter(GraphicPanelParameters.DATAMINY, new Double(_vf_.miny));
-            this.setParameter(GraphicPanelParameters.DATAMAXY, new Double(_vf_.maxy));
-        } catch (final ParameterException e) {
-            Mysys.debugln("VieFreqPanel::ViewFreqPanel");
-        }
+        this.setParameter(GraphicPanelParameters.DATAMINX, _vf_.datamin);
+        this.setParameter(GraphicPanelParameters.DATAMAXX, _vf_.datamax);
+        this.setParameter(GraphicPanelParameters.DATAMINY, _vf_.miny);
+        this.setParameter(GraphicPanelParameters.DATAMAXY, _vf_.maxy);
     }
 
     @Override
     public void graphPaint(final Graphics g) {
         Mysys.debugln("GraphPaint ViewFreq");
 
-        if (_vf_._freq == null) {
+        if (_vf_.freq == null) {
             return;
         }
-        NumberReader is = null;
-        try {
+        try (final NumberReader is = _vf_.freq.getNumberReader()) {
             final double rX = e.getXPixelSize();
             // Teraz nanies dane
-            final ClassEnumerator cl = _vf_._freq.getStoreClass();
+            final ClassEnumerator cl = _vf_.freq.getStoreClass();
             if (cl == ClassEnumerator.INTEGER) // Inna nie powinna byc
             {
                 int tmp;
                 int i = 0;
-                is = _vf_._freq.getNumberReader();
                 // Nanos punkty
 
                 while (is.hasNext()) {
@@ -197,12 +174,6 @@ class ViewFreqPanel
             } else {
                 Mysys.println("Niedozwolone typ danych freq"); // TODO:
             }
-        } catch (final Exception e) {
-            Mysys.println(e.toString());
-            e.printStackTrace();
-        } finally {
-            Mysys.debugln("Closing input stream for vieFreq");
-            Mysys.closeQuiet(is);
         }
     }
 

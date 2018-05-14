@@ -1,14 +1,10 @@
-/**
- *
- */
 package pl.projewski.generator.viewdata.tool;
 
 import org.apache.commons.collections.ListUtils;
 import pl.projewski.generator.abstracts.AbstractParameter;
-import pl.projewski.generator.exceptions.ParameterException;
 import pl.projewski.generator.tools.VectorDouble;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,20 +45,20 @@ public class GraphicPanelParameters extends AbstractParameter {
      */
     @Override
     public void initParameters() {
-        parameters.put(XTRANSFORM, Boolean.valueOf(false));
-        parameters.put(YTRANSFORM, Boolean.valueOf(true));
-        parameters.put(LEFTMARGIN, Integer.valueOf(15));
-        parameters.put(TOPMARGIN, Integer.valueOf(15));
-        parameters.put(RIGHTMARGIN, Integer.valueOf(15));
-        parameters.put(BOTTOMMARGIN, Integer.valueOf(15));
-        parameters.put(DATAMINX, Double.valueOf(-1.0));
-        parameters.put(DATAMAXX, Double.valueOf(1.0));
-        parameters.put(DATAMINY, Double.valueOf(-1.0));
-        parameters.put(DATAMAXY, Double.valueOf(1.0));
-        parameters.put(DRAWOX, Double.valueOf(0.0));
-        parameters.put(DRAWOY, Double.valueOf(0.0));
-        parameters.put(DRAWOXARROW, Boolean.valueOf(true));
-        parameters.put(DRAWOYARROW, Boolean.valueOf(true));
+        parameters.put(XTRANSFORM, Boolean.FALSE);
+        parameters.put(YTRANSFORM, Boolean.TRUE);
+        parameters.put(LEFTMARGIN, 15);
+        parameters.put(TOPMARGIN, 15);
+        parameters.put(RIGHTMARGIN, 15);
+        parameters.put(BOTTOMMARGIN, 15);
+        parameters.put(DATAMINX, -1.0);
+        parameters.put(DATAMAXX, 1.0);
+        parameters.put(DATAMINY, -1.0);
+        parameters.put(DATAMAXY, 1.0);
+        parameters.put(DRAWOX, 0.0);
+        parameters.put(DRAWOY, 0.0);
+        parameters.put(DRAWOXARROW, Boolean.TRUE);
+        parameters.put(DRAWOYARROW, Boolean.TRUE);
         parameters.put(OXSCALVALUES, new VectorDouble());
         parameters.put(OYSCALVALUES, new VectorDouble());
         parameters.put(OXPRINTVALUES, new VectorDouble());
@@ -73,29 +69,29 @@ public class GraphicPanelParameters extends AbstractParameter {
      * @see pk.ie.proj.interfaces.ParameterInterface#getAllowedClass(java.lang.String)
      */
     @Override
-    public List<Class<?>> getAllowedClass(final String param) throws ParameterException {
+    public List<Class<?>> getAllowedClass(final String param) {
         if (param.equals(XTRANSFORM)
                 || param.equals(YTRANSFORM)
                 || param.equals(DRAWOXARROW)
                 || param.equals(DRAWOYARROW)) {
-            return Arrays.asList(Boolean.class);
+            return Collections.singletonList(Boolean.class);
         } else if (param.equals(LEFTMARGIN)
                 || param.equals(TOPMARGIN)
                 || param.equals(RIGHTMARGIN)
                 || param.equals(BOTTOMMARGIN)) {
-            return Arrays.asList(Integer.class);
+            return Collections.singletonList(Integer.class);
         } else if (param.equals(DATAMINX)
                 || param.equals(DATAMAXX)
                 || param.equals(DATAMAXY)
                 || param.equals(DATAMINY)
                 || param.equals(DRAWOX)
                 || param.equals(DRAWOY)) {
-            return Arrays.asList(Double.class);
+            return Collections.singletonList(Double.class);
         } else if (param.equals(OXSCALVALUES)
                 || param.equals(OYSCALVALUES)
                 || param.equals(OXPRINTVALUES)
                 || param.equals(OYPRINTVALUES)) {
-            return Arrays.asList(VectorDouble.class);
+            return Collections.singletonList(VectorDouble.class);
         } else {
             return ListUtils.EMPTY_LIST;
         }

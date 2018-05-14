@@ -7,7 +7,6 @@ import pl.projewski.generator.interfaces.LaborDataInterface;
 import pl.projewski.generator.interfaces.ParameterInterface;
 import pl.projewski.generator.tools.Convert;
 import pl.projewski.generator.tools.GeneratedData;
-import pl.projewski.generator.tools.Mysys;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 
 @Slf4j
 class TestFrame extends JFrame
@@ -306,19 +304,14 @@ class TestFrame extends JFrame
                         "BLAD PROGRAMU", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-//			int cnt = gd.countDataInFile();
+            //			int cnt = gd.countDataInFile();
             GeneratedData outgd = null;
             final String name = texOutData.getText(); // ustalenie nazwy
             // tworzenie danych wynikowych
             if (chkOutData.isSelected()) {
                 outgd = new GeneratedData(name); // utworzenie pliku danych
             } else {
-                try {
-                    outgd = GeneratedData.createTemporary();
-                } catch (final IOException e) {
-                    Mysys.error("Cannot create tempotary file: " + e.toString());
-                    return;
-                }
+                outgd = GeneratedData.createTemporary();
             }
             outgd.setDataSource(ldi);
             try {

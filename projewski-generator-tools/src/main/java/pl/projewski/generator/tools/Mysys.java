@@ -1,4 +1,18 @@
 package pl.projewski.generator.tools;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.util.MissingResourceException;
+import java.util.PropertyResourceBundle;
+
 /**
  * Zapewnia istnienie konfiguracji własnego systemu z następującymi
  * możliwościami:
@@ -8,24 +22,6 @@ package pl.projewski.generator.tools;
  * kodowanie plików xml'a
  * nazwy plików językowych z opisem kodów błędów i innych komunikatów
  */
-
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-import pl.projewski.generator.common.NumberReader;
-import pl.projewski.generator.common.NumberWriter;
-import pl.projewski.generator.exceptions.NumberStoreException;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
-import java.util.MissingResourceException;
-import java.util.PropertyResourceBundle;
-
 public class Mysys extends DefaultHandler {
     private static Mysys factoredMysys = null;
     private java.io.Writer out;
@@ -50,7 +46,7 @@ public class Mysys extends DefaultHandler {
     }
 
     public static String getDescription(final String classname, final String descname, final String typename,
-                                        final String[] args) {
+            final String[] args) {
         File descriptionFile = null;
         final Mysys mysys = factorMysys();
         if (mysys.langFolder == null) {
@@ -61,11 +57,11 @@ public class Mysys extends DefaultHandler {
                 mysys.langFolder.toString() + File.separator +
                         typename + File.separator +
                         classname + ".properties");
-        if (descriptionFile.exists() == false) {
+        if (!descriptionFile.exists()) {
             Mysys.error("[WARN] Nie odnaleziono pliku napisow: " + descriptionFile.toString());
             return "";
         }
-        if (descriptionFile.isFile() == false) {
+        if (!descriptionFile.isFile()) {
             Mysys.error("[WARN] Pozycja nie jest plikiem napisow: " + descriptionFile.toString());
             return "";
         }
@@ -78,11 +74,7 @@ public class Mysys extends DefaultHandler {
                 }
             }
             return encString(description);
-        } catch (final FileNotFoundException e) {
-            Mysys.println(e.toString());
-        } catch (final IOException e) {
-            Mysys.println(e.toString());
-        } catch (final MissingResourceException e) {
+        } catch (final IOException | MissingResourceException e) {
             Mysys.println(e.toString());
         }
         return "";
@@ -227,28 +219,6 @@ public class Mysys extends DefaultHandler {
         }
     }
 
-    public static boolean closeQuiet(final NumberWriter writer) {
-        if (writer != null) {
-            try {
-                writer.close();
-            } catch (final IOException e) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean closeQuiet(final NumberReader reader) {
-        if (reader != null) {
-            try {
-                reader.close();
-            } catch (final NumberStoreException e) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     private void writeDefaultConfiguration(final java.io.File file) {
         try {
             final java.io.PrintStream savefile = new java.io.PrintStream(
@@ -295,14 +265,14 @@ public class Mysys extends DefaultHandler {
     public void startDocument()
             throws SAXException {
         System.out.print("Czytanie pliku konfiguracyjnego ...");
-//			isConfig = false;
-//			rdBuf = new String("");
+        //			isConfig = false;
+        //			rdBuf = new String("");
     }
 
     @Override
     public void endDocument()
             throws SAXException {
-//			rdBuf = null;
+        //			rdBuf = null;
         System.out.println("Ok.");
     }
 

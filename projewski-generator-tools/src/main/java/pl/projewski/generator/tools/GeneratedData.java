@@ -4,9 +4,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import pl.projewski.generator.common.NumberReader;
 import pl.projewski.generator.common.NumberWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
-import pl.projewski.generator.exceptions.NumberStoreException;
 import pl.projewski.generator.interfaces.NumberInterface;
 import pl.projewski.generator.interfaces.ParameterInterface;
+import pl.projewski.generator.tools.exceptions.ReadFileGeneratorException;
+import pl.projewski.generator.tools.exceptions.TemporaryFileGeneratorException;
+import pl.projewski.generator.tools.exceptions.WriteFileGeneratorException;
 import pl.projewski.generator.tools.parser.GeneratedDataParser;
 import pl.projewski.generator.tools.stream.SeparatorStreamReader;
 import pl.projewski.generator.tools.stream.SeparatorStreamWriter;
@@ -16,7 +18,7 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
 
 public class GeneratedData implements NumberInterface
-//extends DefaultHandler
+        //extends DefaultHandler
 {
     // jezeli plik danych juz istnieje to bedzie nastepowalo dopisywanie do
     // jego konca nowych paczek danych
@@ -58,22 +60,26 @@ public class GeneratedData implements NumberInterface
         }
         datumTick = dataTick;
         source = src;
-// PROPONOWANE MARKOWANIE
-//		java.io.File plik = new java.io.File( name + ".gdt" );
-//		if ( plik.exists() )
-//		{
-//			readFile(plik);
-//		}
+        // PROPONOWANE MARKOWANIE
+        //		java.io.File plik = new java.io.File( name + ".gdt" );
+        //		if ( plik.exists() )
+        //		{
+        //			readFile(plik);
+        //		}
     }
 
-    public static GeneratedData createTemporary() throws IOException {
-        final File tmp = Mysys.getTempFile();
-        final GeneratedData gdt = new GeneratedData(tmp.getAbsolutePath());
-        gdt.setDatumTick(System.currentTimeMillis());
-        if (!tmp.delete()) {
-            Mysys.encString("Nieudane usuwanie tymczasowego pliku " + tmp.getName());
+    public static GeneratedData createTemporary() {
+        try {
+            final File tmp = Mysys.getTempFile();
+            final GeneratedData gdt = new GeneratedData(tmp.getAbsolutePath());
+            gdt.setDatumTick(System.currentTimeMillis());
+            if (!tmp.delete()) {
+                throw new TemporaryFileGeneratorException();
+            }
+            return gdt;
+        } catch (final IOException e) {
+            throw new TemporaryFileGeneratorException(e);
         }
-        return gdt;
     }
 
     public boolean delete() {
@@ -93,20 +99,19 @@ public class GeneratedData implements NumberInterface
         this.datumTick = datumTick;
     }
 
-    protected boolean readFile(final java.io.File plik) throws NumberStoreException {
+    protected boolean readFile(final java.io.File plik) {
         try {
             final DefaultHandler han = new GeneratedDataParser(this);
             final SAXParserFactory fac = SAXParserFactory.newInstance();
             final SAXParser par = fac.newSAXParser();
             par.parse(plik, han);
-            Mysys.debugln("Read file");
             return true;
         } catch (final Exception e) {
-            throw new NumberStoreException(e);
+            throw new ReadFileGeneratorException(plik.getName(), e);
         }
     }
 
-    public boolean readFile() throws NumberStoreException {
+    public boolean readFile() {
         final File f = new File(getFileName());
         if (f.exists()) {
             return readFile(new File(getFileName()));
@@ -193,21 +198,21 @@ public class GeneratedData implements NumberInterface
     }
 
     @Override
-    public NumberReader getNumberReader() throws NumberStoreException {
+    public NumberReader getNumberReader() {
         try {
             return new SeparatorStreamReader(new FileInputStream(this.getDataFilename()));
         } catch (final FileNotFoundException e) {
-            throw new NumberStoreException(e);
+            throw new ReadFileGeneratorException(this.getDataFilename(), e);
         }
     }
 
     @Override
-    public NumberWriter getNumberWriter() throws NumberStoreException {
+    public NumberWriter getNumberWriter() {
         if (writer == null) {
             try {
                 writer = new SeparatorStreamWriter(new FileOutputStream(this.getDataFilename()));
             } catch (final FileNotFoundException e) {
-                throw new NumberStoreException(e);
+                throw new WriteFileGeneratorException(this.getDataFilename(), e);
             }
         }
         return writer;
@@ -234,7 +239,7 @@ public class GeneratedData implements NumberInterface
     }
 
     @Override
-    public ParameterInterface getDataSource() throws NumberStoreException {
+    public ParameterInterface getDataSource() {
         return source;
     }
 

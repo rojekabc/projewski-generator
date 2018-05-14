@@ -5,20 +5,17 @@ import pl.projewski.generator.abstracts.LaborDataBase;
 import pl.projewski.generator.common.NumberReader;
 import pl.projewski.generator.common.NumberWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
-import pl.projewski.generator.exceptions.LaborDataException;
-import pl.projewski.generator.exceptions.NumberStoreException;
 import pl.projewski.generator.interfaces.NumberInterface;
-import pl.projewski.generator.tools.Mysys;
 
 import java.util.List;
 
 public class ArithmeticMean extends LaborDataBase {
-    double _mean;
-    int _cnt;
+    private double mean;
+    private int counter;
 
     public ArithmeticMean() {
-        _mean = 0.0;
-        _cnt = 0;
+        mean = 0.0;
+        counter = 0;
     }
 
     @Override
@@ -30,27 +27,19 @@ public class ArithmeticMean extends LaborDataBase {
 
     // podawanie danych wejściowych
     @Override
-    public void setInputData(final NumberInterface data)
-            throws LaborDataException {
-        NumberReader is = null;
-        try {
-            is = data.getNumberReader();
-
+    public void setInputData(final NumberInterface data) {
+        try (NumberReader reader = data.getNumberReader()) {
             // Odczytywanie bez wzgledu na rodzaj danych zapisanych
             // jako double
-            while (is.hasNext()) {
-                _cnt++;
-                _mean += (is.readDouble() - _mean) / _cnt;
+            while (reader.hasNext()) {
+                counter++;
+                mean += (reader.readDouble() - mean) / counter;
             }
-        } catch (final NumberStoreException e) {
-            throw new LaborDataException(e);
-        } finally {
-            Mysys.closeQuiet(is);
         }
     }
 
     public double getArithmeticMean() {
-        return _mean;
+        return mean;
     }
 
     @Override
@@ -59,17 +48,11 @@ public class ArithmeticMean extends LaborDataBase {
     }
 
     @Override
-    public boolean getOutputData(final NumberInterface gdt) throws LaborDataException {
-        NumberWriter writer = null;
-        try {
-            gdt.setStoreClass(ClassEnumerator.DOUBLE);
-            gdt.setSize(1);
-            writer = gdt.getNumberWriter();
-            writer.write(_mean);
-        } catch (final Exception e) {
-            throw new LaborDataException(e);
-        } finally {
-            Mysys.closeQuiet(writer);
+    public boolean getOutputData(final NumberInterface gdt) {
+        gdt.setStoreClass(ClassEnumerator.DOUBLE);
+        gdt.setSize(1);
+        try (NumberWriter writer = gdt.getNumberWriter()) {
+            writer.write(mean);
         }
         return true;
     }

@@ -1,7 +1,6 @@
 package pl.projewski.generator.generproj;
 
 import lombok.extern.slf4j.Slf4j;
-import pl.projewski.generator.exceptions.NumberStoreException;
 import pl.projewski.generator.generproj.layout.AlaNullSizedLayout;
 import pl.projewski.generator.interfaces.ParameterInterface;
 import pl.projewski.generator.interfaces.ViewDataInterface;
@@ -76,11 +75,7 @@ class AskShowDataDialog extends JFrame
 
         // ustal ródło danych
         ParameterInterface dataSource = null;
-        try {
-            dataSource = actGdt.getDataSource();
-        } catch (final NumberStoreException e) {
-            dataSource = null;
-        }
+        dataSource = actGdt.getDataSource();
         comView = new javax.swing.JComboBox();
         GenerProj.listView(dataSource).stream().map(ClassItem::new).forEach(comView::addItem);
         comView.setBounds(10, 40, 215, 25);

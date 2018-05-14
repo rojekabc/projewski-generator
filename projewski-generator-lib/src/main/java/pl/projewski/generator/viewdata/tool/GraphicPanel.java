@@ -1,6 +1,6 @@
 package pl.projewski.generator.viewdata.tool;
 
-import pl.projewski.generator.exceptions.ParameterException;
+import pl.projewski.generator.exceptions.GeneratorException;
 import pl.projewski.generator.interfaces.ParameterInterface;
 import pl.projewski.generator.interfaces.ViewDataInterface;
 import pl.projewski.generator.tools.Mysys;
@@ -102,10 +102,10 @@ public abstract class GraphicPanel extends JPanel implements ParameterInterface,
             new VectorDouble()
         };
     */
-//	private JDialog setsDialog = null;
-//	ParameterParamPack paramPack = null;
+    //	private JDialog setsDialog = null;
+    //	ParameterParamPack paramPack = null;
     private final GraphicPanelParameters params = new GraphicPanelParameters();
-    public ExtendGraphics e = null;
+    public ExtendGraphics e;
 
     public GraphicPanel() {
         e = new ExtendGraphics();
@@ -119,77 +119,77 @@ public abstract class GraphicPanel extends JPanel implements ParameterInterface,
     @Override
     public void paintComponent(final Graphics g) {
         super.paintComponent(g);
-//		if (setsDialog != null)
-//			return;
+        //		if (setsDialog != null)
+        //			return;
         Mysys.debugln("Paint component");
         try {
             // Ustawienia
-            e.setTransformX(((Boolean) params.getParameter(GraphicPanelParameters.XTRANSFORM)).booleanValue());
-            e.setTransformY(((Boolean) params.getParameter(GraphicPanelParameters.YTRANSFORM)).booleanValue());
+            e.setTransformX((Boolean) params.getParameter(GraphicPanelParameters.XTRANSFORM));
+            e.setTransformY((Boolean) params.getParameter(GraphicPanelParameters.YTRANSFORM));
             e.setMargin(
-                    ((Integer) params.getParameter(GraphicPanelParameters.LEFTMARGIN)).intValue(),
-                    ((Integer) params.getParameter(GraphicPanelParameters.TOPMARGIN)).intValue(),
-                    ((Integer) params.getParameter(GraphicPanelParameters.RIGHTMARGIN)).intValue(),
-                    ((Integer) params.getParameter(GraphicPanelParameters.BOTTOMMARGIN)).intValue()
+                    (Integer) params.getParameter(GraphicPanelParameters.LEFTMARGIN),
+                    (Integer) params.getParameter(GraphicPanelParameters.TOPMARGIN),
+                    (Integer) params.getParameter(GraphicPanelParameters.RIGHTMARGIN),
+                    (Integer) params.getParameter(GraphicPanelParameters.BOTTOMMARGIN)
             );
             e.setGraphDataBounds(
-                    ((Double) params.getParameter(GraphicPanelParameters.DATAMINX)).doubleValue(),
-                    ((Double) params.getParameter(GraphicPanelParameters.DATAMAXX)).doubleValue(),
-                    ((Double) params.getParameter(GraphicPanelParameters.DATAMINY)).doubleValue(),
-                    ((Double) params.getParameter(GraphicPanelParameters.DATAMAXY)).doubleValue()
+                    (Double) params.getParameter(GraphicPanelParameters.DATAMINX),
+                    (Double) params.getParameter(GraphicPanelParameters.DATAMAXX),
+                    (Double) params.getParameter(GraphicPanelParameters.DATAMINY),
+                    (Double) params.getParameter(GraphicPanelParameters.DATAMAXY)
             );
             e.setGraphScreenSize(this.getWidth(), this.getHeight());
             // Os OX
             e.drawLine(g,
-                    ((Double) params.getParameter(GraphicPanelParameters.DATAMINX)).doubleValue(),
-                    ((Double) params.getParameter(GraphicPanelParameters.DRAWOX)).doubleValue(),
-                    ((Double) params.getParameter(GraphicPanelParameters.DATAMAXX)).doubleValue(),
-                    ((Double) params.getParameter(GraphicPanelParameters.DRAWOX)).doubleValue()
+                    (Double) params.getParameter(GraphicPanelParameters.DATAMINX),
+                    (Double) params.getParameter(GraphicPanelParameters.DRAWOX),
+                    (Double) params.getParameter(GraphicPanelParameters.DATAMAXX),
+                    (Double) params.getParameter(GraphicPanelParameters.DRAWOX)
             );
             // Os OY
             e.drawLine(g,
-                    ((Double) params.getParameter(GraphicPanelParameters.DRAWOY)).doubleValue(),
-                    ((Double) params.getParameter(GraphicPanelParameters.DATAMINY)).doubleValue(),
-                    ((Double) params.getParameter(GraphicPanelParameters.DRAWOY)).doubleValue(),
-                    ((Double) params.getParameter(GraphicPanelParameters.DATAMAXY)).doubleValue()
+                    (Double) params.getParameter(GraphicPanelParameters.DRAWOY),
+                    (Double) params.getParameter(GraphicPanelParameters.DATAMINY),
+                    (Double) params.getParameter(GraphicPanelParameters.DRAWOY),
+                    (Double) params.getParameter(GraphicPanelParameters.DATAMAXY)
             );
             // Tu rysuj strzaleczki
             final double rX = e.getXPixelSize();
             final double rY = e.getYPixelSize();
 
-            if (((Boolean) params.getParameter(GraphicPanelParameters.DRAWOYARROW)).booleanValue()) {
+            if ((Boolean) params.getParameter(GraphicPanelParameters.DRAWOYARROW)) {
                 e.drawLine(g,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOY)).doubleValue(),
-                        ((Double) params.getParameter(GraphicPanelParameters.DATAMAXY)).doubleValue(),
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOY)).doubleValue(),
-                        ((Double) params.getParameter(GraphicPanelParameters.DATAMAXY)).doubleValue() + 12 * rY);
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOY),
+                        (Double) params.getParameter(GraphicPanelParameters.DATAMAXY),
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOY),
+                        (Double) params.getParameter(GraphicPanelParameters.DATAMAXY) + 12 * rY);
                 e.drawLine(g,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOY)).doubleValue(),
-                        ((Double) params.getParameter(GraphicPanelParameters.DATAMAXY)).doubleValue() + 12 * rY,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOY)).doubleValue() - 3 * rX,
-                        ((Double) params.getParameter(GraphicPanelParameters.DATAMAXY)).doubleValue() + 3 * rY);
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOY),
+                        (Double) params.getParameter(GraphicPanelParameters.DATAMAXY) + 12 * rY,
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOY) - 3 * rX,
+                        (Double) params.getParameter(GraphicPanelParameters.DATAMAXY) + 3 * rY);
                 e.drawLine(g,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOY)).doubleValue(),
-                        ((Double) params.getParameter(GraphicPanelParameters.DATAMAXY)).doubleValue() + 12 * rY,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOY)).doubleValue() + 3 * rX,
-                        ((Double) params.getParameter(GraphicPanelParameters.DATAMAXY)).doubleValue() + 3 * rY);
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOY),
+                        (Double) params.getParameter(GraphicPanelParameters.DATAMAXY) + 12 * rY,
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOY) + 3 * rX,
+                        (Double) params.getParameter(GraphicPanelParameters.DATAMAXY) + 3 * rY);
             }
-            if (((Boolean) params.getParameter(GraphicPanelParameters.DRAWOXARROW)).booleanValue()) {
+            if ((Boolean) params.getParameter(GraphicPanelParameters.DRAWOXARROW)) {
                 e.drawLine(g,
-                        ((Double) params.getParameter(GraphicPanelParameters.DATAMAXX)).doubleValue(),
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOX)).doubleValue(),
-                        ((Double) params.getParameter(GraphicPanelParameters.DATAMAXX)).doubleValue() + 12 * rX,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOX)).doubleValue());
+                        (Double) params.getParameter(GraphicPanelParameters.DATAMAXX),
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOX),
+                        (Double) params.getParameter(GraphicPanelParameters.DATAMAXX) + 12 * rX,
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOX));
                 e.drawLine(g,
-                        ((Double) params.getParameter(GraphicPanelParameters.DATAMAXX)).doubleValue() + 12 * rX,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOX)).doubleValue(),
-                        ((Double) params.getParameter(GraphicPanelParameters.DATAMAXX)).doubleValue() + 3 * rX,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOX)).doubleValue() - 3 * rY);
+                        (Double) params.getParameter(GraphicPanelParameters.DATAMAXX) + 12 * rX,
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOX),
+                        (Double) params.getParameter(GraphicPanelParameters.DATAMAXX) + 3 * rX,
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOX) - 3 * rY);
                 e.drawLine(g,
-                        ((Double) params.getParameter(GraphicPanelParameters.DATAMAXX)).doubleValue() + 12 * rX,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOX)).doubleValue(),
-                        ((Double) params.getParameter(GraphicPanelParameters.DATAMAXX)).doubleValue() + 3 * rX,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOX)).doubleValue() + 3 * rY);
+                        (Double) params.getParameter(GraphicPanelParameters.DATAMAXX) + 12 * rX,
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOX),
+                        (Double) params.getParameter(GraphicPanelParameters.DATAMAXX) + 3 * rX,
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOX) + 3 * rY);
             }
             // Rysuj podzialki na osiach w wybranych punktach
             int i;
@@ -198,16 +198,16 @@ public abstract class GraphicPanel extends JPanel implements ParameterInterface,
             for (i = 0; i < vd.size(); i++) {
                 final double val = vd.get(i);
                 e.drawLine(g,
-                        val, ((Double) params.getParameter(GraphicPanelParameters.DRAWOX)).doubleValue() - 3 * rY,
-                        val, ((Double) params.getParameter(GraphicPanelParameters.DRAWOX)).doubleValue() + 3 * rY
+                        val, (Double) params.getParameter(GraphicPanelParameters.DRAWOX) - 3 * rY,
+                        val, (Double) params.getParameter(GraphicPanelParameters.DRAWOX) + 3 * rY
                 );
             }
             vd = (VectorDouble) params.getParameter(GraphicPanelParameters.OYSCALVALUES);
             for (i = 0; i < vd.size(); i++) {
                 final double val = vd.get(i);
                 e.drawLine(g,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOY)).doubleValue() - 3 * rX, val,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOY)).doubleValue() + 3 * rX, val
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOY) - 3 * rX, val,
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOY) + 3 * rX, val
                 );
             }
             // Teraz umieszczaj napisy we wskazanych punktach dla podzialki
@@ -219,7 +219,7 @@ public abstract class GraphicPanel extends JPanel implements ParameterInterface,
                 final int strh = getFontMetrics(getFont()).getHeight();
                 e.drawString(g, str,
                         val - ((double) strw / 2) * rX,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOX)).doubleValue() - strh * rY);
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOX) - strh * rY);
             }
             vd = (VectorDouble) params.getParameter(GraphicPanelParameters.OYPRINTVALUES);
             for (i = 0; i < vd.size(); i++) {
@@ -228,42 +228,42 @@ public abstract class GraphicPanel extends JPanel implements ParameterInterface,
                 final int strw = getFontMetrics(getFont()).stringWidth(str);
                 final int strh = getFontMetrics(getFont()).getHeight();
                 e.drawString(g, str,
-                        ((Double) params.getParameter(GraphicPanelParameters.DRAWOY)).doubleValue() - (strw + 5) * rX,
+                        (Double) params.getParameter(GraphicPanelParameters.DRAWOY) - (strw + 5) * rX,
                         val - ((double) (strh / 4)) * rY);
             }
-        } catch (final ParameterException e) {
+        } catch (final GeneratorException e) {
             e.printStackTrace(); // TODO: Okno dialogowe z opisem błęðdu
         }
         graphPaint(g);
     }
 
     @Override
-    public List<Class<?>> getAllowedClass(final String param) throws ParameterException {
+    public List<Class<?>> getAllowedClass(final String param) {
         return params.getAllowedClass(param);
     }
 
     @Override
-    public String getDescription() throws ParameterException {
+    public String getDescription() {
         return "";
     }
 
     @Override
-    public Object getParameter(final String param) throws ParameterException {
+    public Object getParameter(final String param) {
         return params.getParameter(param);
     }
 
     @Override
-    public String getParameterDescription(final String param) throws ParameterException {
+    public String getParameterDescription(final String param) {
         return params.getParameterDescription(param);
     }
 
     @Override
-    public Set<String> listParameters() throws ParameterException {
+    public Set<String> listParameters() {
         return params.listParameters();
     }
 
     @Override
-    public void setParameter(final String param, final Object value) throws ParameterException {
+    public void setParameter(final String param, final Object value) {
         params.setParameter(param, value);
     }
 

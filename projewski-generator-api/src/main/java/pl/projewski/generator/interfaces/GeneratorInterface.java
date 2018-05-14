@@ -2,7 +2,6 @@ package pl.projewski.generator.interfaces;
 
 import pl.projewski.generator.common.NumberWriter;
 import pl.projewski.generator.enumeration.ClassEnumerator;
-import pl.projewski.generator.exceptions.GeneratorException;
 
 /**
  * General random number generator interface.
@@ -11,57 +10,48 @@ public interface GeneratorInterface extends ParameterInterface {
 
     /**
      * Initialize the random number generator.
-     *
-     * @throws GeneratorException
      */
-    void init() throws GeneratorException;
+    void init();
 
     /**
      * Reinitialize random number generator. This call allows to back generation from begin state.
-     *
-     * @throws GeneratorException
      */
-    void reinit() throws GeneratorException;
+    void reinit();
 
     /**
      * Get next long value from the generator.
      *
      * @return the long value
-     * @throws GeneratorException
      */
-    long nextLong() throws GeneratorException;
+    long nextLong();
 
     /**
      * Get next int value from the generator.
      *
      * @return the int value
-     * @throws GeneratorException
      */
-    int nextInt() throws GeneratorException;
+    int nextInt();
 
     /**
      * Get the next double value.
      *
      * @return the next double
-     * @throws GeneratorException
      */
-    double nextDouble() throws GeneratorException;
+    double nextDouble();
 
     /**
      * Get the next float value.
      *
      * @return the next float
-     * @throws GeneratorException
      */
-    float nextFloat() throws GeneratorException;
+    float nextFloat();
 
     /**
      * Fill the array with values from the generator.
      *
      * @param table the array
-     * @throws GeneratorException
      */
-    void rawFill(Object table) throws GeneratorException;
+    void rawFill(Object table);
 
     /**
      * Put generated numbers into the writer.
@@ -69,8 +59,7 @@ public interface GeneratorInterface extends ParameterInterface {
      * @param writer The file writer
      * @param c      the type of generated element
      * @param num    the number of generated elements
-     * @throws GeneratorException
      */
-    void rawFill(NumberWriter writer, ClassEnumerator c, int num) throws GeneratorException;
+    void rawFill(NumberWriter writer, ClassEnumerator c, int num);
 
-};
+}

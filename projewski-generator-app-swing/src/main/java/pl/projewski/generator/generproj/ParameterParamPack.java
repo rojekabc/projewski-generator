@@ -1,6 +1,5 @@
 package pl.projewski.generator.generproj;
 
-import pl.projewski.generator.exceptions.ParameterException;
 import pl.projewski.generator.interfaces.GeneratorInterface;
 import pl.projewski.generator.interfaces.ParameterInterface;
 import pl.projewski.generator.tools.Convert;
@@ -8,7 +7,6 @@ import pl.projewski.generator.tools.Mysys;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +35,7 @@ public class ParameterParamPack extends JPanel
 
     // Jesli podano gi, to zainicjuje wartosciami aktualnego generatora
     public ParameterParamPack(final ParameterInterface pi) {
-//		container = c;
+        //		container = c;
         setActiveParameter(pi);
     }
 
@@ -47,37 +45,32 @@ public class ParameterParamPack extends JPanel
         if (pi == null) {
             return;
         }
-        try {
-            removeAll();
-            final Set<String> params = pi.listParameters();
+        removeAll();
+        final Set<String> params = pi.listParameters();
 
-            for (final String param : params) {
-                final ParameterLine pl = ParameterLine.generateParameterLine(pi, param, this);
-                vecDesc.add(pl.label);
-                vecVal.add(pl.edit);
-                pl.label.setBounds(colFirstX, height * 25, colSecondX - colFirstX - 5, 20);
-                pl.edit.setBounds(colSecondX, height * 25, colThirdX - colSecondX - 5, (pl.height - 1) * 25 + 20);
-//				System.out.println("y " + (height*25) + " height " + ((pl.height-1) * 25 + 20));
-                this.add(pl.label);
-                this.add(pl.edit);
-                height += pl.height;
-            }
-            dimension = new Dimension(colThirdX, (height - 1) * 25 + 20);
-//			System.out.println("NOW: " + ((height-1)*25 + 20));
-//			super.setSize(super.getWidth(), (height-1)*25 + 20);
-//				addParam( Mysys.encString( param[i].toString() ),
-//						pi.getAllowedClass(param[i]), pi.getParameter(param[i]) );
-        } catch (final ParameterException e) {
-            // TODO: Reaction
-            e.printStackTrace();
+        for (final String param : params) {
+            final ParameterLine pl = ParameterLine.generateParameterLine(pi, param, this);
+            vecDesc.add(pl.label);
+            vecVal.add(pl.edit);
+            pl.label.setBounds(colFirstX, height * 25, colSecondX - colFirstX - 5, 20);
+            pl.edit.setBounds(colSecondX, height * 25, colThirdX - colSecondX - 5, (pl.height - 1) * 25 + 20);
+            //				System.out.println("y " + (height*25) + " height " + ((pl.height-1) * 25 + 20));
+            this.add(pl.label);
+            this.add(pl.edit);
+            height += pl.height;
         }
+        dimension = new Dimension(colThirdX, (height - 1) * 25 + 20);
+        //			System.out.println("NOW: " + ((height-1)*25 + 20));
+        //			super.setSize(super.getWidth(), (height-1)*25 + 20);
+        //				addParam( Mysys.encString( param[i].toString() ),
+        //						pi.getAllowedClass(param[i]), pi.getParameter(param[i]) );
     }
 
     @Override
     public void removeAll() {
         super.removeAll();
         vecDesc.clear();
-//		vecType.clear();
+        //		vecType.clear();
         vecVal.clear();
     }
 
@@ -174,17 +167,13 @@ public class ParameterParamPack extends JPanel
             System.out.println("PI IS NULL - ERROR IN PROGRAMMING !!!");
             return;
         }
-//		if ( inPI.getClass() != pi.getClass() ) //TODO: message
-//		{
-//			System.out.println("ERROR IN PROGRAMING");
-//			return;
-//		}
-        try {
-            for (int i = 0; i < vecVal.size(); i++) {
-                pi.setParameter(getParameterName(vecDesc.get(i)), getParameterValue(i));
-            }
-        } catch (final ParameterException ex) {
-            ex.printStackTrace();
+        //		if ( inPI.getClass() != pi.getClass() ) //TODO: message
+        //		{
+        //			System.out.println("ERROR IN PROGRAMING");
+        //			return;
+        //		}
+        for (int i = 0; i < vecVal.size(); i++) {
+            pi.setParameter(getParameterName(vecDesc.get(i)), getParameterValue(i));
         }
         return;
     }
@@ -222,14 +211,9 @@ public class ParameterParamPack extends JPanel
         //javax.swing.JComboBox cb = (javax.swing.JComboBox)vecType.get( i );
         //MyComboBoxItem cbi = (MyComboBoxItem)cb.getSelectedItem();
         //Class cl = (Class)cbi.getItem( 1 );
-        List<Class<?>> cl = new ArrayList<>();
-        try {
-            cl = inPI.getAllowedClass(getParameterName(vecDesc.get(i)));
-        } catch (final ParameterException e1) {
-            Mysys.error("Not allowed excpetion. ParameterParamPack.java:parameterValue");
-        }
+        final List<Class<?>> cl = inPI.getAllowedClass(getParameterName(vecDesc.get(i)));
 
-//		try {
+        //		try {
         int j;
         for (final Class<?> clazz : cl) {
             final Component c = vecVal.get(i);
@@ -277,19 +261,15 @@ public class ParameterParamPack extends JPanel
         if (ret == null) {
             Mysys.error("Nieudana konwersja parametru " + vecDesc.get(i) + " do dostepnych typow");
         }
-//		} catch ( Exception e ) { // TODO: Komunikaty
-//			e.printStackTrace();
-//		}
+        //		} catch ( Exception e ) { // TODO: Komunikaty
+        //			e.printStackTrace();
+        //		}
         return ret;
     }
 
     @Override
     public void setCreatedObject(final Object o) {
-        try {
-            inPI.setParameter(setParameter, o);
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+        inPI.setParameter(setParameter, o);
     }
 
     @Override
