@@ -38,7 +38,7 @@ public class ChiSquare extends LaborDataBase {
     @Override
     public List<Class<?>> getAllowedClass(final String param) {
         if (param.equals(DISTRIBUTION)) {
-            return Arrays.asList(DistributionBase.class);
+            return Arrays.asList(DistributionBase.class, NumberInterface.class);
         }
         return ListUtils.EMPTY_LIST;
     }
@@ -48,7 +48,7 @@ public class ChiSquare extends LaborDataBase {
         // ustaw wynik
         data.setStoreClass(ClassEnumerator.DOUBLE);
         data.setSize(1);
-        try (NumberWriter writer = data.getNumberWriter()) {
+        try (final NumberWriter writer = data.getNumberWriter()) {
             writer.write(chisquare.getDouble());
         }
         return true;
@@ -75,7 +75,7 @@ public class ChiSquare extends LaborDataBase {
 
         // Zliczanie danych i obliczanie ogolnej sumy
         long tmp;
-        try (NumberReader reader = data.getNumberReader()) {
+        try (final NumberReader reader = data.getNumberReader()) {
             while (reader.hasNext()) {
                 tmp = reader.readLong();
                 amount++;

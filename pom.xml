@@ -14,6 +14,7 @@
         <module>projewski-generator-lib</module>
         <module>projewski-generator-app-swing</module>
         <module>projewski-generator-tools</module>
+        <module>projewski-generator-lib-samples</module>
     </modules>
 
     <dependencies>

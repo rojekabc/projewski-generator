@@ -3,6 +3,7 @@ package pl.projewski.generator.tools;
 import pl.projewski.generator.tools.stream.SeparatorStreamWriter;
 
 import java.io.OutputStream;
+import java.util.Arrays;
 
 /**
  * @author projewski
@@ -489,15 +490,19 @@ public class ArrayUtil {
         return firstElement;
     }
 
+    public static boolean equals(final int[] a, final int[] b) {
+        return Arrays.equals(a, b);
+    }
+
     public static boolean equals(final int[] a, final int[] b, final int count) {
         if (a == b) {
             return true;
         }
-        if (count == 0) {
-            return true;
-        }
         if (a == null || b == null) {
             return false;
+        }
+        if (count == 0) {
+            return true;
         }
 
         if (count > a.length) {
@@ -514,17 +519,21 @@ public class ArrayUtil {
         }
 
         return true;
+    }
+
+    public static boolean equals(final long[] a, final long[] b) {
+        return Arrays.equals(a, b);
     }
 
     public static boolean equals(final long[] a, final long[] b, final int count) {
         if (a == b) {
             return true;
         }
-        if (count == 0) {
-            return true;
-        }
         if (a == null || b == null) {
             return false;
+        }
+        if (count == 0) {
+            return true;
         }
 
         if (count > a.length) {
@@ -541,17 +550,21 @@ public class ArrayUtil {
         }
 
         return true;
+    }
+
+    public static boolean equals(final float[] a, final float[] b) {
+        return Arrays.equals(a, b);
     }
 
     public static boolean equals(final float[] a, final float[] b, final int count) {
         if (a == b) {
             return true;
         }
-        if (count == 0) {
-            return true;
-        }
         if (a == null || b == null) {
             return false;
+        }
+        if (count == 0) {
+            return true;
         }
 
         if (count > a.length) {
@@ -570,15 +583,19 @@ public class ArrayUtil {
         return true;
     }
 
+    public static boolean equals(final double[] a, final double[] b) {
+        return Arrays.equals(a, b);
+    }
+
     public static boolean equals(final double[] a, final double[] b, final int count) {
         if (a == b) {
             return true;
         }
-        if (count == 0) {
-            return true;
-        }
         if (a == null || b == null) {
             return false;
+        }
+        if (count == 0) {
+            return true;
         }
 
         if (count > a.length) {
@@ -595,6 +612,10 @@ public class ArrayUtil {
         }
 
         return true;
+    }
+
+    public static boolean equals(final byte[] a, final byte[] b) {
+        return Arrays.equals(a, b);
     }
 
     /**
@@ -609,11 +630,11 @@ public class ArrayUtil {
         if (a == b) {
             return true;
         }
-        if (count == 0) {
-            return true;
-        }
         if (a == null || b == null) {
             return false;
+        }
+        if (count == 0) {
+            return true;
         }
 
         if (count > a.length) {

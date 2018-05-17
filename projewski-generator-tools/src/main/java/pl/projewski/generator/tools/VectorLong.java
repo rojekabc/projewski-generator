@@ -28,26 +28,17 @@ public class VectorLong {
      * Wartosci te powinny byc rozdzielone znakami spacji
      * W razie problemow z konwesja zostaja porzucone wyjatki
      */
-    public void add(String s) {
-        String c = null;
-        int lastpos = 0;
-        int pos = 0;
-        s = s.trim();
-        while ((pos = s.indexOf(" ", lastpos)) != -1) {
-            c = s.substring(lastpos, pos).trim();
-            if (c.length() != 0) {
-                data = ArrayUtil.putLast(data, Convert.tryToLong(c));
+    public void add(final String s) {
+        if (s != null) {
+            final String[] values = s.trim().split("[ \t\n\r]+");
+            for (final String value : values) {
+                final long x = Convert.tryToLong(value);
+                data = ArrayUtil.putLast(data, x);
             }
-            lastpos = pos;
-            lastpos++;
-        }
-        c = s.substring(lastpos).trim();
-        if (c.length() != 0) {
-            data = ArrayUtil.putLast(data, Convert.tryToLong(c));
         }
     }
 
-    long[] toArray() {
+    public long[] toArray() {
         return data;
     }
 

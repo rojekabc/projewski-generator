@@ -162,9 +162,13 @@ public class GenericLCG extends GeneratorBase {
             }
         } else {
             final VectorLong seed = (VectorLong) seedObj;
-            xn = new long[seed.size()];
-            for (int i = 0; i < seed.size(); i++) {
-                xn[i] = seed.get(i);
+            final long[] seedArray = seed.toArray();
+            if (seedArray.length != a.length) {
+                throw new WrongParameterGeneratorException(SEED);
+            }
+            xn = new long[seedArray.length];
+            for (int i = 0; i < seedArray.length; i++) {
+                xn[i] = seedArray[i];
                 xn[i] %= m;
             }
         }

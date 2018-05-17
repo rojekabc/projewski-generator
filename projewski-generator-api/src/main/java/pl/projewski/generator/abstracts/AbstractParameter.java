@@ -36,7 +36,17 @@ public abstract class AbstractParameter implements ParameterInterface {
     public void setParameter(final String param, final Object value) {
         // check, that parameter is on the list of allowed class
         final List<Class<?>> allowed = getAllowedClass(param);
-        if (allowed == null || !allowed.contains(value.getClass())) {
+        if (allowed == null) {
+            throw new NotAllowedTypeGeneratorException(param, value.getClass());
+        }
+        boolean isAllowed = false;
+        for (final Class<?> clazz : allowed) {
+            if (clazz.isInstance(value)) {
+                isAllowed = true;
+                break;
+            }
+        }
+        if (!isAllowed) {
             throw new NotAllowedTypeGeneratorException(param, value.getClass());
         }
         parameters.put(param, value);

@@ -17,87 +17,59 @@ package pl.projewski.generator.common;
  * liczbach - typu BigInteger
  */
 public class Fraction {
-    private long _a, _b, _c;
+    public final static Fraction NEGATIVE_INFINITY = new Fraction(0, -1, 0);
+    public final static Fraction POSITIVE_INFINITY = new Fraction(0, 1, 0);
+    public final static Fraction NAN = new Fraction(0, 0, 0);
+
+    private long a, b, c;
 
     public Fraction(final Fraction f) {
-        _a = f._a;
-        _b = f._b;
-        _c = f._c;
+        this.a = f.a;
+        this.b = f.b;
+        this.c = f.c;
     }
 
-    public Fraction(long b, long c) {
-        final long gcd;
-        if (c < 0) {
-            b = -b;
-            c = -c;
-        }
-        if (b == 0) {
-            _b = b;
-            _c = 0;
-            return;
-        }
-        if (b >= c || -b >= c) {
-            _a = b / c;
-            if (b >= 0) {
-                b %= c;
-            } else {
-                b = -b;
-                b %= c;
-                b = -b;
-            }
-        } else {
-            _a = 0;
-        }
-        gcd = gcdLong(b, c);
-        if (gcd > 1) {
-            b /= gcd;
-            c /= gcd;
-        }
-        _b = b;
-        _c = c;
+    public Fraction(final long a) {
+        this(a, 0, 1);
+    }
+
+    public Fraction(final long b, final long c) {
+        this(0, b, c);
     }
 
     public Fraction(final long a, long b, long c) {
         final long gcd;
-        _a = a;
-        if (c < 0) {
-            b = -b;
-            c = -c;
+        this.a = a;
+        if (b < 0 && c < 0) {
+            this.b = -b;
+            this.c = -c;
         }
         if (b == 0) {
-            _b = b;
-            _c = 0;
+            this.b = b;
+            this.c = c;
             return;
         }
-        if (b >= c || -b >= c) {
-            _a += b / c;
-            if (b >= 0) {
-                b %= c;
-            } else {
-                b = -b;
-                b %= c;
-                b = -b;
+        if (c != 0) {
+            if (b >= c || -b >= c) {
+                this.a += b / c;
+                b = Math.abs(b) % c * Long.signum(b);
+            }
+            gcd = gcdLong(b, c);
+            if (gcd > 1) {
+                b /= gcd;
+                c /= gcd;
             }
         }
-        gcd = gcdLong(b, c);
-        if (gcd > 1) {
-            b /= gcd;
-            c /= gcd;
-        }
-        _b = b;
-        _c = c;
+        this.b = b;
+        this.c = c;
     }
 
     private long gcdLong(long a, long b) {
         if ((a == 0) || (b == 0)) {
             return 0; // TODO: Exception
         }
-        if (a < 0) {
-            a = -a;
-        }
-        if (b < 0) {
-            b = -b;
-        }
+        a = Math.abs(a);
+        b = Math.abs(b);
         while (a != b) {
             if (a > b) {
                 if (a % b == 0) {
@@ -114,131 +86,272 @@ public class Fraction {
         return a;
     }
 
-    public String getString() {
-        String ret = "";
-        if (_a != 0) {
-            ret += _a;
-        }
-        if (_b != 0) {
-            if (_b > 0) {
-                if (_a != 0) {
-                    ret += "+" + _b + "/" + _c;
-                } else {
-                    ret += _b + "/" + _c;
-                }
-            } else {
-                ret += _b + "/" + _c;
-            }
-
-        }
-        return ret;
-    }
-
     @Override
     public String toString() {
-        return getString();
+        final StringBuilder sb = new StringBuilder();
+        // put a
+        if (a != 0) {
+            sb.append(a);
+        }
+        // put sign
+        final int signB = Long.signum(b);
+        final int signC = Long.signum(c);
+        // - sign plus
+        if (a != 0 && (signB == -1 && signC == -1) || (signB >= 0 && signC >= 0)) {
+            sb.append('+');
+        } else {
+            sb.append('-');
+        }
+
+        // value b/c
+        sb.append(Math.abs(b));
+        sb.append('/');
+        sb.append(Math.abs(c));
+        return sb.toString();
     }
 
     public float getFloat() {
         float ret;
-        ret = _a;
-        if (_b != 0 || _c != 0) {
-            ret += (float) _b / (float) _c;
+        ret = (float) b / (float) c;
+        if (a != 0) {
+            ret += a;
         }
         return ret;
     }
 
     public double getDouble() {
         double ret;
-        ret = _a;
-        if (_b != 0 || _c != 0) {
-            ret += (double) _b / (double) _c;
+        ret = (double) b / (double) c;
+        if (a != 0) {
+            ret += a;
         }
         return ret;
     }
 
-    public void add(final Fraction f) {
-        long gcd;
-        _a += f._a;
-        if (f._b != 0) {
-            if (_b != 0) {
-                gcd = gcdLong(_c, f._c);
-                _b = _b * (f._c / gcd) + f._b * (_c / gcd);
-                _c *= f._c / gcd;
-                if ((_b >= _c) || (-_b >= _c)) {
-                    _a += _b / _c;
-                    _b %= _c;
-                }
-            } else {
-                _b = f._b;
-                _c = f._c;
+    FractionState getState() {
+        if (c == 0) {
+            final int signum = Long.signum(b);
+            switch (signum) {
+            case -1:
+                return FractionState.NEGATIVE_INFINITY;
+            case 1:
+                return FractionState.POSITIVE_INFINITY;
+            case 0:
+                return FractionState.NAN;
+            default:
+                break;
             }
         }
-        if (_a > 0 && _b < 0) {
-            _a--;
-            _b += _c;
-        } else if (_a < 0 && _b > 0) {
-            _a++;
-            _b -= _c;
+        return FractionState.NUMBER;
+    }
+
+    int signum() {
+        switch (getState()) {
+        case NUMBER:
+            // means c is not 0
+            if (a != 0) {
+                return Long.signum(a);
+            } else {
+                final int signumB = Long.signum(b);
+                final int signumC = Long.signum(c);
+                if (signumB != 0) {
+                    return signumB * signumC;
+                } else {
+                    return signumC;
+                }
+            }
+        default:
+        case NAN:
+            return 0;
+        case POSITIVE_INFINITY:
+            return 1;
+        case NEGATIVE_INFINITY:
+            return -1;
+        }
+    }
+
+    public void add(final Fraction f) {
+        long gcd;
+        final FractionState state = getState();
+        final FractionState fState = f.getState();
+
+        // operation on states
+        if (state != FractionState.NUMBER || fState != FractionState.NUMBER) {
+            switch (state) {
+            case NUMBER:
+                // set state from f object
+                b = f.b;
+                c = f.c;
+                break;
+            case NAN:
+                return;
+            case POSITIVE_INFINITY:
+                if (fState == FractionState.NEGATIVE_INFINITY || fState == FractionState.NAN) {
+                    // set state as NaN
+                    b = 0;
+                    c = 0;
+                }
+                break;
+            case NEGATIVE_INFINITY:
+                if (fState == FractionState.POSITIVE_INFINITY || fState == FractionState.NAN) {
+                    // set state as NaN
+                    b = 0;
+                    c = 0;
+                }
+                break;
+            }
+            return;
         }
 
-        gcd = gcdLong(_b, _c);
+        // there're regular numbers
+        a += f.a;
+        if (f.b != 0) {
+            if (b != 0) {
+                gcd = gcdLong(c, f.c);
+                b = b * (f.c / gcd) + f.b * (c / gcd);
+                c *= f.c / gcd;
+                if ((b >= c) || (-b >= c)) {
+                    a += b / c;
+                    b %= c;
+                }
+            } else {
+                b = f.b;
+                c = f.c;
+            }
+        }
+        if (a > 0 && b < 0) {
+            a--;
+            b += c;
+        } else if (a < 0 && b > 0) {
+            a++;
+            b -= c;
+        }
+
+        gcd = gcdLong(b, c);
         if (gcd > 1) {
-            _b /= gcd;
-            _c /= gcd;
+            b /= gcd;
+            c /= gcd;
         }
     }
 
     public void sub(final Fraction f) {
-        f._a = -f._a;
-        f._b = -f._b;
+        f.a = -f.a;
+        f.b = -f.b;
         add(f);
-        f._a = -f._a;
-        f._b = -f._b;
+        f.a = -f.a;
+        f.b = -f.b;
     }
 
     public void mul(final Fraction f) {
-        final Fraction f2 = new Fraction(_a * f._b, f._c);
-        final Fraction f3 = new Fraction(_b * f._b, _c * f._c);
-        _a *= f._a;
-        _b *= f._a;
-        if (_b != 0) {
-            if ((_b >= _c) || (-_b >= _c)) {
-                _a += _b / _c;
-                _b %= _c;
+        final Fraction f2 = new Fraction(a * f.b, f.c);
+        final Fraction f3 = new Fraction(b * f.b, c * f.c);
+        a *= f.a;
+        b *= f.a;
+        if (b != 0) {
+            if ((b >= c) || (-b >= c)) {
+                a += b / c;
+                b %= c;
             }
         }
-        final long gcd = gcdLong(_b, _c);
+        final long gcd = gcdLong(b, c);
         if (gcd > 1) {
-            _b /= gcd;
-            _c /= gcd;
+            b /= gcd;
+            c /= gcd;
         }
-        if (f._b != 0) {
+        if (f.b != 0) {
             add(f2);
         }
         add(f3);
     }
 
     public void div(final Fraction f) {
-        long tc1;
-        final long tc2;
-        if (f._a == 0 && f._b == 0 && f._c == 0) {
-            tc1 = 1;
-            tc1 /= 0;
+        // check states
+        final FractionState fState = f.getState();
+        final FractionState state = getState();
+        if (fState != FractionState.NUMBER || state != FractionState.NUMBER) {
+            switch (state) {
+            case NUMBER:
+                switch (f.getState()) {
+                case NAN:
+                    // set as NaN
+                    a = 0;
+                    b = 0;
+                    c = 0;
+                    break;
+                case POSITIVE_INFINITY:
+                    a = 0;
+                    b = signum();
+                    c = 0;
+                    break;
+                case NEGATIVE_INFINITY:
+                    a = 0;
+                    b = -signum();
+                    c = 0;
+                    break;
+                }
+                break;
+            case NAN:
+                // stay as it is
+                break;
+            case POSITIVE_INFINITY:
+                switch (f.getState()) {
+                case NAN:
+                case POSITIVE_INFINITY:
+                case NEGATIVE_INFINITY:
+                    // set as NaN
+                    a = 0;
+                    b = 0;
+                    c = 0;
+                    break;
+                case NUMBER:
+                    // change sign if needed
+                    b *= f.signum();
+                    break;
+                }
+                break;
+            case NEGATIVE_INFINITY:
+                switch (f.getState()) {
+                case NAN:
+                case POSITIVE_INFINITY:
+                case NEGATIVE_INFINITY:
+                    // set as NaN
+                    a = 0;
+                    b = 0;
+                    c = 0;
+                    break;
+                case NUMBER:
+                    // change sign if needed
+                    b *= f.signum();
+                    break;
+                }
+                break;
+            }
+            return;
         }
-        if (_b == 0) {
+
+        // regular numbers
+        final long tc1;
+        final long tc2;
+        if (b == 0) {
             tc1 = 1;
         } else {
-            tc1 = _c;
+            tc1 = c;
         }
-        if (f._b == 0) {
+        if (f.b == 0) {
             tc2 = 1;
         } else {
-            tc2 = f._c;
+            tc2 = f.c;
         }
-        final Fraction tmp = new Fraction(tc2 * (_a * tc1 + _b), tc1 * (f._a * tc2 + f._b));
-        _a = tmp._a;
-        _b = tmp._b;
-        _c = tmp._c;
+        final Fraction tmp = new Fraction(tc2 * (a * tc1 + b), tc1 * (f.a * tc2 + f.b));
+        a = tmp.a;
+        b = tmp.b;
+        c = tmp.c;
+    }
+
+    enum FractionState {
+        NUMBER,
+        NAN,
+        POSITIVE_INFINITY,
+        NEGATIVE_INFINITY;
     }
 }
